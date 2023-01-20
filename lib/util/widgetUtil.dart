@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 BoxDecoration bgContainer() {
   return const BoxDecoration(
@@ -23,6 +24,20 @@ InputDecoration textFieldDecoration(String hint, IconData icon){
     ),
     hintText: hint,
     prefixIcon: Icon(icon),
+  );
+}
+
+TextStyle menuItemStyle(){
+  return  GoogleFonts.montserrat(fontSize: 16,fontWeight: FontWeight.w500);
+}
+
+Decoration getBannerDecoration(String url){
+  return BoxDecoration(
+    borderRadius: BorderRadius.circular(10.0),
+    image: DecorationImage(
+      image: NetworkImage(url),
+      fit: BoxFit.cover,
+    ),
   );
 }
 

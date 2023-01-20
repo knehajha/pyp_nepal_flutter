@@ -118,7 +118,7 @@ class _SignupState extends State<Signup> with SingleTickerProviderStateMixin {
               const SizedBox(height:10),
 
 
-              Container(
+             /* Container(
                 height: 45,
                 decoration: BoxDecoration(
                   color: Colors.grey[300],
@@ -183,7 +183,7 @@ class _SignupState extends State<Signup> with SingleTickerProviderStateMixin {
                   ],
                 ),
               ),
-              const SizedBox(height:10),
+              const SizedBox(height:10),*/
 
               TextField(
                 obscureText: true,
