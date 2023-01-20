@@ -15,29 +15,26 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-
-  final List<DrawerItem> _menuList = [
-    DrawerItem("Notification", Icons.notifications),
-    DrawerItem("Attendance", Icons.add),
-    DrawerItem("My Classes", Icons.one_k),
-    DrawerItem("Donation", Icons.money),
-    DrawerItem("Activities ", Icons.local_activity),
-    DrawerItem("Setting", Icons.settings),
-    DrawerItem("'Addresses", Icons.add),
+  final List<GridItem> _menuList = [
+   GridItem("Notification", "assets/images/notification.png"),
+    GridItem("Attendance", "assets/images/attendance.png"),
+    GridItem("My Classes", "assets/images/my_classes.png"),
+    GridItem("Donation", "assets/images/donation.png"),
+    GridItem("Activities ", "assets/images/activities.png"),
+    GridItem("Setting", "assets/images/setting.png"),
+    GridItem("Addresses", "assets/images/address.png"),
   ];
 
   final List<GridItem> _gridviewList = [
-    GridItem("All classes","assets/images/all_classes.png"),
-    GridItem("My Class","assets/images/activities.png" ),
-    GridItem("Attendance","assets/images/attendance.png"),
+    GridItem("All classes", "assets/images/all_classes.png"),
+    GridItem("My Class", "assets/images/activities.png"),
+    GridItem("Attendance", "assets/images/attendance.png"),
     GridItem("Donation", "assets/images/donation.png"),
-    GridItem("Activities ","assets/images/all_classes.png"),
+    GridItem("Activities ", "assets/images/all_classes.png"),
     GridItem("Setting", "assets/images/all_classes.png"),
-
   ];
 
-
-  List<Widget> getBannerBody(){
+  List<Widget> getBannerBody() {
     List<Widget> wlist = [];
     List<String> urls = [
       "https://dailyburn.com/life/wp-content/uploads/2017/09/AMDU-7234_Daily_Burn_940x400_4.png",
@@ -46,7 +43,6 @@ class _DashboardState extends State<Dashboard> {
     ];
     urls.forEach((url) {
       Container container = Container(
-
         margin: const EdgeInsets.all(8.0),
         decoration: getBannerDecoration(url),
       );
@@ -57,18 +53,19 @@ class _DashboardState extends State<Dashboard> {
     return wlist;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffF7F8F6),
-      appBar:AppBar(backgroundColor: const Color(0xffFFBF62),
+      appBar: AppBar(
+        backgroundColor: Colors.orange,
         actions: <Widget>[
           // Using Stack to show Notification Badge
-          IconButton(icon: const Icon(Icons.notifications), onPressed: () {
-            setState(() {
-            });
-          }),
+          IconButton(
+              icon: const Icon(Icons.notifications),
+              onPressed: () {
+                setState(() {});
+              }),
         ],
       ),
       drawer: Drawer(
@@ -76,57 +73,70 @@ class _DashboardState extends State<Dashboard> {
         child: Stack(
           children: [
             SizedBox(
-              height: 360,
+              height: 300,
               width: double.infinity,
               child: DrawerHeader(
-                decoration: const BoxDecoration(
-                  color: Color(0xffFFBF62)
-                ),
-                child: Row(
-                  children: const [
-                    Image(image: AssetImage("assets/images/ramdev.png")),
-                  ],
-                )
-              ),
+                  decoration: const BoxDecoration(color: Colors.orange),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image(image: AssetImage("assets/images/ramdev.png"),height: 100,width: 100,),
+                      SizedBox(width: 16,),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 10,),
+                          Text("Neha Jha", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 18, fontWeight: FontWeight.w700),),
+                          Text("Mahila Simiti Nepal", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 14, fontWeight: FontWeight.w400),),
+                          Text("Sadhak", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 12, fontWeight: FontWeight.w400),)
+                        ],
+                      )
+                    ],
+                  )),
             ),
-            Padding( padding: const EdgeInsets.only(top:220),
+            Padding(
+              padding: const EdgeInsets.only(top: 160),
               child: ListView(
                 children: [
                   Container(
                     decoration: const BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(25.0)),
+                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(top:16.0, left: 10),
+                      padding: const EdgeInsets.only(top: 16.0, left: 10),
                       child: ListView.builder(
                           shrinkWrap: true,
                           physics: const ScrollPhysics(),
                           itemCount: _menuList.length,
-                          itemBuilder: (context, index){
-                            DrawerItem item = _menuList[index];
+                          itemBuilder: (context, index) {
+                            GridItem item = _menuList[index];
                             return ListTile(
-                              leading: Icon(item.icon, size: 28, color: const Color(0xffFFBF62)),
-                              title: Text(item.name, style:menuItemStyle()),
+                              leading: Image(
+                                image: AssetImage(_menuList[index].imagePath),
+                                height: 24,
+                                width: 24,
+                              ),
+                              title: Text(item.name, style: menuItemStyle()),
                               onTap: () {
                                 Navigator.pop(context);
                               },
                             );
-                          }
-                      ),
+                          }),
                     ),
                   ),
                   const SizedBox(height: 40),
-                  Align(alignment: Alignment.topLeft,
-                    child: Padding(padding: const EdgeInsets.only(left:20),
-                      child:
-                      Text(
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Text(
                         'Follow us',
                         style: GoogleFonts.montserrat(
                           //  textStyle: Theme.of(context).textTheme.headline4,
                           fontSize: 20,
-                          fontWeight: FontWeight.w600,),
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
@@ -134,11 +144,23 @@ class _DashboardState extends State<Dashboard> {
                   Row(
                     children: const [
                       SizedBox(width: 25),
-                      Image(image: AssetImage("assets/images/whatsapp.png"), height: 35, width: 35,),
+                      Image(
+                        image: AssetImage("assets/images/whatsapp.png"),
+                        height: 40,
+                        width: 40,
+                      ),
                       SizedBox(width: 15),
-                      Image(image: AssetImage("assets/images/twitter.png"), height: 35, width: 35,),
+                      Image(
+                        image: AssetImage("assets/images/twitter.png"),
+                        height: 40,
+                        width: 40,
+                      ),
                       SizedBox(width: 15),
-                      Image(image: AssetImage("assets/images/fb.png"), height: 35, width: 35,),
+                      Image(
+                        image: AssetImage("assets/images/fb.png"),
+                        height: 40,
+                        width: 40,
+                      ),
                     ],
                   )
                 ],
@@ -149,106 +171,95 @@ class _DashboardState extends State<Dashboard> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(14.0),
-        child: Column(
-        children: [
-        CarouselSlider(
-        items: getBannerBody(),
-        options: CarouselOptions(
-          height: 200.0,
-          // enlargeCenterPage: true,
-          autoPlay: true,
-          // aspectRatio: 16 / 9,
-          // autoPlayCurve: Curves.fastOutSlowIn,
-          enableInfiniteScroll: true,
-          autoPlayAnimationDuration: const Duration(milliseconds: 500),
-          viewportFraction: 1,
-        ),
-      ),
-        const SizedBox(height: 5),
-         Container(
-           height: 60,width: double.infinity,
-           child: Row(
-             children: [
-               Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                 children: [(Text('Yoga Score Level',style:  GoogleFonts.montserrat(color:Colors.black,
-                     fontSize: 14, fontWeight: FontWeight.w400),)),
-                   const SizedBox(height: 10),
-                   Text('75%',style:  GoogleFonts.montserrat(color:(const Color(0xffFF9F01)),
-                   fontSize: 25, fontWeight: FontWeight.bold),),]
-    ),
-               const SizedBox(width: 10),
-               Flexible(child: SfRadialGauge(
-                   axes : <RadialAxis>[
-                     RadialAxis(
-                         minimum: 00,
-                         maximum: 100,
-                         interval: 18,
-                         ranges: <GaugeRange>[
-                           GaugeRange(startValue: 0, endValue: 18,
-                             color:const Color(0xffFF0000),),
-                           GaugeRange(startValue: 18, endValue: 36,
-                             color:const Color(0xffF2623D),),
-                           GaugeRange(startValue: 36, endValue: 54,
-                               color:Colors.deepOrange),
-                           GaugeRange(startValue: 54, endValue: 72,
-                               color:Colors.orange),
-                           GaugeRange(startValue: 72, endValue: 90,
-                               color:Colors.yellow),
-                           GaugeRange(startValue: 90, endValue: 100,
-                               color:Colors.green)
-                         ],
-                         pointers: <GaugePointer>[
-                           NeedlePointer(
-                               value:90,
-                               enableAnimation: true
-                           )
-                         ]
-
-                     )
-                   ]
-               )
-                 ,)
-
-             ],
-           ),
-         ),
-            
-            
-            Expanded(
-              child: GridView.builder(
-                itemCount: _gridviewList.length,
-                itemBuilder: (context, index) => Padding(
-                  padding: const EdgeInsets.only(top: 30.0,left: 5,right: 5),
-                  child: Card(
-                    color: Colors.white,
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-
-                        Image(image: AssetImage(_gridviewList[index].imagePath,),height: 42, width: 42,),
-                        const SizedBox(height: 10),
-                        Text(_gridviewList[index].name, style:menuItemStyle())
-                      ],
-                    ),
+        child: Column(children: [
+          CarouselSlider(
+            items: getBannerBody(),
+            options: CarouselOptions(
+              height: 200.0,
+              // enlargeCenterPage: true,
+              autoPlay: true,
+              // aspectRatio: 16 / 9,
+              // autoPlayCurve: Curves.fastOutSlowIn,
+              enableInfiniteScroll: true,
+              autoPlayAnimationDuration: const Duration(milliseconds: 500),
+              viewportFraction: 1,
+            ),
+          ),
+          const SizedBox(height: 5),
+          Container(
+            height: 80,
+            width: double.infinity,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      SizedBox(height: 20,),
+                  Text(
+                    'Yoga Score Level',
+                    style: GoogleFonts.montserrat(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400),
                   ),
+
+                  Text(
+                    '75%',
+                    style: GoogleFonts.montserrat(
+                        color: (const Color(0xffFF9F01)),
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ]),
+
+                Padding(
+                  padding: const EdgeInsets.only(top: 10,bottom: 10,left: 16,right:12),
+                  child: Container(width: 1,color: Color(0xffCCBFBFBF),),
                 ),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
+                Image(
+                  image: const AssetImage("assets/images/progressbar.png"),
+                  height: 150,
+                  width: 150,
+                ),
+              ],
+            ),
+          ),
+
+          Container(height: 1,color: Color(0xffCCBFBFBF),),
+
+          SizedBox(height: 20,),
+          Expanded(
+            child: GridView.builder(
+              itemCount: _gridviewList.length,
+              itemBuilder: (context, index) => Card(
+                color: Colors.white,
+                elevation: 10,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image(
+                      image: AssetImage(
+                        _gridviewList[index].imagePath,
+                      ),
+                      height: 35,
+                      width: 35,
+                    ),
+                    const SizedBox(height: 10),
+                    Text(_gridviewList[index].name, style: menuItemStyle())
+                  ],
                 ),
               ),
-            )
-        ]
-
-        ),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+              ),
+            ),
+          )
+        ]),
       ),
     );
   }
-
-  }
-
+}
