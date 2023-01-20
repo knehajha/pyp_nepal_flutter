@@ -1,9 +1,9 @@
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import 'menuItem.dart';
 
@@ -26,6 +26,17 @@ class _DashboardState extends State<Dashboard> {
     DrawerItem("'Addresses", Icons.add),
   ];
 
+  final List<GridItem> _gridviewList = [
+    GridItem("All classes","assets/images/all_classes.png"),
+    GridItem("My Class","assets/images/activities.png" ),
+    GridItem("Attendance","assets/images/attendance.png"),
+    GridItem("Donation", "assets/images/donation.png"),
+    GridItem("Activities ","assets/images/all_classes.png"),
+    GridItem("Setting", "assets/images/all_classes.png"),
+
+  ];
+
+
   List<Widget> getBannerBody(){
     List<Widget> wlist = [];
     List<String> urls = [
@@ -33,9 +44,9 @@ class _DashboardState extends State<Dashboard> {
       "https://dailyburn.com/life/wp-content/uploads/2017/09/AMDU-7234_Daily_Burn_940x400_5.png",
       "https://dailyburn.com/life/wp-content/uploads/2017/09/AMDU-7234_Daily_Burn_940x400_10.png"
     ];
-
     urls.forEach((url) {
       Container container = Container(
+
         margin: const EdgeInsets.all(8.0),
         decoration: getBannerDecoration(url),
       );
@@ -50,6 +61,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xffF7F8F6),
       appBar:AppBar(backgroundColor: const Color(0xffFFBF62),
         actions: <Widget>[
           // Using Stack to show Notification Badge
@@ -71,8 +83,8 @@ class _DashboardState extends State<Dashboard> {
                   color: Color(0xffFFBF62)
                 ),
                 child: Row(
-                  children: [
-                    Image(image: AssetImage("")),
+                  children: const [
+                    Image(image: AssetImage("assets/images/ramdev.png")),
                   ],
                 )
               ),
@@ -138,47 +150,90 @@ class _DashboardState extends State<Dashboard> {
       body: Padding(
         padding: const EdgeInsets.all(14.0),
         child: Column(
-          children: [CarouselSlider(
-            items: getBannerBody(),
-            options: CarouselOptions(
-              height: 200.0,
-              // enlargeCenterPage: true,
-              autoPlay: true,
-              // aspectRatio: 16 / 9,
-              // autoPlayCurve: Curves.fastOutSlowIn,
-              enableInfiniteScroll: true,
-              autoPlayAnimationDuration: const Duration(milliseconds: 100),
-              viewportFraction: 1,
-            ),
-          ),
-            SizedBox(height: 10),
-            Row(
-              children: [
-            Expanded(child: Center(child: TextButton(...))),
-    VerticalDivider(width: 1.0),
-    Expanded(child: Center(child: TextButton(...))),
-    ],
+        children: [
+        CarouselSlider(
+        items: getBannerBody(),
+        options: CarouselOptions(
+          height: 200.0,
+          // enlargeCenterPage: true,
+          autoPlay: true,
+          // aspectRatio: 16 / 9,
+          // autoPlayCurve: Curves.fastOutSlowIn,
+          enableInfiniteScroll: true,
+          autoPlayAnimationDuration: const Duration(milliseconds: 500),
+          viewportFraction: 1,
+        ),
+      ),
+        const SizedBox(height: 5),
+         Container(
+           height: 60,width: double.infinity,
+           child: Row(
+             children: [
+               Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                 children: [(Text('Yoga Score Level',style:  GoogleFonts.montserrat(color:Colors.black,
+                     fontSize: 14, fontWeight: FontWeight.w400),)),
+                   const SizedBox(height: 10),
+                   Text('75%',style:  GoogleFonts.montserrat(color:(const Color(0xffFF9F01)),
+                   fontSize: 25, fontWeight: FontWeight.bold),),]
     ),
-                )
-              ],
-            ),
+               const SizedBox(width: 10),
+               Flexible(child: SfRadialGauge(
+                   axes : <RadialAxis>[
+                     RadialAxis(
+                         minimum: 00,
+                         maximum: 100,
+                         interval: 18,
+                         ranges: <GaugeRange>[
+                           GaugeRange(startValue: 0, endValue: 18,
+                             color:const Color(0xffFF0000),),
+                           GaugeRange(startValue: 18, endValue: 36,
+                             color:const Color(0xffF2623D),),
+                           GaugeRange(startValue: 36, endValue: 54,
+                               color:Colors.deepOrange),
+                           GaugeRange(startValue: 54, endValue: 72,
+                               color:Colors.orange),
+                           GaugeRange(startValue: 72, endValue: 90,
+                               color:Colors.yellow),
+                           GaugeRange(startValue: 90, endValue: 100,
+                               color:Colors.green)
+                         ],
+                         pointers: <GaugePointer>[
+                           NeedlePointer(
+                               value:90,
+                               enableAnimation: true
+                           )
+                         ]
+
+                     )
+                   ]
+               )
+                 ,)
+
+             ],
+           ),
+         ),
+            
+            
             Expanded(
               child: GridView.builder(
-                itemCount: 6,
+                itemCount: _gridviewList.length,
                 itemBuilder: (context, index) => Padding(
-                  padding: const EdgeInsets.all(4.0),
+                  padding: const EdgeInsets.only(top: 30.0,left: 5,right: 5),
                   child: Card(
                     color: Colors.white,
                     elevation: 2,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
-                      //set border radius more than 50% of height and width to make circle
+
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.account_box, size: 28, color: Color(0xffFFBF62)),
-                        Text("Item: ${index+1}", style:menuItemStyle())
+
+                        Image(image: AssetImage(_gridviewList[index].imagePath,),height: 42, width: 42,),
+                        const SizedBox(height: 10),
+                        Text(_gridviewList[index].name, style:menuItemStyle())
                       ],
                     ),
                   ),
@@ -188,10 +243,12 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
             )
-          ],
+        ]
+
         ),
       ),
     );
   }
+
   }
 

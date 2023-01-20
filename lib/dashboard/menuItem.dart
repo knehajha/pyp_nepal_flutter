@@ -6,3 +6,9 @@ class DrawerItem{
   IconData icon;
   DrawerItem(this.name, this.icon);
 }
+
+class GridItem{
+  String name;
+ String imagePath;
+  GridItem(this.name,this.imagePath);
+}
