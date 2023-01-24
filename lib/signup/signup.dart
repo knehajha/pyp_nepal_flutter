@@ -12,21 +12,17 @@ class Signup extends StatefulWidget {
   State<Signup> createState() => _SignupState();
 }
 
-class _SignupState extends State<Signup> with SingleTickerProviderStateMixin {
+class _SignupState extends State<Signup> {
 
-  late TabController _tabController;
+  String dropDownValue = "";
 
-  @override
-  void initState() {
-    _tabController = TabController(length: 2, vsync: this);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _tabController.dispose();
-  }
+  final List<String> _orgList = [
+    "Organisation associated with",
+    'Patanjali Yog Committee, Nepal',
+    'Mahila Patanjali Yog Committee, Nepal',
+    "Yuva Nepal Samiti"
+    'None'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -117,80 +113,11 @@ class _SignupState extends State<Signup> with SingleTickerProviderStateMixin {
               ),
               const SizedBox(height:10),
 
-
-             /* Container(
-                height: 45,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(
-                    25.0,
-                  ),
-                ),
-                child: TabBar(
-                  controller: _tabController,
-                  // give the indicator a decoration (color and border radius)
-                  indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(
-                      25.0,
-                    ),
-                    color: const Color(0xffFFBA01),
-                  ),
-                  labelColor: Colors.white,
-                  unselectedLabelColor: Colors.black,
-                  tabs: [
-                    // first tab [you can add an icon using the icon property]
-                    Tab(
-                      text: 'Place Bid',
-                    ),
-
-                    // second tab [you can add an icon using the icon property]
-                    Tab(
-                      text: 'Buy Now',
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height:10),
-              Container(
-                height: 45,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(
-                    25.0,
-                  ),
-                ),
-                child: TabBar(
-                  controller: _tabController,
-                  // give the indicator a decoration (color and border radius)
-                  indicator: BoxDecoration(
-                    borderRadius: BorderRadius.circular(
-                      25.0,
-                    ),
-                    color: Colors.green,
-                  ),
-                  labelColor: Colors.white,
-                  unselectedLabelColor: Colors.black,
-                  tabs: [
-                    // first tab [you can add an icon using the icon property]
-                    Tab(
-                      text: 'Place Bid',
-                    ),
-
-                    // second tab [you can add an icon using the icon property]
-                    Tab(
-                      text: 'Buy Now',
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height:10),*/
-
               TextField(
                 obscureText: true,
                 enableSuggestions: false,
                 autocorrect: false,
                 decoration: InputDecoration(
-                  labelText: 'Password',
 
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30.0)
@@ -200,17 +127,58 @@ class _SignupState extends State<Signup> with SingleTickerProviderStateMixin {
                 ),
               ),
           const SizedBox(height:10),
+
+        TextField(
+        obscureText: true,
+        enableSuggestions: false,
+        autocorrect: false,
+        decoration: InputDecoration(
+        border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(30.0)
+      ),
+      hintText: 'Confirm Password',
+      prefixIcon: const Icon(Icons.lock),
+    ),
+    ),
+              const SizedBox(height:10),
+              DropdownButtonFormField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0)
+                  ),
+                  hintText: 'Organisation associated with',
+                  prefixIcon: const Icon(Icons.group),
+                ),
+                dropdownColor: Colors.white,
+                value: dropDownValue.isEmpty ? _orgList[0] : dropDownValue,
+                onChanged: (newValue) {
+                  setState(() {
+                    dropDownValue = newValue.toString();
+
+                  });
+                },
+                items: _orgList.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 10,),
               Container(
                 width: double.infinity,
                 height: 59,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
-                    primary: Colors.teal,
+                    primary: Color(0XFF0E132F),
                     shape: StadiumBorder(),
                   ),
                   child: Text(
-                    "Click for next screen",
+                    "Submit",
                     style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                   onPressed: () => Navigator.of(context)

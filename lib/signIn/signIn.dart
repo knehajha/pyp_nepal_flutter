@@ -38,17 +38,17 @@ class _signInState extends State<signIn> {
     style: GoogleFonts.montserrat(),
     textAlign: TextAlign.left,
     ),
-      SizedBox(height: 12,),
+      const SizedBox(height: 12,),
       TextField(
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30.0),
           ),
           hintText: 'Email/Phone Number',
-          prefixIcon: Icon(Icons.person),
+          prefixIcon: const Icon(Icons.person),
         ),
       ),
-      SizedBox(height: 12,),
+      const SizedBox(height: 12,),
       TextField(
         obscureText: true,
         enableSuggestions: false,
@@ -60,14 +60,14 @@ class _signInState extends State<signIn> {
             borderRadius: BorderRadius.circular(30.0)
           ),
           hintText: 'Password',
-          prefixIcon: Icon(Icons.lock),
+          prefixIcon: const Icon(Icons.lock),
         ),
       ),
-      SizedBox(height: 10),
+      const SizedBox(height: 10),
       InkWell( onTap: (){
         Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const forgotpass()));
       }, child: Text("Forgot password?",style:GoogleFonts.montserrat(fontSize: 18, fontWeight: FontWeight.w400),)),
-      SizedBox(height: 50),
+      const SizedBox(height: 50),
       Row(
         children: [
         Text(
@@ -77,31 +77,34 @@ class _signInState extends State<signIn> {
           fontSize: 20,
           fontWeight: FontWeight.w600,),
         ),
-          SizedBox(width: 50),
-          FlutterSwitch(
-            width: 70.0,
-            height: 25.0,
-            toggleSize: 50,
-            value: status,
-            borderRadius: 60.0,
-            padding: 2.0,
-            toggleColor: Colors.white,
-            switchBorder: Border.all(
-              color: Colors.orange,
-              width: 2.0,
-            ),
-            toggleBorder: Border.all(
-              color: Colors.white,
-              width: 5.0,
-            ),
-            activeColor: Colors.orange,
-            inactiveColor: Colors.white,
-            onToggle: (val) {
-              setState(() {
-                status = val;
-              });
-            },
-          ),
+          const SizedBox(width: 50),
+
+       
+
+          // FlutterSwitch(
+          //   width: 70.0,
+          //   height: 25.0,
+          //   toggleSize: 50,
+          //   value: status,
+          //   borderRadius: 60.0,
+          //   padding: 2.0,
+          //   toggleColor: Colors.white,
+          //   switchBorder: Border.all(
+          //     color: Colors.orange,
+          //     width: 2.0,
+          //   ),
+          //   toggleBorder: Border.all(
+          //     color: Colors.white,
+          //     width: 5.0,
+          //   ),
+          //   activeColor: Colors.orange,
+          //   inactiveColor: Colors.white,
+          //   onToggle: (val) {
+          //     setState(() {
+          //       status = val;
+          //     });
+          //   },
+          // ),
             ],
       ),
     SizedBox(height: 50),
@@ -111,10 +114,10 @@ class _signInState extends State<signIn> {
         child: ElevatedButton(
 
           style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
                 horizontal: 40.0, vertical: 20.0),
             primary: Colors.black,
-            shape: StadiumBorder(),
+            shape: const StadiumBorder(),
           ),
 
           child: Text(

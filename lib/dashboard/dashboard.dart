@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
+import '../nearby_classses/NearbyClasses.dart';
 import 'menuItem.dart';
 
 class Dashboard extends StatefulWidget {
@@ -80,12 +81,12 @@ class _DashboardState extends State<Dashboard> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Image(image: AssetImage("assets/images/ramdev.png"),height: 100,width: 100,),
-                      SizedBox(width: 16,),
+                      const Image(image: AssetImage("assets/images/ramdev.png"),height: 100,width: 100,),
+                      const SizedBox(width: 16,),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
                           Text("Neha Jha", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 18, fontWeight: FontWeight.w700),),
                           Text("Mahila Simiti Nepal", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 14, fontWeight: FontWeight.w400),),
                           Text("Sadhak", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 12, fontWeight: FontWeight.w400),)
@@ -148,6 +149,7 @@ class _DashboardState extends State<Dashboard> {
                         image: AssetImage("assets/images/whatsapp.png"),
                         height: 40,
                         width: 40,
+
                       ),
                       SizedBox(width: 15),
                       Image(
@@ -195,7 +197,7 @@ class _DashboardState extends State<Dashboard> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      SizedBox(height: 20,),
+                      const SizedBox(height: 20,),
                   Text(
                     'Yoga Score Level',
                     style: GoogleFonts.montserrat(
@@ -217,8 +219,8 @@ class _DashboardState extends State<Dashboard> {
                   padding: const EdgeInsets.only(top: 10,bottom: 10,left: 16,right:12),
                   child: Container(width: 1,color: Color(0xffCCBFBFBF),),
                 ),
-                Image(
-                  image: const AssetImage("assets/images/progressbar.png"),
+                const Image(
+                  image: AssetImage("assets/images/progressbar.png"),
                   height: 150,
                   width: 150,
                 ),
@@ -226,40 +228,65 @@ class _DashboardState extends State<Dashboard> {
             ),
           ),
 
-          Container(height: 1,color: Color(0xffCCBFBFBF),),
+          Container(height: 1,color: Color(0xffccbfbfbf),),
 
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
           Expanded(
+
             child: GridView.builder(
               itemCount: _gridviewList.length,
-              itemBuilder: (context, index) => Card(
+
+              itemBuilder: (context, index) =>
+                  InkWell(
+                    onTap: (){
+                      switch(index){
+                        case 0:// All classes
+                          {
+                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const NearbyClasses()));
+                          }
+
+                          break;
+                        case 1:
+                          break;
+                        case 2:
+                          break;
+
+                      }
+                    },
+                    child: Card(
                 color: Colors.white,
                 elevation: 10,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(8),
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image(
-                      image: AssetImage(
-                        _gridviewList[index].imagePath,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image(
+                        image: AssetImage(
+                          _gridviewList[index].imagePath,
+                        ),
+                        height: 35,
+                        width: 35,
                       ),
-                      height: 35,
-                      width: 35,
-                    ),
-                    const SizedBox(height: 10),
-                    Text(_gridviewList[index].name, style: menuItemStyle())
-                  ],
+                      const SizedBox(height: 10),
+                      Text(_gridviewList[index].name, style: menuItemStyle())
+                    ],
                 ),
               ),
+                  ),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
+
+
               ),
             ),
-          )
-        ]),
+          ),
+
+    ]
       ),
+
+    )
     );
   }
 }
