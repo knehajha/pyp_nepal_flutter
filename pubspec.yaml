@@ -27,10 +27,9 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  syncfusion_flutter_gauges: ^1.0.0-beta
+  gif_view: ^0.3.1
   carousel_slider: ^4.2.1
   get: ^4.6.5
-  touch_ripple_effect: 2.2.4
   flutter_switch: ^0.3.2
   google_fonts: ^3.0.1
   flutter:

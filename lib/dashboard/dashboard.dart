@@ -1,10 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gif_view/gif_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
-
 import 'menuItem.dart';
 
 class Dashboard extends StatefulWidget {
@@ -217,8 +216,14 @@ class _DashboardState extends State<Dashboard> {
                   padding: const EdgeInsets.only(top: 10,bottom: 10,left: 16,right:12),
                   child: Container(width: 1,color: Color(0xffCCBFBFBF),),
                 ),
-                Image(
-                  image: const AssetImage("assets/images/progressbar.png"),
+                /*GifView.asset(
+                  'assets/images/gg.gif',
+                  height: 150,
+                  width: 150,
+                  frameRate: 30, // default is 15 FPS
+                ),*/
+                const Image(
+                  image: AssetImage("assets/images/progressbar.png"),
                   height: 150,
                   width: 150,
                 ),
