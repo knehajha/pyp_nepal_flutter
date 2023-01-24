@@ -7,7 +7,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
 
-import '../login/Login.dart';
+import '../auth/Login.dart';
 
 class Splash extends StatelessWidget {
   const Splash ({Key? key}) : super(key: key);

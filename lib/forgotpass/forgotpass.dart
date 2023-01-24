@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pyp_nepal/otp/otp.dart';
+import 'package:pyp_nepal/auth/otp.dart';
 
 import '../util/widgetUtil.dart';
 
