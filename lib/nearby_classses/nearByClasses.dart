@@ -138,7 +138,7 @@ class _NearbyClassesState extends State<NearbyClasses> {
                   ),
                 ),
               );
-            }) : NearbyClassMap(),
+            }) : const NearbyClassMap(),
     );
 
 
