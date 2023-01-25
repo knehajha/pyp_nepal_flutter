@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/dashboard/dashboard.dart';
 
@@ -49,8 +50,29 @@ class _SignupState extends State<Signup> {
           padding: const EdgeInsets.only(top:0, right: 40,left: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              Center(
+                child: Container(
+                  height: 100.0,
+                  width: 100.0,
+                  decoration: BoxDecoration(
+                    color: const Color(0xff557c94b6),
+                    image: const DecorationImage(
+                      image:AssetImage("assets/images/photo_camera.png"),
+                      fit: BoxFit.none,
+
+                    ),
+                    border:
+                    Border.all(color: Colors.grey, width: 2.0),
+                    borderRadius:
+                    const BorderRadius.all(Radius.circular(80.0)),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height:20),
+
+
               Text(
                 'Sign Up',
                 style: GoogleFonts.montserrat(
@@ -68,11 +90,10 @@ class _SignupState extends State<Signup> {
               ),
               const SizedBox(height:10),
 
-
-
-              TextField(decoration: textFieldDecoration("Name", Icons.person)),
+              TextField(decoration: textFieldDecoration("Name", Icons.person), style: GoogleFonts.montserrat(),),
               const SizedBox(height:10),
               TextField(
+                style: GoogleFonts.montserrat(),
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -83,6 +104,7 @@ class _SignupState extends State<Signup> {
               ),
               const SizedBox(height:10),
               TextField(
+                style: GoogleFonts.montserrat(),
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -93,6 +115,7 @@ class _SignupState extends State<Signup> {
               ),
               const SizedBox(height:10),
               TextField(
+                style: GoogleFonts.montserrat(),
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -103,6 +126,7 @@ class _SignupState extends State<Signup> {
               ),
               const SizedBox(height:10),
               TextField(
+                style: GoogleFonts.montserrat(),
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -114,6 +138,7 @@ class _SignupState extends State<Signup> {
               const SizedBox(height:10),
 
               TextField(
+                style: GoogleFonts.montserrat(),
                 obscureText: true,
                 enableSuggestions: false,
                 autocorrect: false,
@@ -126,22 +151,24 @@ class _SignupState extends State<Signup> {
                   prefixIcon: const Icon(Icons.lock),
                 ),
               ),
-          const SizedBox(height:10),
+              const SizedBox(height:10),
 
-        TextField(
-        obscureText: true,
-        enableSuggestions: false,
-        autocorrect: false,
-        decoration: InputDecoration(
-        border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(30.0)
-      ),
-      hintText: 'Confirm Password',
+              TextField(
+              style: GoogleFonts.montserrat(),
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30.0)),
+                hintText: 'Confirm Password',
       prefixIcon: const Icon(Icons.lock),
     ),
     ),
               const SizedBox(height:10),
               DropdownButtonFormField(
+                isExpanded: true,
+                itemHeight: null,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30.0)
@@ -162,7 +189,8 @@ class _SignupState extends State<Signup> {
                     value: value,
                     child: Text(
                       value,
-                      style: TextStyle(fontSize: 14),
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.montserrat(fontSize: 14, ),
                     ),
                   );
                 }).toList(),
