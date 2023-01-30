@@ -2,10 +2,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pyp_nepal/attendance/attendance.dart';
+import 'package:pyp_nepal/donation/donation.dart';
+import 'package:pyp_nepal/myclasses/myClasses.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-import '../nearby_classses/nearByClasses.dart';
+import '../nearby_classses/nbClasses.dart';
 import 'menuItem.dart';
 
 class Dashboard extends StatefulWidget {
@@ -38,9 +41,9 @@ class _DashboardState extends State<Dashboard> {
   List<Widget> getBannerBody() {
     List<Widget> wlist = [];
     List<String> urls = [
-      "https://dailyburn.com/life/wp-content/uploads/2017/09/AMDU-7234_Daily_Burn_940x400_4.png",
-      "https://dailyburn.com/life/wp-content/uploads/2017/09/AMDU-7234_Daily_Burn_940x400_5.png",
-      "https://dailyburn.com/life/wp-content/uploads/2017/09/AMDU-7234_Daily_Burn_940x400_10.png"
+      "assets/images/sliderPic1.jpg",
+      "assets/images/sliderPic2.jpg",
+      "assets/images/sliderPic3.jpg"
     ];
     urls.forEach((url) {
       Container container = Container(
@@ -59,7 +62,7 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       backgroundColor: const Color(0xffF7F8F6),
       appBar: AppBar(
-        backgroundColor: Colors.orange,
+        title: const Text("Dashboard",),
         actions: <Widget>[
           // Using Stack to show Notification Badge
           IconButton(
@@ -172,7 +175,7 @@ class _DashboardState extends State<Dashboard> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(14.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(children: [
           CarouselSlider(
             items: getBannerBody(),
@@ -241,15 +244,24 @@ class _DashboardState extends State<Dashboard> {
                     onTap: (){
                       switch(index){
                         case 0:// All classes
-                          {
-                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const NearbyClasses()));
-                          }
+
+                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const NBClasses()));
 
                           break;
                         case 1:
+                          Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const MyClasses()));
+
                           break;
                         case 2:
+
+                          Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const Attendance()));
                           break;
+                        case 3:
+
+                          Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const Donation()));
+                          break;
+
+
 
                       }
                     },

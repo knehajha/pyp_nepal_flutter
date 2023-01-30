@@ -1,20 +1,32 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../util/widgetUtil.dart';
 
-class otp extends StatefulWidget {
-  const otp({Key? key}) : super(key: key);
+class Otp extends StatefulWidget {
+  const Otp({Key? key}) : super(key: key);
 
   @override
-  State<otp> createState() => _otpState();
+  State<Otp> createState() => _OtpState();
 }
 
-class _otpState extends State<otp> {
+class _OtpState extends State<Otp> {
+
+  String userId = "";
+
+  @override
+  void initState() {
+    super.initState();
+    userId = Get.arguments;
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Container(
         decoration: bgContainer(),
@@ -34,7 +46,7 @@ class _otpState extends State<otp> {
         ),
       SizedBox(height: 20),
         Text(
-          "A 4-digit OTP code has been sent to ",
+          "A 4-digit OTP code has been sent to +91-$userId",
           style: GoogleFonts.montserrat(
            // textStyle: Theme.of(context).textTheme.headline4,
             fontSize: 15,
@@ -42,15 +54,16 @@ class _otpState extends State<otp> {
         ),
       SizedBox(height: 20),
       Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        SizedBox(height: 68,
+        SizedBox(
+          height: 68,
           width: 64,
-      child: TextField(
-      onChanged: (value){
-        if (value.length==1){
-          FocusScope.of(context).nextFocus();
-      }
+          child: TextField(
+          onChanged: (value){
+            if (value.length==1){
+              FocusScope.of(context).nextFocus();
+          }
       },
       style: Theme.of(context).textTheme.headline6,
       keyboardType: TextInputType.number,
@@ -61,11 +74,11 @@ class _otpState extends State<otp> {
       ],
         decoration: InputDecoration(counter: Offstage(),filled: true,fillColor: Colors.white,
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2, color: Colors.black12),
-              borderRadius: BorderRadius.circular(35)),
+              borderSide: const BorderSide(width: 2, color: Colors.black12),
+              borderRadius: BorderRadius.circular(34)),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2, color: Colors.orange),
-              borderRadius: BorderRadius.circular(35)),
+              borderSide: const BorderSide(width: 2, color: Colors.orange),
+              borderRadius: BorderRadius.circular(34)),
         ),
       ),
       ),
@@ -86,10 +99,10 @@ class _otpState extends State<otp> {
             decoration: InputDecoration(counter: Offstage(),filled: true,fillColor: Colors.white,
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(width: 2, color: Colors.black12),
-                  borderRadius: BorderRadius.circular(35)),
+                  borderRadius: BorderRadius.circular(34)),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(width: 2, color: Colors.orange),
-                  borderRadius: BorderRadius.circular(35)),
+                  borderRadius: BorderRadius.circular(34)),
             ),
           ),
         ),
@@ -110,10 +123,10 @@ class _otpState extends State<otp> {
             decoration: InputDecoration(counter: Offstage(),filled: true,fillColor: Colors.white,
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(width: 2, color: Colors.black12),
-                  borderRadius: BorderRadius.circular(35)),
+                  borderRadius: BorderRadius.circular(34)),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(width: 2, color: Colors.orange),
-                  borderRadius: BorderRadius.circular(35)),
+                  borderRadius: BorderRadius.circular(34)),
             ),
           ),
 
@@ -135,14 +148,13 @@ class _otpState extends State<otp> {
             decoration: InputDecoration(counter: Offstage(),filled: true,fillColor: Colors.white,
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(width: 2, color: Colors.black12),
-                  borderRadius: BorderRadius.circular(35)),
+                  borderRadius: BorderRadius.circular(34)),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(width: 2, color: Colors.orange),
-                  borderRadius: BorderRadius.circular(35)),
+                  borderRadius: BorderRadius.circular(34)),
             ),
           ),
         ),
-
           ]
         ),
 
@@ -160,8 +172,9 @@ class _otpState extends State<otp> {
               "Verify OTP",
               style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 18, fontWeight: FontWeight.w600),
             ),
-            onPressed: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => const otp())),
+            onPressed: () {
+
+            },
           ),
 
         ),

@@ -5,19 +5,19 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/auth/forgotpass.dart';
-import 'package:pyp_nepal/dashboard/dashboard.dart';
+import 'package:pyp_nepal/auth/signIn.dart';
 
 import '../util/widgetUtil.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({Key? key}) : super(key: key);
+class ResetPass extends StatefulWidget {
+  const ResetPass({Key? key}) : super(key: key);
 
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<ResetPass> createState() => _signInState();
 }
 
-class _SignInState extends State<SignIn> {
+class _signInState extends State<ResetPass> {
   bool status = false;
   bool isChecked = false;
 
@@ -33,26 +33,24 @@ class _SignInState extends State<SignIn> {
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
     Text(
-    "Sign In",
+    "Reset Password",
     style: GoogleFonts.montserrat(fontSize: 22, fontWeight: FontWeight.bold),
     textAlign: TextAlign.left,
     ),
-    Text(
-    "Create account to continue!",
-    style: GoogleFonts.montserrat(),
-    textAlign: TextAlign.left,
-    ),
+
       const SizedBox(height: 12,),
       TextField(
-
-        keyboardType: TextInputType.emailAddress,
+        obscureText: true,
+        enableSuggestions: false,
+        autocorrect: false,
         decoration: InputDecoration(
-          labelText: 'Email/Phone number',
+          labelText: 'New Password',
+
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30.0),
+              borderRadius: BorderRadius.circular(30.0)
           ),
-          hintText: 'Email/Phone number',
-          prefixIcon: const Icon(Icons.person),
+          hintText: 'Password',
+          prefixIcon: const Icon(Icons.lock),
         ),
       ),
       const SizedBox(height: 12,),
@@ -61,7 +59,7 @@ class _SignInState extends State<SignIn> {
         enableSuggestions: false,
         autocorrect: false,
         decoration: InputDecoration(
-          labelText: 'Password',
+          labelText: 'Confirm Password',
 
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30.0)
@@ -72,31 +70,6 @@ class _SignInState extends State<SignIn> {
       ),
       const SizedBox(height: 10),
 
-      Align(
-        alignment: Alignment.centerRight,
-        child: InkWell( onTap: (){
-          Get.to(const ForgotPass());
-        }, child: Padding(
-          padding: const EdgeInsets.only(top: 5.0,right: 10),
-          child: Text("Forgot password?",style:GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w600,color:const Color(0xff3B0000) ),),
-        )),
-      ),
-      const SizedBox(height: 50),
-      Row(
-        children: [
-          Checkbox(value: isChecked, onChanged: (isOn){
-            setState(() {
-              isChecked = isOn!;
-            });
-          }),
-        Text(
-        'Remind me next time',
-        style: GoogleFonts.montserrat(
-          fontSize: 14,
-          fontWeight: FontWeight.w600,),
-        ),
-            ],
-      ),
     SizedBox(height: 20),
       Container(
         width: double.infinity,
@@ -111,11 +84,13 @@ class _SignInState extends State<SignIn> {
           ),
 
           child: Text(
-            "SIGN IN",
+            "Reset".toUpperCase(),
             style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 16, fontWeight: FontWeight.w400),
           ),
-          onPressed: () => Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => const Dashboard())),
+          onPressed: () {
+            Get.offAll(const SignIn());
+          }
+
         ),
 
       ),

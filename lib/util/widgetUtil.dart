@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 BoxDecoration bgContainer() {
   return const BoxDecoration(
     image: DecorationImage(
-        image: AssetImage("assets/images/splashbg.png"), fit: BoxFit.cover),
+        image: AssetImage("assets/images/login_bg.png"), fit: BoxFit.cover),
   );
 }
 
@@ -35,13 +35,11 @@ Decoration getBannerDecoration(String url){
   return BoxDecoration(
     borderRadius: BorderRadius.circular(10.0),
     image: DecorationImage(
-      image: NetworkImage(url),
+      image: AssetImage(url),
       fit: BoxFit.cover,
     ),
   );
 }
-
-
 
 
 

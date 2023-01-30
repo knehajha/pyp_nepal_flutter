@@ -2,17 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pyp_nepal/nearby_classses/NearbyClassMap.dart';
-import 'package:pyp_nepal/nearby_classses/myClassesDetail.dart';
+import 'package:pyp_nepal/nearby_classses/nbClassMap.dart';
+import 'package:pyp_nepal/nearby_classses/nbClassesDetails.dart';
 
-class NearbyClasses extends StatefulWidget {
-  const NearbyClasses({Key? key}) : super(key: key);
+class NBClasses extends StatefulWidget {
+  const NBClasses({Key? key}) : super(key: key);
 
   @override
-  State<NearbyClasses> createState() => _NearbyClassesState();
+  State<NBClasses> createState() => _NBClassesState();
 }
 
-class _NearbyClassesState extends State<NearbyClasses> {
+class _NBClassesState extends State<NBClasses> {
 
   var isMap = true;
 
@@ -24,12 +24,7 @@ class _NearbyClassesState extends State<NearbyClasses> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:const Color(0xffFFBA01),
-        leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.white,size: 30,),
-    onPressed: () => Navigator.of(context).pop(),
-    ),
-    title: const Text("Nearby Classes"),titleTextStyle: GoogleFonts.montserrat(color:const Color(0xffFFFFFF),  fontSize: 18, fontWeight: FontWeight.w500),
+    title: const Text("Nearby Classes"),
         actions: <Widget>[
           IconButton(onPressed: (){
             setState(() {
@@ -45,7 +40,7 @@ class _NearbyClassesState extends State<NearbyClasses> {
                 padding: const EdgeInsets.only(left:10, right: 10,),
                 child: InkWell(
                   onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const MyClassesDetail()));
+                    Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const NBClassesDetail()));
                   },
                   child: Card(
                     color: Colors.white,
@@ -55,7 +50,7 @@ class _NearbyClassesState extends State<NearbyClasses> {
                     ),
                     child: Row(
                       children: [
-                        SizedBox(width: 20,),
+                        const SizedBox(width: 20,),
                         Column(
                           children: [
                             const Image(image: AssetImage("assets/images/ramdev.png"),height: 100,width: 100,),
@@ -113,10 +108,10 @@ class _NearbyClassesState extends State<NearbyClasses> {
                               Row(
                                 children: [
                                   Image.asset("assets/images/telephone-2.png",width:18,height: 18,),
-                                  const SizedBox(width: 20,),
-                                  Icon(Icons.whatsapp,color: Colors.green,size: 22,),
-                                  //Image.asset("assets/images/whatsapp.png",width:20,height: 20,),
-                                  // const SizedBox(width: 50,),
+                                  const SizedBox(width: 11,),
+
+                                  Image.asset("assets/images/Icon simple-whatsapp.png",width:19,height: 19,),
+                                 //const SizedBox(width: 50,),
                                  Spacer(),
                                   Row(
                                     children: [
@@ -138,7 +133,7 @@ class _NearbyClassesState extends State<NearbyClasses> {
                   ),
                 ),
               );
-            }) : const NearbyClassMap(),
+            }) : const NBClassMap(),
     );
 
 

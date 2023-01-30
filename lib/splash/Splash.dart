@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
 
 import '../auth/login.dart';
@@ -14,9 +15,12 @@ class Splash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
-      debugShowCheckedModeBanner : false,
-    home: MyHomePage(),
+    return GetMaterialApp(
+      theme: ThemeData(
+          primarySwatch: Colors.orange,
+          appBarTheme: AppBarTheme(titleTextStyle: GoogleFonts.montserrat(color: Colors.white, fontSize: 16, ), iconTheme: const IconThemeData(color: Colors.white,))),
+          debugShowCheckedModeBanner: false,
+          home: const MyHomePage(),
     );
   }
 }

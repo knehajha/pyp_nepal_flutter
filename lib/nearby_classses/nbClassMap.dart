@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class NearbyClassMap extends StatefulWidget {
-  const NearbyClassMap({Key? key}) : super(key: key);
+class NBClassMap extends StatefulWidget {
+  const NBClassMap({Key? key}) : super(key: key);
 
   @override
-  State<NearbyClassMap> createState() => _NearbyClassMapState();
+  State<NBClassMap> createState() => _NBClassMapState();
 }
 
-class _NearbyClassMapState extends State<NearbyClassMap> {
+class _NBClassMapState extends State<NBClassMap> {
   static const CameraPosition _kInitialPosition = CameraPosition(target: LatLng(29.9023165, 77.9934347), zoom: 10.0, tilt: 0, bearing: 0);
   final Set<Marker> markers = new Set();
   Set<Marker> _getMarkers() { //markers to place on map

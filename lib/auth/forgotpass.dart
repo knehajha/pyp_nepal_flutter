@@ -1,18 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/auth/otp.dart';
+import 'package:pyp_nepal/auth/resetPass.dart';
 
 import '../util/widgetUtil.dart';
 
-class forgotpass extends StatefulWidget {
-  const forgotpass({Key? key}) : super(key: key);
+class ForgotPass extends StatefulWidget {
+  const ForgotPass({Key? key}) : super(key: key);
 
   @override
-  State<forgotpass> createState() => _forgotpassState();
+  State<ForgotPass> createState() => _ForgotPassState();
 }
 
-class _forgotpassState extends State<forgotpass> {
+class _ForgotPassState extends State<ForgotPass> {
+  final userIdController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +46,7 @@ class _forgotpassState extends State<forgotpass> {
                   ),
                   SizedBox(height: 20),
                   TextField(
+                    controller: userIdController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0),
@@ -64,8 +70,9 @@ class _forgotpassState extends State<forgotpass> {
                         "SUBMIT",
                         style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 16, fontWeight: FontWeight.w400),
                       ),
-                      onPressed: () => Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) => const otp())),
+                      onPressed: () {
+                        Get.to(const ResetPass(), arguments: userIdController.text.toString());
+                      },
                     ),
 
                   ),
