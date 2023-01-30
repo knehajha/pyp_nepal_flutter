@@ -280,14 +280,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.6.2"
-  intl:
-    dependency: transitive
-    description:
-      name: intl
-      sha256: "4691515bb3f68ebbc4776bc97a84d429bb8e8c141a77b5ab988a4b02adb1747a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.16.1"
   js:
     dependency: transitive
     description:
@@ -408,6 +400,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.4"
+  responsive_framework:
+    dependency: "direct main"
+    description:
+      name: responsive_framework
+      sha256: e083346029b008335b008274c4d3fac5b9e0ca8796f201ed20884f579101d584
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -453,14 +453,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
-  syncfusion_flutter_gauges:
-    dependency: "direct main"
-    description:
-      name: syncfusion_flutter_gauges
-      sha256: "82dc20bbb99cf1b7cb9b42528a6be3e7b1a3f2d9a1ada4350c042d8efe9b5f4e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0-beta"
   term_glyph:
     dependency: transitive
     description:
@@ -518,5 +510,5 @@ packages:
     source: hosted
     version: "0.2.0+3"
 sdks:
-  dart: ">=2.18.0 <3.0.0"
+  dart: ">=2.18.0 <4.0.0"
   flutter: ">=3.0.0"

@@ -18,11 +18,22 @@ class _DonationState extends State<Donation> {
     return Scaffold(
       appBar: AppBar(title: const Text("My Donation"),
     actions: <Widget>[
-    IconButton(
-    icon: const Icon(Icons.calendar_month_sharp),
-    onPressed: () {
-    setState(() {});
-    }),
+       Padding(
+         padding: const EdgeInsets.only(right: 20),
+         child: Row(
+          children: [
+            Text(
+              'January, 2023',
+              style: GoogleFonts.montserrat(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400),
+            ),
+            const SizedBox(width: 10,),
+            Image.asset("assets/images/attendance.png",width:22,height: 22,color: Colors.white,),
+          ],
+      ),
+       ),
     ]
     ), 
       body: Column(
