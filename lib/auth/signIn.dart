@@ -71,7 +71,6 @@ class _SignInState extends State<SignIn> {
         ),
       ),
       const SizedBox(height: 10),
-
       Align(
         alignment: Alignment.centerRight,
         child: InkWell( onTap: (){
