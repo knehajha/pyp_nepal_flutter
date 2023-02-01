@@ -12,3 +12,11 @@ class GridItem{
  String imagePath;
   GridItem(this.name,this.imagePath);
 }
+
+  class HomeItem{
+  String name;
+  String count;
+  String imagePath;
+  Color bColor;
+  HomeItem(this.count,this.name,this.imagePath,this.bColor);
+}

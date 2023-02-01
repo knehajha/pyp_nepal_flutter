@@ -43,7 +43,7 @@ class _LoginState extends State<Login> {
             width: double.infinity,
               child: ElevatedButton(
                  style: ElevatedButton.styleFrom(
-                   padding: EdgeInsets.symmetric(
+                   padding: const EdgeInsets.symmetric(
                        horizontal: 40.0, vertical: 20.0),
                    primary: Colors.black,
                    shape: StadiumBorder(),
