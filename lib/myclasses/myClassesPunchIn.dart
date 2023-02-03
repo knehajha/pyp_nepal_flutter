@@ -125,7 +125,7 @@ class _MyClassesPunchInState extends State<MyClassesPunchIn> {
                                      ),
                                    ],
                                  ),
-                                 SizedBox(width: 90,),
+                                 const SizedBox(width: 90,),
                                  Row(
                                    children: [
                                      Image.asset("assets/images/telephone-2.png",width:24,height: 24,),

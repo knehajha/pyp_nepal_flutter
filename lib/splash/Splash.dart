@@ -8,6 +8,8 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/registeredSadhak.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
+import 'package:responsive_framework/utils/scroll_behavior.dart';
 
 import '../Yoga Trainer/punchInDetails.dart';
 import '../Yoga Trainer/sadhakAttendingClass.dart';
@@ -23,10 +25,24 @@ class Splash extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.orange,
           appBarTheme: AppBarTheme(titleTextStyle: GoogleFonts.montserrat(color: Colors.white, fontSize: 16, ), iconTheme: const IconThemeData(color: Colors.white,))),
-          debugShowCheckedModeBanner: false,
-          home: const MyHomePage(),
+      debugShowCheckedModeBanner: false,
+      home: const MyHomePage(),
+      builder: (context, child) => ResponsiveWrapper.builder(
+        BouncingScrollWrapper.builder(context, child!),
+        maxWidth: 1200,
+        minWidth: 450,
+        defaultScale: true,
+        breakpoints: const [
+          ResponsiveBreakpoint.resize(450, name: MOBILE),
+          ResponsiveBreakpoint.autoScale(800, name: TABLET),
+          ResponsiveBreakpoint.autoScale(1000, name: TABLET),
+          ResponsiveBreakpoint.resize(1200, name: DESKTOP),
+          ResponsiveBreakpoint.autoScale(2460, name: "4K"),
+        ],
+      ),
     );
   }
+
 }
 
 class MyHomePage extends StatefulWidget {

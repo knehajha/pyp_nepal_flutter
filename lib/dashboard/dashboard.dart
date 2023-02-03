@@ -6,7 +6,6 @@ import 'package:pyp_nepal/attendance/attendance.dart';
 import 'package:pyp_nepal/donation/donation.dart';
 import 'package:pyp_nepal/myclasses/myClasses.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import '../nearby_classses/nbClasses.dart';
 import 'menuItem.dart';

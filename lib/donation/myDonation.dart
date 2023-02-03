@@ -63,7 +63,52 @@ class _MyDonationState extends State<MyDonation> {
                 }),
           ),
         ),
-        Expanded(child: Text("-----------------------------------or------------------------------------", style: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xffBFBFBF)),)),
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("------------------------------------", style: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w400, color: const Color(0xffBFBFBF)),),
+    Text("or", style: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.bold, color: const Color(0xff242527)),),
+    Text("--------------------------------", style: GoogleFonts.montserrat(fontSize: 14, fontWeight: FontWeight.w400, color: const Color(0xffBFBFBF)),),
+            ],
+          ),
+        ),
+    const SizedBox(height: 10,),
+        Padding(
+          padding: const EdgeInsets.only(left: 20,right: 20),
+          child: TextField(
+
+            style: GoogleFonts.montserrat(),
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30.0),
+              ),
+              hintText: 'Enter Amount Manually',
+              prefixIcon: const Icon(Icons.phone_android),
+            ),
+          ),
+        ),
+          SizedBox(height: 20,),
+        Padding(
+          padding: const EdgeInsets.only(bottom:40,left: 20,right: 20),
+          child: Container(
+            width: double.infinity,
+            height: 60,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+                primary: Color(0XFF0E132F),
+                shape: StadiumBorder(),
+              ),
+              child: Text(
+                "Continue",
+                style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 18, fontWeight: FontWeight.w600),
+              ),
+              onPressed: () => {}
+            ),
+
+          ),
+        ),
       ]
     ),
     );

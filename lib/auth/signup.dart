@@ -195,24 +195,27 @@ class _SignupState extends State<Signup> {
                   );
                 }).toList(),
               ),
-              const SizedBox(height: 10,),
-              Container(
-                width: double.infinity,
-                height: 60,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
-                    primary: Color(0XFF0E132F),
-                    shape: StadiumBorder(),
+              const SizedBox(height: 40,),
+              Padding(
+                padding: const EdgeInsets.only(bottom:40),
+                child: Container(
+                  width: double.infinity,
+                  height: 60,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+                      primary: Color(0XFF0E132F),
+                      shape: StadiumBorder(),
+                    ),
+                    child: Text(
+                      "Submit",
+                      style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
+                    onPressed: () => Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => const Dashboard())),
                   ),
-                  child: Text(
-                    "Submit",
-                    style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 18, fontWeight: FontWeight.w600),
-                  ),
-                  onPressed: () => Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => const Dashboard())),
-                ),
 
+                ),
               ),
 
             ]

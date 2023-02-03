@@ -28,7 +28,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   google_maps_flutter: ^2.2.3
-  syncfusion_flutter_gauges: ^1.0.0-beta
+  responsive_framework: ^0.2.0
   carousel_slider: ^4.2.1
   flutter_rating_bar: ^4.0.1
   image_picker: ^0.8.2
