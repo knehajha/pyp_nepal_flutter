@@ -12,6 +12,10 @@ class ColorConstants {
   static const kSevenSecondaryColor = Color(0xFFE4FCEE);
   static const kEigthSecondaryColor = Color(0xFFF5F2FF);
   static const textColor = Color(0xFF404040);
+  static const textSecondryColor = Color(0xFF464646);
   static const grayButtonColor = Color(0xFFF5F6F9);
+  static const whatsupGreen = Color(0xFFF5F6F9);
+  static const backgroundGray = Color(0xFFF5F5F5);
+
 
 }

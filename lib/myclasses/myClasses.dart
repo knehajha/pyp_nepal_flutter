@@ -90,7 +90,8 @@ class _MyClassesState extends State<MyClasses> {
                           ),
                           const SizedBox(height: 14,),
                           Row(
-                            children: [Text("Venue :", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w700),),
+                            children: [
+                              Text("Venue :", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w700),),
                               const SizedBox(width: 10,),
                               Text("Nepal", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w500),),
                             ],
