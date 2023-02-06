@@ -1,8 +1,13 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pyp_nepal/dashboard/dashboard.dart';
+import 'dart:io';
+
+
 
 import '../util/widgetUtil.dart';
 
@@ -15,6 +20,7 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
 
+  XFile? xImage;
   String dropDownValue = "";
 
   final List<String> _orgList = [
@@ -22,7 +28,7 @@ class _SignupState extends State<Signup> {
     'Patanjali Yog Committee, Nepal',
     'Mahila Patanjali Yog Committee, Nepal',
     "Yuva Nepal Samiti"
-    'None'
+        'None'
   ];
 
   @override
@@ -34,194 +40,310 @@ class _SignupState extends State<Signup> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         flexibleSpace: Padding(
-          padding: const EdgeInsets.only(top:10),
+          padding: const EdgeInsets.only(top: 10),
           child: Container(
             decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('assets/images/footer_img.png'),
-                    fit: BoxFit.cover
+                    fit: BoxFit.fill
                 )
             ),
           ),
         ),
       ),
-      body:SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top:0, right: 40,left: 40),
+          padding: const EdgeInsets.only(top: 0, right: 40, left: 40),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  height: 100.0,
-                  width: 100.0,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff557c94b6),
-                    image: const DecorationImage(
-                      image:AssetImage("assets/images/photo_camera.png"),
-                      fit: BoxFit.none,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: InkWell(
+                    onTap: () {
+                      _settingModalBottomSheet(context);
+                    },
+                    child:  CircleAvatar(
+                      backgroundImage: xImage == null? const AssetImage("assets/images/photo_camera.png"):Image.file(File("${xImage?.path}"),fit: BoxFit.cover,).image,
+                      radius: 60,
+                    )
+                  /*  Container(
+                      height: 100.0,
+                      width: 100.0,
+                      decoration: BoxDecoration(
+                        color: const Color(0xff557c94b6),
+                        image:   DecorationImage(
+                        // image:  AssetImage("assets/images/photo_camera.png"),
+                        image: xImage == null? const AssetImage("assets/images/photo_camera.png"):Image.file(File("${xImage?.path}"),fit: BoxFit.cover,).image
+                        ),
 
+
+                        border:
+                        Border.all(color: Colors.grey, width: 2.0),
+                        borderRadius:
+                        const BorderRadius.all(Radius.circular(80.0)),
+                      ),
+                    ),*/
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+
+                Text(
+                  'Sign Up',
+                  style: GoogleFonts.montserrat(
+                    //  textStyle: Theme.of(context).textTheme.headline4,
+                    fontSize: 35,
+                    fontWeight: FontWeight.w500,),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  'Create account to continue!',
+                  style: GoogleFonts.montserrat(
+                    //  textStyle: Theme.of(context).textTheme.headline4,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,),
+                ),
+                const SizedBox(height: 10),
+
+                TextField(
+                  decoration: textFieldDecoration("Name", Icons.person),
+                  style: GoogleFonts.montserrat(),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  style: GoogleFonts.montserrat(),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
                     ),
-                    border:
-                    Border.all(color: Colors.grey, width: 2.0),
-                    borderRadius:
-                    const BorderRadius.all(Radius.circular(80.0)),
+                    hintText: 'Father/Husband name',
+                    prefixIcon: const Icon(Icons.person),
                   ),
                 ),
-              ),
-
-              const SizedBox(height:20),
-
-
-              Text(
-                'Sign Up',
-                style: GoogleFonts.montserrat(
-                  //  textStyle: Theme.of(context).textTheme.headline4,
-                  fontSize: 35,
-                  fontWeight: FontWeight.w500,),
-              ),
-              const SizedBox(height:5),
-              Text(
-                'Create account to continue!',
-                style: GoogleFonts.montserrat(
-                  //  textStyle: Theme.of(context).textTheme.headline4,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,),
-              ),
-              const SizedBox(height:10),
-
-              TextField(decoration: textFieldDecoration("Name", Icons.person), style: GoogleFonts.montserrat(),),
-              const SizedBox(height:10),
-              TextField(
-                style: GoogleFonts.montserrat(),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  hintText: 'Father/Husband name',
-                  prefixIcon: const Icon(Icons.person),
-                ),
-              ),
-              const SizedBox(height:10),
-              TextField(
-                style: GoogleFonts.montserrat(),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  hintText: 'Mobile No.',
-                  prefixIcon: const Icon(Icons.phone_android),
-                ),
-              ),
-              const SizedBox(height:10),
-              TextField(
-                style: GoogleFonts.montserrat(),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  hintText: 'Date of birth',
-                  prefixIcon: const Icon(Icons.calendar_month_outlined),
-                ),
-              ),
-              const SizedBox(height:10),
-              TextField(
-                style: GoogleFonts.montserrat(),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  hintText: 'Email Id',
-                  prefixIcon: const Icon(Icons.mail),
-                ),
-              ),
-              const SizedBox(height:10),
-
-              TextField(
-                style: GoogleFonts.montserrat(),
-                obscureText: true,
-                enableSuggestions: false,
-                autocorrect: false,
-                decoration: InputDecoration(
-
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0)
-                  ),
-                  hintText: 'Password',
-                  prefixIcon: const Icon(Icons.lock),
-                ),
-              ),
-              const SizedBox(height:10),
-
-              TextField(
-              style: GoogleFonts.montserrat(),
-              obscureText: true,
-              enableSuggestions: false,
-              autocorrect: false,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0)),
-                hintText: 'Confirm Password',
-      prefixIcon: const Icon(Icons.lock),
-    ),
-    ),
-              const SizedBox(height:10),
-              DropdownButtonFormField(
-                isExpanded: true,
-                itemHeight: null,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0)
-                  ),
-                  hintText: 'Organisation associated with',
-                  prefixIcon: const Icon(Icons.group),
-                ),
-                dropdownColor: Colors.white,
-                value: dropDownValue.isEmpty ? _orgList[0] : dropDownValue,
-                onChanged: (newValue) {
-                  setState(() {
-                    dropDownValue = newValue.toString();
-
-                  });
-                },
-                items: _orgList.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.montserrat(fontSize: 14, ),
+                const SizedBox(height: 10),
+                TextField(
+                  style: GoogleFonts.montserrat(),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
                     ),
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 40,),
-              Padding(
-                padding: const EdgeInsets.only(bottom:40),
-                child: Container(
-                  width: double.infinity,
-                  height: 60,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
-                      primary: Color(0XFF0E132F),
-                      shape: StadiumBorder(),
-                    ),
-                    child: Text(
-                      "Submit",
-                      style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
-                    onPressed: () => Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) => const Dashboard())),
+                    hintText: 'Mobile No.',
+                    prefixIcon: const Icon(Icons.phone_android),
                   ),
-
                 ),
-              ),
+                const SizedBox(height: 10),
+                TextField(
+                  style: GoogleFonts.montserrat(),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    hintText: 'Date of birth',
+                    prefixIcon: const Icon(Icons.calendar_month_outlined),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  style: GoogleFonts.montserrat(),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    hintText: 'Email Id',
+                    prefixIcon: const Icon(Icons.mail),
+                  ),
+                ),
+                const SizedBox(height: 10),
 
-            ]
-      ),
-    ),
+                TextField(
+                  style: GoogleFonts.montserrat(),
+                  obscureText: true,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  decoration: InputDecoration(
+
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0)
+                    ),
+                    hintText: 'Password',
+                    prefixIcon: const Icon(Icons.lock),
+                  ),
+                ),
+                const SizedBox(height: 10),
+
+                TextField(
+                  style: GoogleFonts.montserrat(),
+                  obscureText: true,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0)),
+                    hintText: 'Confirm Password',
+                    prefixIcon: const Icon(Icons.lock),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                DropdownButtonFormField(
+                  isExpanded: true,
+                  itemHeight: null,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0)
+                    ),
+                    hintText: 'Organisation associated with',
+                    prefixIcon: const Icon(Icons.group),
+                  ),
+                  dropdownColor: Colors.white,
+                  value: dropDownValue.isEmpty ? _orgList[0] : dropDownValue,
+                  onChanged: (newValue) {
+                    setState(() {
+                      dropDownValue = newValue.toString();
+                    });
+                  },
+                  items: _orgList.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.montserrat(fontSize: 14,),
+                      ),
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 40,),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 40),
+                  child: Container(
+                    width: double.infinity,
+                    height: 60,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 40.0, vertical: 20.0),
+                        primary: Color(0XFF0E132F),
+                        shape: StadiumBorder(),
+                      ),
+                      child: Text(
+                        "Submit",
+                        style: GoogleFonts.montserrat(color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      onPressed: () =>
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(
+                              builder: (context) => const Dashboard())),
+                    ),
+
+                  ),
+                ),
+
+              ]
+          ),
+        ),
       ),
     );
   }
+
+  // Image picker
+  void _settingModalBottomSheet(context) {
+
+    showModalBottomSheet(
+      shape:  const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight:  Radius.circular(30) )
+         ),
+        backgroundColor: Colors.white,
+        context: context,
+        builder: (BuildContext bc) {
+
+          return Container(
+
+            height: 230,
+            child: Column(
+              children: [
+
+                const SizedBox(height: 25,),
+                 Container(
+                  height: 5,
+                  width: 20,
+                  color: Colors.orange,
+
+                ),
+
+                const SizedBox(height: 20,),
+                Text(
+                  "Pick Media",
+                  style: GoogleFonts.montserrat(color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600),
+                ),
+
+                const SizedBox(height: 25,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+
+                    InkWell(
+                      onTap: (){ openCamera();
+                      Navigator.pop(context);},
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset("assets/images/camera_option.png",width: 70,height: 70,),
+
+                          const SizedBox(height: 10,),
+                          Text("Camera",
+                            style: GoogleFonts.publicSans(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                    InkWell(
+                      onTap: (){openGalary();
+                      Navigator.pop(context);},
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset("assets/images/gallery.png",width: 70,height: 70,),
+                          const SizedBox(height: 10,),
+                          Text("Gallery",
+                            style: GoogleFonts.publicSans(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
+
+                        ],
+                      ),
+                    )
+
+                  ],
+
+                ),
+
+
+              ],
+            ),
+          );
+        });
+  }
+
+  void openGalary() async {
+
+    final XFile? _image = await  ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      print("fdfdfdss ${_image?.path}");
+      xImage = _image;
+    });
+  }
+  void openCamera() async {
+
+    final XFile? _image = await  ImagePicker().pickImage(source: ImageSource.camera);
+    setState(() {
+      print("fdfdfdss ${_image?.path}");
+      xImage = _image;
+    });
+  }
+
 }
