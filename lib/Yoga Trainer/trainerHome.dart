@@ -4,7 +4,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pyp_nepal/Yoga%20Trainer/DonationDetails.dart';
+import 'package:pyp_nepal/Yoga%20Trainer/punchInDetails.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/registeredSadhak.dart';
+import 'package:pyp_nepal/Yoga%20Trainer/sadhakAttendingClass.dart';
+import 'package:pyp_nepal/Yoga%20Trainer/teacherTrainingConduct.dart';
+import 'package:pyp_nepal/Yoga%20Trainer/yttpApplications.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
 
 import '../dashboard/menuItem.dart';
@@ -73,11 +78,67 @@ class _TrainerHome extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+
+         /* title:  Text("Shree Ram",
+            style: GoogleFonts.publicSans(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
+          ),*/
+          toolbarHeight: 90,
+
+          title: Container(
+            color: Colors.red,
+            child: Row(
+
+             // mainAxisAlignment: MainAxisAlignment.start,
+              //crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                    "assets/images/ramdev.png",
+                    fit: BoxFit.contain,
+                    height: 75,
+                  ),
+
+
+                const SizedBox(width: 10,),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Welcome", style: GoogleFonts.poppins(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w500),),
+                    Text("Shree Ram", style: GoogleFonts.poppins(color:Colors.white, fontSize: 18, fontWeight: FontWeight.w700),),
+                    Text("Patanjali Yog Samiti", style: GoogleFonts.poppins(color:Colors.white, fontSize: 12, fontWeight: FontWeight.w300),),
+                  ],
+                ),
+              ],
+            ),
+          )
+
+
+        ),
+      /*  appBar: AppBar(
+        toolbarHeight: 120.10, //set your height
+        flexibleSpace: SafeArea(
+        child: Container(
+        color: Colors.blue, // set your color
+        child: Column(
+        children: [
+        Row(
+        children: [Text("Logo")],
+    ),
+    Text("data"), // set an icon or image
+    IconButton(
+    icon: Icon(Icons.search),
+    onPressed: () {}) // set your search bar setting
+    ],
+    ),
+    ),
+        ),
+        ),*/
         body: Container(
           color: Colors.white,
           child: Column(
             children: [
-              Container(
+             /* Container(
                 color: Colors.red,
                 height: 170,
                 child: Padding(
@@ -104,7 +165,7 @@ class _TrainerHome extends State<StatefulWidget> {
                     ],
                   ),
                 )
-              ),
+              ),*/
 
               CarouselSlider(
                 items: getBannerBody(),
@@ -123,10 +184,10 @@ class _TrainerHome extends State<StatefulWidget> {
                 padding: const EdgeInsets.fromLTRB(30,10,0,5),
                 child: Row(
                   children: [
-                    Text("Dashbord",style: GoogleFonts.poppins(color:Colors.black, fontSize: 18, fontWeight: FontWeight.w600),),
+                    Text("Dashbord",style: GoogleFonts.poppins(color:Colors.black, fontSize: 20, fontWeight: FontWeight.w600),),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8, 4, 0, 0),
-                      child: Text("(Yog Trainer)",style: GoogleFonts.poppins(color:Colors.black54, fontSize: 12, fontWeight: FontWeight.w400),
+                      child: Text("(Yog Trainer)",style: GoogleFonts.poppins(color:Colors.black54, fontSize: 14, fontWeight: FontWeight.w400),
                       ),
                     ),
                   ],
@@ -140,9 +201,38 @@ class _TrainerHome extends State<StatefulWidget> {
               itemCount: _homeList.length,
               itemBuilder: (context, index) =>
                     InkWell(
-                      onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const RegisteredSadhak()));
-                      },
+                      onTap: () async {
+                        switch(index){
+                          case 0:// All classes
+                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) =>  RegisteredSadhak("Registered Sadhak")));
+                            break;
+                          case 1:
+                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const SadhakAttendingList()));
+                            break;
+                          case 2:
+                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) =>  RegisteredSadhak("Trainers Under Them")));
+                            break;
+                          case 3:
+                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const PunchInDetails()));
+                            break;
+                          case 4:
+                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const YttpApplications()));
+                            break;
+                          case 5:
+                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const TeacherTrainingConduct()));
+                            break;
+                          case 6:
+                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) =>  RegisteredSadhak("Total Score")));
+                            break;
+                          case 7:
+                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const DonationHistory()));
+                            break;
+
+
+
+                        }
+
+                    },
                       child: Container(
                         height: 50,
                         padding: const EdgeInsets.all(2.0),
@@ -174,9 +264,9 @@ class _TrainerHome extends State<StatefulWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const SizedBox(height: 15),
-                                  Text(_homeList[index].count, style: GoogleFonts.poppins(color:Colors.black, fontSize: 18, fontWeight: FontWeight.w700),),
+                                  Text(_homeList[index].count, style: GoogleFonts.poppins(color:Colors.black, fontSize: 20, fontWeight: FontWeight.w800),),
                                   const SizedBox(height: 5),
-                                  Text(_homeList[index].name, style: GoogleFonts.poppins(color:Colors.black, fontSize: 12, fontWeight: FontWeight.w400),),
+                                  Text(_homeList[index].name, style: GoogleFonts.poppins(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w500),),
                                 ],
                               ),
                             ],

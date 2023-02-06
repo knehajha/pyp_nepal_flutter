@@ -13,32 +13,31 @@ class SadhakAttendingList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      appBar: AppBar(
+        title:  Text("Sadhak Attending Class",
+          style: GoogleFonts.publicSans(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
+        ),
+        titleSpacing: 00.02,
+        elevation: 0.00,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: IconButton(
+            icon:  const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ),
+        actions: [
+
+          SvgPicture.asset("assets/images/noty.svg",height: 25,
+            width: 25,
+          ),
+          const SizedBox(width: 20,)
+        ],
+      ),
       body: Column(
         children: [
-          Container(
-            color: Colors.red,
-            height: 170,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(25,40,25,30),
-              child: Row(
-                children:  [
-                  SvgPicture.asset("assets/images/ic_back_arrow.svg",height: 25,
-                    width: 25,
-                    color: Colors.white,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20,0,0,0),
-                    child: Text("Sadhak Attending Class", style: GoogleFonts.poppins(color:Colors.white, fontSize: 20, fontWeight: FontWeight.w700,letterSpacing: 0.3),),
-                  ),
-                  const Spacer(),
-                  SvgPicture.asset("assets/images/noty.svg",height: 25,
-                    width: 25,
-                  ),
-                ],
-              ),
-            ),
 
-          ),
+
 
           Expanded(
             child: ListView.builder(
@@ -61,9 +60,9 @@ class SadhakAttendingList extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Yoga Class", style: GoogleFonts.poppins(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w600),),
-                                Text("Patanjali Yog Samiti, Nepal", style: GoogleFonts.poppins(color:ColorConstants.textColor, fontSize: 10, fontWeight: FontWeight.w400),),
-                                Text("Sadhak", style: GoogleFonts.poppins(color:ColorConstants.textColor, fontSize: 12, fontWeight: FontWeight.w600),),
+                                Text("Yoga Class", style: GoogleFonts.poppins(color:Colors.black, fontSize: 16, fontWeight: FontWeight.w600),),
+                                Text("Patanjali Yog Samiti, Nepal", style: GoogleFonts.poppins(color:ColorConstants.textColor, fontSize: 12, fontWeight: FontWeight.w400),),
+                                Text("Sadhak", style: GoogleFonts.poppins(color:ColorConstants.textColor, fontSize: 14, fontWeight: FontWeight.w600),),
                               ],
                             ),
                           ),
@@ -76,16 +75,14 @@ class SadhakAttendingList extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Image.asset("assets/images/attendance_meter.png",width: 30,height: 25,),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 5.0),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text("Attendance",style: GoogleFonts.publicSans(color:ColorConstants.textColor, fontSize: 9, fontWeight: FontWeight.w300),),
-                                        Text("25%",style: GoogleFonts.publicSans(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w700),),
-                                      ],
-                                    ),
+                                  const SizedBox(width: 8,),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Attendance",style: GoogleFonts.publicSans(color:ColorConstants.textColor, fontSize: 11, fontWeight: FontWeight.w300),),
+                                      Text("25%",style: GoogleFonts.publicSans(color:Colors.black, fontSize: 15, fontWeight: FontWeight.w800),),
+                                    ],
                                   )
                                 ],
                               ),

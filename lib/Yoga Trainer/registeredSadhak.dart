@@ -8,36 +8,60 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../util/myColour.dart';
 
 class RegisteredSadhak extends StatelessWidget {
-  const RegisteredSadhak({Key? key}) : super(key: key);
+  final String _title;
+ // const RegisteredSadhak({Key? key}) : super(key: key);
+  const RegisteredSadhak(this._title, {super.key});
+
 
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      appBar: AppBar(
+        title:  Text(_title,
+          style: GoogleFonts.publicSans(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
+        ),
+        titleSpacing: 00.02,
+      //  centerTitle: true,
+       // toolbarHeight: 60.2,
+      /*  toolbarOpacity: 0.8,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              bottomRight: Radius.circular(15),
+              bottomLeft: Radius.circular(15)),
+        ),*/
+        elevation: 0.00,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: IconButton(
+            icon:  const Icon(Icons.arrow_back_ios, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ),
+        actions: [
+
+          SvgPicture.asset("assets/images/noty.svg",height: 25,
+            width: 25,
+          ),
+          const SizedBox(width: 20,)
+        ],
+      ),
       body: Column(
         children: [
-          Container(
-              color: Colors.red,
-              height: 170,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(25,40,25,30),
-                child: Row(
-                  children:  [
-                    SvgPicture.asset("assets/images/ic_back_arrow.svg",height: 25,
-                      width: 25,
-                      color: Colors.white,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20,0,0,0),
-                      child: Text("Registered Sadhak", style: GoogleFonts.poppins(color:Colors.white, fontSize: 20, fontWeight: FontWeight.w700,letterSpacing: 0.3),),
-                    ),
-                    const Spacer(),
-                    SvgPicture.asset("assets/images/noty.svg",height: 25,
-                      width: 25,
-                    ),
-                  ],
-                ),
-              ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(12,30,12,20),
+            child: TextField(
+              textAlign: TextAlign.left,
 
+              decoration: InputDecoration(
+                suffixIcon: Icon(Icons.search),
+
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                hintText: 'Search by Name',
+                contentPadding: EdgeInsets.symmetric(horizontal: 30.0,vertical: 20),
+              ),
+            ),
           ),
 
           Expanded(
@@ -61,9 +85,9 @@ class RegisteredSadhak extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Yoga Class", style: GoogleFonts.poppins(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w600),),
-                              Text("Patanjali Yog Samiti, Nepal", style: GoogleFonts.poppins(color:ColorConstants.textColor, fontSize: 10, fontWeight: FontWeight.w400),),
-                              Text("Sadhak", style: GoogleFonts.poppins(color:ColorConstants.textColor, fontSize: 12, fontWeight: FontWeight.w600),),
+                              Text("Yoga Class", style: GoogleFonts.poppins(color:Colors.black, fontSize: 16, fontWeight: FontWeight.w600),),
+                              Text("Patanjali Yog Samiti, Nepal", style: GoogleFonts.poppins(color:ColorConstants.textColor, fontSize: 12, fontWeight: FontWeight.w400),),
+                              Text("Sadhak", style: GoogleFonts.poppins(color:ColorConstants.textColor, fontSize: 14, fontWeight: FontWeight.w600),),
                             ],
                           ),
                         ),

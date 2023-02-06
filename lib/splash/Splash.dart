@@ -11,10 +11,14 @@ import 'package:pyp_nepal/util/widgetUtil.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
 
+import '../Yoga Trainer/DonationDetails.dart';
 import '../Yoga Trainer/punchInDetails.dart';
 import '../Yoga Trainer/sadhakAttendingClass.dart';
+import '../Yoga Trainer/teacherTrainingConduct.dart';
 import '../Yoga Trainer/trainerHome.dart';
+import '../Yoga Trainer/yttpApplications.dart';
 import '../auth/login.dart';
+import '../myclasses/myClassesPunchIn.dart';
 
 class Splash extends StatelessWidget {
   const Splash ({Key? key}) : super(key: key);
@@ -57,9 +61,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     Timer( const Duration(seconds: 3), () =>
       //  Get.off(const HomePage())
-      //  Get.off(const RegisteredSadhak())
-        Get.off(const PunchInDetails())
-      // Get.off(const Login())
+      //  Get.off(const MyClassesPunchIn())
+      //  Get.off(const YttpApplications())
+       Get.off(const Login())
     );
 
     return Scaffold(

@@ -6,6 +6,7 @@ import 'package:pyp_nepal/auth/signIn.dart';
 import 'package:pyp_nepal/dashboard/dashboard.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
 
+import '../Yoga Trainer/trainerHome.dart';
 import 'signup.dart';
 
 class Login extends StatefulWidget {
@@ -84,7 +85,7 @@ class _LoginState extends State<Login> {
                   const Icon(Icons.arrow_forward_ios, size: 13,),
                   InkWell(
                     onTap: (){
-                      Get.to(const Dashboard());
+                      Get.to(const HomePage());
                     },
                       child: const Text("Guest",style: TextStyle(color: Colors.deepOrange),
                       )),
