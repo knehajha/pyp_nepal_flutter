@@ -18,13 +18,7 @@ class DonationHistory extends StatelessWidget {
         title:  Text("Donation Collected",
           style: GoogleFonts.publicSans(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
         ),
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: IconButton(
-            icon:  const Icon(Icons.arrow_back_ios, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ),
+
       ),
 
       body: Column(
@@ -88,7 +82,7 @@ class DonationHistory extends StatelessWidget {
                           children:  [
                             const Padding(
                               padding: EdgeInsets.fromLTRB(8,10,0,8),
-                              child: Image(image: AssetImage("assets/images/ramdev.png"),height: 70,width: 70,),
+                              child: Image(image: AssetImage("assets/images/ramdev.png"),height: 90,width: 90,),
                             ),
 
                             Padding(
@@ -97,7 +91,7 @@ class DonationHistory extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Yoga Trining Program", style: GoogleFonts.poppins(color:Colors.black, fontSize: 16, fontWeight: FontWeight.w600),),
+                                  Text("Yoga Training Program", style: GoogleFonts.poppins(color:Colors.black, fontSize: 16, fontWeight: FontWeight.w600),),
                                   Text("Patanjali Yog Samiti, Nepal", style: GoogleFonts.poppins(color:ColorConstants.textColor, fontSize: 12, fontWeight: FontWeight.w400),),
                                   Row(
                                     children: [
@@ -130,10 +124,10 @@ class DonationHistory extends StatelessWidget {
 
                                 Row(
                                   children: [
-                                    Image.asset("assets/images/calendar.png",width:10,height: 10,
+                                    Image.asset("assets/images/calendar.png",width:11,height: 11,
                                       color: ColorConstants.textThirdColor,),
                                     const SizedBox(width: 8,),
-                                    Text("12/01/2023", style: GoogleFonts.poppins(color:ColorConstants.textThirdColor, fontSize: 8, fontWeight: FontWeight.w400),),
+                                    Text("12/01/2023", style: GoogleFonts.poppins(color:ColorConstants.textThirdColor, fontSize: 10, fontWeight: FontWeight.w400),),
 
 
                                   ],

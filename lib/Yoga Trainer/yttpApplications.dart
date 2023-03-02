@@ -18,13 +18,13 @@ class YttpApplications extends StatelessWidget {
         title:  Text("Yttp Applications",
           style: GoogleFonts.publicSans(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
         ),
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: IconButton(
-            icon:  const Icon(Icons.arrow_back_ios, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ),
+        // leading: Padding(
+        //   padding: const EdgeInsets.only(left: 8.0),
+        //   child: IconButton(
+        //     icon:  const Icon(Icons.arrow_back_ios, color: Colors.white),
+        //     onPressed: () => Navigator.of(context).pop(),
+        //   ),
+        // ),
       ),
 
       body: Column(
@@ -64,7 +64,7 @@ class YttpApplications extends StatelessWidget {
                           children:  [
                             const Padding(
                               padding: EdgeInsets.fromLTRB(8,10,0,8),
-                              child: Image(image: AssetImage("assets/images/ramdev.png"),height: 70,width: 70,),
+                              child: Image(image: AssetImage("assets/images/ramdev.png"),height: 80,width: 80,),
                             ),
 
                             Padding(
@@ -73,7 +73,7 @@ class YttpApplications extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Yoga Trining", style: GoogleFonts.poppins(color:Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                                  Text("Yoga Training", style: GoogleFonts.poppins(color:Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
                                   overflow: TextOverflow.ellipsis,),
                                   Text("Patanjali Yog Samiti, Nepal", style: GoogleFonts.poppins(color:ColorConstants.textColor, fontSize: 12, fontWeight: FontWeight.w400),),
                                  const SizedBox(height: 2,),

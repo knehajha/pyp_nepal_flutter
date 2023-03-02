@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/auth/otp.dart';
 import 'package:pyp_nepal/auth/resetPass.dart';
+import 'package:pyp_nepal/network/Api_client.dart';
 
 import '../util/widgetUtil.dart';
 
@@ -17,6 +18,9 @@ class ForgotPass extends StatefulWidget {
 
 class _ForgotPassState extends State<ForgotPass> {
   final userIdController = TextEditingController();
+
+
+  String username ="";
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +40,7 @@ class _ForgotPassState extends State<ForgotPass> {
                       fontSize: 35,
                       fontWeight: FontWeight.w500,),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Text(
                    "Don't worry! It happens, Please enter the address associated with your account.",
                     style: GoogleFonts.montserrat(
@@ -44,7 +48,7 @@ class _ForgotPassState extends State<ForgotPass> {
                       fontSize: 15,
                       fontWeight: FontWeight.w400,),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextField(
                     controller: userIdController,
                     decoration: InputDecoration(
@@ -52,29 +56,38 @@ class _ForgotPassState extends State<ForgotPass> {
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       hintText: 'Email/Phone Number',
-                      prefixIcon: Icon(Icons.person),
+                      prefixIcon: const Icon(Icons.person),
                     ),
                   ),
 
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
                     width: double.infinity,
                     height: 59,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
                         primary: Colors.black,
-                        shape: StadiumBorder(),
+                        shape: const StadiumBorder(),
                       ),
                       child: Text(
                         "SUBMIT",
                         style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 16, fontWeight: FontWeight.w400),
                       ),
-                      onPressed: () {
-                        Get.to(const ResetPass(), arguments: userIdController.text.toString());
-                      },
-                    ),
-
+    onPressed: (){},
+    // onPressed: () async {
+    //   var response = await forgotPass(username);
+    //   if (response.isSuccess) {
+    //     Get.to(const ResetPass());
+    //   } else {
+    //     Get.snackbar(
+    //         "Error",
+    //         response.message,
+    //         colorText: Colors.white,
+    //         backgroundColor: Colors.black,
+    //         icon: const Icon(Icons.error_outline, color: Colors.white,));
+    //   }
+    ),
                   ),
 
 

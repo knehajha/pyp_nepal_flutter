@@ -27,13 +27,7 @@ class _PunchInDtails extends  State<StatefulWidget>{
             title:  Text("Attendance Goal",
               style: GoogleFonts.publicSans(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
             ),
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: IconButton(
-                icon:  const Icon(Icons.arrow_back_ios, color: Colors.white),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ),
+
         ),
         body:  Column(
               children: [
@@ -47,7 +41,7 @@ class _PunchInDtails extends  State<StatefulWidget>{
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children:  [
-                          const Image(image: AssetImage("assets/images/ramdev.png"),height: 80, width: 80,),
+                          const Image(image: AssetImage("assets/images/ramdev.png"),height: 90, width: 90,),
 
                           Text("Ram ji", style: GoogleFonts.publicSans(color:ColorConstants.textColor, fontSize: 13, fontWeight: FontWeight.w600),),
                         ],

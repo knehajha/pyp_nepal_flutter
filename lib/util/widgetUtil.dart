@@ -33,7 +33,7 @@ TextStyle menuItemStyle(){
 
 Decoration getBannerDecoration(String url){
   return BoxDecoration(
-    borderRadius: BorderRadius.circular(40.0),
+    borderRadius: BorderRadius.circular(20.0),
     image: DecorationImage(
       image: AssetImage(url),
       fit: BoxFit.cover,

@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/DonationDetails.dart';
+import 'package:pyp_nepal/Yoga%20Trainer/myClassesSadhak.dart';
+import 'package:pyp_nepal/Yoga%20Trainer/newClass.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/punchInDetails.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/registeredSadhak.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/sadhakAttendingClass.dart';
@@ -63,8 +65,8 @@ class _TrainerHome extends State<StatefulWidget> {
   }
 
   final List<HomeItem> _homeList = [
-    HomeItem("15","Registered\nSadhak", "assets/images/home1.svg", ColorConstants.kPrimaryColor),
-    HomeItem("20","Sadhak\nAttending Class", "assets/images/home2.svg", ColorConstants.kSecondaryColor),
+    HomeItem("15","My Classes", "assets/images/home1.svg", ColorConstants.kPrimaryColor),
+    HomeItem("20","Registered\nSadhak", "assets/images/home2.svg", ColorConstants.kSecondaryColor),
     HomeItem("04","Trainers Under\nThem", "assets/images/home3.svg",ColorConstants.kThirdSecondaryColor),
     HomeItem("80%","Attendance\nGoal Reaching", "assets/images/home4.svg", ColorConstants.kFourSecondaryColor),
     HomeItem("10","YTTP\nApplications ", "assets/images/home5.svg", ColorConstants.kFiveSecondaryColor),
@@ -86,7 +88,7 @@ class _TrainerHome extends State<StatefulWidget> {
           toolbarHeight: 90,
 
           title: Container(
-            color: Colors.red,
+           // color: Colors.red,
             child: Row(
 
              // mainAxisAlignment: MainAxisAlignment.start,
@@ -184,7 +186,7 @@ class _TrainerHome extends State<StatefulWidget> {
                 padding: const EdgeInsets.fromLTRB(30,10,0,5),
                 child: Row(
                   children: [
-                    Text("Dashbord",style: GoogleFonts.poppins(color:Colors.black, fontSize: 20, fontWeight: FontWeight.w600),),
+                    Text("Dashboard",style: GoogleFonts.poppins(color:Colors.black, fontSize: 20, fontWeight: FontWeight.w600),),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8, 4, 0, 0),
                       child: Text("(Yog Trainer)",style: GoogleFonts.poppins(color:Colors.black54, fontSize: 14, fontWeight: FontWeight.w400),
@@ -204,10 +206,10 @@ class _TrainerHome extends State<StatefulWidget> {
                       onTap: () async {
                         switch(index){
                           case 0:// All classes
-                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) =>  RegisteredSadhak("Registered Sadhak")));
+                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) =>  const MyClassSadhak()));
                             break;
                           case 1:
-                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const SadhakAttendingList()));
+                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const RegisteredSadhak("Registered Sadhak")));
                             break;
                           case 2:
                             Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) =>  RegisteredSadhak("Trainers Under Them")));

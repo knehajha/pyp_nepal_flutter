@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/auth/forgotpass.dart';
 import 'package:pyp_nepal/dashboard/dashboard.dart';
+import 'package:pyp_nepal/network/Api_client.dart';
 
 import '../util/widgetUtil.dart';
 
@@ -15,11 +14,16 @@ class SignIn extends StatefulWidget {
 
   @override
   State<SignIn> createState() => _SignInState();
-}
+  }
 
 class _SignInState extends State<SignIn> {
   bool status = false;
   bool isChecked = false;
+  bool passwordVisible=false;
+
+
+  String username ="";
+  String password ="";
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +72,21 @@ class _SignInState extends State<SignIn> {
           ),
           hintText: 'Password',
           prefixIcon: const Icon(Icons.lock),
+            suffixIcon: IconButton(
+              icon: Icon(passwordVisible
+                  ? Icons.visibility
+                  : Icons.visibility_off), onPressed: () {
+              setState(() {
+                passwordVisible = !passwordVisible;
+              });
+            },
+
+            ),
+          alignLabelWithHint: false,
+          filled: true,
         ),
+        keyboardType: TextInputType.visiblePassword,
+        textInputAction: TextInputAction.done,
       ),
       const SizedBox(height: 10),
       Align(
@@ -96,7 +114,7 @@ class _SignInState extends State<SignIn> {
         ),
             ],
       ),
-    SizedBox(height: 20),
+    const SizedBox(height: 20),
       Container(
         width: double.infinity,
         height: 59,
@@ -113,9 +131,20 @@ class _SignInState extends State<SignIn> {
             "SIGN IN",
             style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 16, fontWeight: FontWeight.w400),
           ),
-          onPressed: () => Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => const Dashboard())),
-        ),
+           onPressed: () async {
+             var response = await login(username,password);
+             if (response.isSuccess) {
+               Get.to(const Dashboard());
+             } else {
+               Get.snackbar(
+                   "Error",
+                   response.message,
+                   colorText: Colors.white,
+                   backgroundColor: Colors.black,
+                   icon: const Icon(Icons.error_outline, color: Colors.white,));
+             }
+           },
+    ),
 
       ),
 

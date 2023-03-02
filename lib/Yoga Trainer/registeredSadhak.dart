@@ -30,13 +30,7 @@ class RegisteredSadhak extends StatelessWidget {
               bottomLeft: Radius.circular(15)),
         ),*/
         elevation: 0.00,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: IconButton(
-            icon:  const Icon(Icons.arrow_back_ios, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ),
+
         actions: [
 
           SvgPicture.asset("assets/images/noty.svg",height: 25,
@@ -67,7 +61,7 @@ class RegisteredSadhak extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.fromLTRB(8.0,8,8,8),
-              itemCount: 4,
+              itemCount: 15,
               itemBuilder: (context, index) =>
                   Card(
                     elevation: 4,
@@ -76,7 +70,7 @@ class RegisteredSadhak extends StatelessWidget {
                       children:  [
                         const Padding(
                           padding: EdgeInsets.fromLTRB(8,10,0,8),
-                          child: Image(image: AssetImage("assets/images/ramdev.png"),height: 70,width: 70,),
+                          child: Image(image: AssetImage("assets/images/ramdev.png"),height: 90,width: 90,),
                         ),
 
                         Padding(
@@ -85,8 +79,11 @@ class RegisteredSadhak extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              const SizedBox(height: 8,),
                               Text("Yoga Class", style: GoogleFonts.poppins(color:Colors.black, fontSize: 16, fontWeight: FontWeight.w600),),
+                              const SizedBox(height: 8,),
                               Text("Patanjali Yog Samiti, Nepal", style: GoogleFonts.poppins(color:ColorConstants.textColor, fontSize: 12, fontWeight: FontWeight.w400),),
+                              const SizedBox(height: 5,),
                               Text("Sadhak", style: GoogleFonts.poppins(color:ColorConstants.textColor, fontSize: 14, fontWeight: FontWeight.w600),),
                             ],
                           ),
@@ -112,7 +109,7 @@ class RegisteredSadhak extends StatelessWidget {
 
                                    onPressed: () {},
                                    child:   Center( child: SvgPicture.asset(
-                                     "assets/images/ic_msg.svg", height: 15,width: 15,
+                                     "assets/images/ic_msg.svg", height: 16,width: 16,
                                    ),
                                    ),
                                  )),
@@ -135,7 +132,7 @@ class RegisteredSadhak extends StatelessWidget {
                                      onPressed: () {},
                                      //     child:  const Center(child: Icon(Icons.camera_alt_outlined),),
                                      child:   Center( child: SvgPicture.asset(
-                                       "assets/images/ic_whatsapp.svg", height: 15,width: 15,
+                                       "assets/images/ic_whatsapp.svg", height: 16,width: 16,
                                      ),
                                      ),
                                    )),
@@ -158,7 +155,7 @@ class RegisteredSadhak extends StatelessWidget {
                                      onPressed: () {},
                                      //     child:  const Center(child: Icon(Icons.camera_alt_outlined),),
                                      child:   Center( child: SvgPicture.asset(
-                                       "assets/images/ic_telephone.svg", height: 15,width: 15,
+                                       "assets/images/ic_telephone.svg", height: 16,width: 16,
                                      ),
                                      ),
                                    )),

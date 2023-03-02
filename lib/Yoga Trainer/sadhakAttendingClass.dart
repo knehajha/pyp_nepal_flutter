@@ -51,7 +51,7 @@ class SadhakAttendingList extends StatelessWidget {
                         children:  [
                           const Padding(
                             padding: EdgeInsets.fromLTRB(8,10,0,8),
-                            child: Image(image: AssetImage("assets/images/ramdev.png"),height: 70,width: 70,),
+                            child: Image(image: AssetImage("assets/images/ramdev.png"),height: 90,width: 90,),
                           ),
 
                           Padding(
@@ -60,8 +60,11 @@ class SadhakAttendingList extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                const SizedBox(height: 8,),
                                 Text("Yoga Class", style: GoogleFonts.poppins(color:Colors.black, fontSize: 16, fontWeight: FontWeight.w600),),
-                                Text("Patanjali Yog Samiti, Nepal", style: GoogleFonts.poppins(color:ColorConstants.textColor, fontSize: 12, fontWeight: FontWeight.w400),),
+                                const SizedBox(height: 8,),
+                                Text("Patanjali Yog Samiti, Nepal", style: GoogleFonts.poppins(color:ColorConstants.textColor, fontSize: 13, fontWeight: FontWeight.w400),),
+                                const SizedBox(height: 5,),
                                 Text("Sadhak", style: GoogleFonts.poppins(color:ColorConstants.textColor, fontSize: 14, fontWeight: FontWeight.w600),),
                               ],
                             ),

@@ -88,7 +88,7 @@ class _MyDonationState extends State<MyDonation> {
             ),
           ),
         ),
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
         Padding(
           padding: const EdgeInsets.only(bottom:40,left: 20,right: 20),
           child: Container(
@@ -96,9 +96,9 @@ class _MyDonationState extends State<MyDonation> {
             height: 60,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
-                primary: Color(0XFF0E132F),
-                shape: StadiumBorder(),
+                padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+                primary: const Color(0XFF0E132F),
+                shape: const StadiumBorder(),
               ),
               child: Text(
                 "Continue",

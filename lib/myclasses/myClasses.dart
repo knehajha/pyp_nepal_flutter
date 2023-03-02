@@ -6,6 +6,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/myclasses/myClassesPunchIn.dart';
 
+import '../Yoga Trainer/trainerHome.dart';
+
 class MyClasses extends StatefulWidget {
   const MyClasses({Key? key}) : super(key: key);
 
@@ -153,6 +155,8 @@ class _MyClassesState extends State<MyClasses> {
               ]),
                 ),);
           }),
+
+
 
 
 

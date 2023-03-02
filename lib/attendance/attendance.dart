@@ -121,18 +121,27 @@ class _AttendanceState extends State<Attendance> {
         ),
 
           const SizedBox(height: 18,),
-          Padding(
-            padding: const EdgeInsets.only(bottom:15,left: 15,right: 15),
-            child: Container(
-              color: const Color(0xffF5F5F5),
+          Container(
+              height: 60,
+            color: const Color(0xffF5F5F5),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text("Date", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w700),),
-                  Text("Punch In", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w700),),
-                  Text("Punch Out", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w700),),
-                  Text("Punch Type", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w700),),
 
+                  Expanded(
+
+                      child: Text("Date", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w700),
+                        textAlign: TextAlign.center,)),
+                  Expanded(
+                      child: Text("Punch In", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w700),
+                        textAlign: TextAlign.center,)),
+                  Expanded(
+                      child: Text("Punch Out", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w700),
+                        textAlign: TextAlign.center,)),
+                  Expanded(
+                      child: Text("Punch Type", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w700),
+                        textAlign: TextAlign.center,)),
                 ],),
             ),
           ),
@@ -145,15 +154,22 @@ class _AttendanceState extends State<Attendance> {
 
                   child: ListTile(
                     subtitle:
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text("12/01/2023", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w500),),
-                        Text("08:30 A.M.", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w500),),
-                        Text("6.06 P.M.", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w500),),
-                        Text("Self", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w500),),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 1),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: Text("12/01/2023", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w400),
+                            textAlign: TextAlign.center,)),
+                          Expanded(child: Text("08:30 A.M.", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w400),
+                            textAlign: TextAlign.center,)),
+                          Expanded(child: Text("6.06 P.M.", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w400),
+                            textAlign: TextAlign.center,)),
+                          Expanded(child: Text("Self", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w400),
+                            textAlign: TextAlign.center,)),
 
-                      ],),
+                        ],),
+                    ),
 
 
                   ),

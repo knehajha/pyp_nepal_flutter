@@ -70,7 +70,7 @@ class _signInState extends State<ResetPass> {
       ),
       const SizedBox(height: 10),
 
-    SizedBox(height: 20),
+    const SizedBox(height: 20),
       Container(
         width: double.infinity,
         height: 59,

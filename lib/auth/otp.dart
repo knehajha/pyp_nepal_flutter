@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pyp_nepal/dashboard/dashboard.dart';
 
 import '../util/widgetUtil.dart';
 
@@ -44,7 +45,7 @@ class _OtpState extends State<Otp> {
             fontWeight: FontWeight.w500,),
           textAlign: TextAlign.center,
         ),
-      SizedBox(height: 20),
+      const SizedBox(height: 20),
         Text(
           "A 4-digit OTP code has been sent to +91-$userId",
           style: GoogleFonts.montserrat(
@@ -164,7 +165,7 @@ class _OtpState extends State<Otp> {
           height: 59,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
               primary: Colors.black,
               shape: StadiumBorder(),
             ),
@@ -173,7 +174,8 @@ class _OtpState extends State<Otp> {
               style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 18, fontWeight: FontWeight.w600),
             ),
             onPressed: () {
-
+                  () => Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => const Dashboard()));
             },
           ),
 

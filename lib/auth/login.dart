@@ -64,9 +64,8 @@ class _LoginState extends State<Login> {
             width: double.infinity,
             height: 55,
             child: OutlinedButton(
-              child: Text('Sign Up',style:  GoogleFonts.montserrat(color:Colors.black,  fontSize: 16, fontWeight: FontWeight.w500),),
               style: OutlinedButton.styleFrom(
-                  side: BorderSide(width:1.0, color: Colors.black),
+                  side: const BorderSide(width:1.0, color: Colors.black),
                  // primary: Colors.black,
                   backgroundColor: Colors.white,
 
@@ -74,6 +73,7 @@ class _LoginState extends State<Login> {
                       borderRadius: BorderRadius.all(Radius.circular(30)))),
               onPressed: () => Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => const Signup())),
+              child: Text('Sign Up',style:  GoogleFonts.montserrat(color:Colors.black,  fontSize: 16, fontWeight: FontWeight.w500),),
             ),
           ),
 
