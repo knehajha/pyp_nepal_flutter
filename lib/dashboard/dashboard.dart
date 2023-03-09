@@ -9,6 +9,7 @@ import 'package:pyp_nepal/auth/login.dart';
 import 'package:pyp_nepal/donation/donation.dart';
 import 'package:pyp_nepal/myclasses/myClasses.dart';
 import 'package:pyp_nepal/util/app_preference.dart';
+import 'package:pyp_nepal/util/progress_dialog.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
 
 import '../nearby_classses/nbClasses.dart';
@@ -194,8 +195,7 @@ class _DashboardState extends State<Dashboard> {
                                   Icons.logout,size: 30,color: Colors.orange,
                                 ),
                                 onPressed: () {
-                                 // logout();
-                                 // Get.offAll(Login);
+                                  logoutAlert(context);
                                     },),
                               Padding(
                                 padding: const EdgeInsets.only(right:30),

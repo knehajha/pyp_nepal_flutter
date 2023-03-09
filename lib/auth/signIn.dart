@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/trainerHome.dart';
 import 'package:pyp_nepal/auth/forgotpass.dart';
@@ -11,6 +12,7 @@ import 'package:pyp_nepal/network/Api_client.dart';
 import 'package:pyp_nepal/network/model/login_model.dart';
 import 'package:pyp_nepal/util/app_preference.dart';
 import 'package:pyp_nepal/util/uiUtil.dart';
+import '../util/progress_dialog.dart';
 import '../util/widgetUtil.dart';
 
 class SignIn extends StatefulWidget {
@@ -149,15 +151,25 @@ class _SignInState extends State<SignIn> {
             }else if(password.isEmpty){
               showToast("Please enter password");
             }else {
+              showProgressDialog(context);
               var response = await login(userName, password);
+              Navigator.of(context).pop();
+
               if (response.isSuccess) {
                 saveUser(response.result);
-               // if(LoginModel.fromJson()) {
-               //   Get.offAll(const Dashboard());
-               //
-               // }else if(){
+                LoginModel m = response.result as LoginModel;
 
-                 Get.offAll(const TrainerHome());
+                switch(m.user.userType){
+                  case "1" :
+                    Get.offAll(const Dashboard());
+                    break;
+                  case "2" :
+                    Get.offAll(const TrainerHome());
+                    break;
+                  default:
+                    showToast("Invalid user");
+                    break;
+                }
                }
 
                else {

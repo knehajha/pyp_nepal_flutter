@@ -18,7 +18,7 @@ Future<ApiResponse> signup(Map<String, dynamic> data) async {
   var isSuccess = response.statusCode == 200;
   print("signup=>>>> ${response.body}");
   var message = isSuccess ? "" :  errorModelFromJson(response.body).message;
-  var result = registrationModelFromJson(response.body);
+  var result = registerModelFromJson(response.body);
    return ApiResponse(isSuccess, message , result);
 }
 

@@ -45,6 +45,8 @@ dependencies:
   csc_picker: ^0.2.7
   get_storage: ^2.1.1
   google_maps_place_picker_mb: ^3.0.1
+  form_field_validator: ^1.1.0
+  shared_preferences: ^2.0.15
   flutter:
     sdk: flutter
 
