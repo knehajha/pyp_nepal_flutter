@@ -44,6 +44,8 @@ dependencies:
   google_fonts: ^3.0.1
   intl: ^0.17.0
   google_maps_place_picker_mb: ^3.0.1
+  form_field_validator: ^1.1.0
+  shared_preferences: ^2.0.15
   flutter:
     sdk: flutter
 

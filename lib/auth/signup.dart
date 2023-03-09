@@ -1,12 +1,12 @@
-
 import 'dart:collection';
-import 'dart:core';
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,6 +26,31 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
+  final _formKey = GlobalKey<FormState>();
+
+  final nameController = TextEditingController();
+  final fatherNameController = TextEditingController();
+  final mobController = TextEditingController();
+  final dobController = TextEditingController();
+  final emailController = TextEditingController();
+  final genderController = TextEditingController();
+  final maritalStatusController = TextEditingController();
+  final createPassController = TextEditingController();
+  final confirmPassController = TextEditingController();
+  final orgDropDownController = TextEditingController();
+  final addressController = TextEditingController();
+
+  bool maleBtnClick = true;
+  bool femaleBtnClick = true;
+
+  Color _maleBtnColor = Colors.amber;
+  Color _femaleBtnColor = Colors.transparent;
+
+  bool marriedBtnClick = true;
+  bool unmarriedBtnClick = true;
+
+  Color _marriedBtnColor = Colors.transparent;
+  Color _unmarriedBtnColor = Colors.amber;
 
   String dropDownValue = "";
   Map<String, dynamic> _reqBody = HashMap();
@@ -35,12 +60,10 @@ class _SignupState extends State<Signup> {
     'Patanjali Yog Committee, Nepal',
     'Mahila Patanjali Yog Committee, Nepal',
     "Yuva Nepal Samiti"
-    'None'
+        'None'
   ];
 
   String? gender;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -51,23 +74,22 @@ class _SignupState extends State<Signup> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         flexibleSpace: Padding(
-          padding: const EdgeInsets.only(top:10),
+          padding: const EdgeInsets.only(top: 10),
           child: Container(
             decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('assets/images/footer_img.png'),
-                    fit: BoxFit.cover
-                )
-            ),
+                    fit: BoxFit.cover)),
           ),
         ),
       ),
-      body:SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top:0, right: 40,left: 40),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+          padding: const EdgeInsets.only(top: 0, right: 40, left: 40),
+          child: Form(
+            key: _formKey,
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Center(
                 child: Container(
                   height: 100.0,
@@ -75,49 +97,58 @@ class _SignupState extends State<Signup> {
                   decoration: BoxDecoration(
                     color: const Color(0xff557c94b6),
                     image: const DecorationImage(
-                      image:AssetImage("assets/images/photo_camera.png"),
+                      image: AssetImage("assets/images/photo_camera.png"),
                       fit: BoxFit.none,
-
                     ),
-                    border:
-                    Border.all(color: Colors.grey, width: 2.0),
-                    borderRadius:
-                    const BorderRadius.all(Radius.circular(80.0)),
+                    border: Border.all(color: Colors.grey, width: 2.0),
+                    borderRadius: const BorderRadius.all(Radius.circular(80.0)),
                   ),
                 ),
               ),
 
-              const SizedBox(height:20),
-
+              const SizedBox(height: 20),
 
               Text(
                 'Sign Up',
                 style: GoogleFonts.montserrat(
                   //  textStyle: Theme.of(context).textTheme.headline4,
                   fontSize: 35,
-                  fontWeight: FontWeight.w500,),
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-              const SizedBox(height:5),
+              const SizedBox(height: 5),
               Text(
                 'Create account to continue!',
                 style: GoogleFonts.montserrat(
                   //  textStyle: Theme.of(context).textTheme.headline4,
                   fontSize: 14,
-                  fontWeight: FontWeight.w400,),
+                  fontWeight: FontWeight.w400,
+                ),
               ),
-              const SizedBox(height:10),
+              const SizedBox(height: 14),
 
-              TextField(
-                onChanged: (value){
+              TextFormField(
+                onChanged: (value) {
                   _reqBody["name"] = value;
                 },
-                decoration: textFieldDecoration("Name", Icons.person), style: GoogleFonts.montserrat(),),
-              const SizedBox(height:10),
-              TextField(
-                onChanged: (value){
+                decoration: textFieldDecoration("Name", Icons.person),
+                style: GoogleFonts.montserrat(),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: MultiValidator([
+                  RequiredValidator(errorText: "Required\*"),
+                ]),
+              ),
+              const SizedBox(height: 14),
+
+              TextFormField(
+                onChanged: (value) {
                   _reqBody["fatherOrHusbandName"] = value;
                 },
                 style: GoogleFonts.montserrat(),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: MultiValidator([
+                  RequiredValidator(errorText: "Required\*"),
+                ]),
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -126,9 +157,10 @@ class _SignupState extends State<Signup> {
                   prefixIcon: const Icon(Icons.person),
                 ),
               ),
-              const SizedBox(height:10),
-              TextField(
-                onChanged: (value){
+              const SizedBox(height: 14),
+
+              TextFormField(
+                onChanged: (value) {
                   _reqBody["mobileNumber"] = value;
                 },
                 style: GoogleFonts.montserrat(),
@@ -139,10 +171,24 @@ class _SignupState extends State<Signup> {
                   hintText: 'Mobile No.',
                   prefixIcon: const Icon(Icons.phone_android),
                 ),
+                keyboardType: TextInputType.number,
+                maxLength: 10,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (value) {
+                  if (value!.length < 10) {
+                    return "Required\*";
+                  } else {
+                    return null;
+                  }
+                },
               ),
-              const SizedBox(height:10),
-              TextField(
-                onChanged: (value){
+              const SizedBox(height: 14),
+
+              TextFormField(
+                onChanged: (value) {
                   _reqBody["dateOfBirth"] = value;
                 },
                 style: GoogleFonts.montserrat(),
@@ -153,13 +199,17 @@ class _SignupState extends State<Signup> {
                   hintText: 'Date of birth',
                   prefixIcon: const Icon(Icons.calendar_month_outlined),
                 ),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: MultiValidator([
+                  RequiredValidator(errorText: "Required\*"),
+                ]),
               ),
-              const SizedBox(height:10),
-              TextField(
-                onChanged: (value){
+              const SizedBox(height: 14),
+
+              TextFormField(
+                onChanged: (value) {
                   _reqBody["email"] = value;
                 },
-
                 style: GoogleFonts.montserrat(),
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -168,12 +218,195 @@ class _SignupState extends State<Signup> {
                   hintText: 'Email Id',
                   prefixIcon: const Icon(Icons.mail),
                 ),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: MultiValidator([
+                  RequiredValidator(errorText: "Required\*"),
+                  EmailValidator(errorText: "please enter valid email")
+                ]),
               ),
-              const SizedBox(height:10),
+              const SizedBox(height: 14),
 
+              /// GENDER BUTTON
+              Container(
+                alignment: Alignment.center,
+                height: 60,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: const Color(0xFFF6F2F2),
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1,
+                    )),
+                child: Row(
+                  children: [
+                    const SizedBox(width: 7),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          print("male");
 
+                          setState(() {
+                            if (maleBtnClick = !maleBtnClick) {
+                              _maleBtnColor = Colors.amber;
+                              _femaleBtnColor = Colors.transparent;
+                            } else {
+                              _maleBtnColor = Colors.transparent;
+                              _femaleBtnColor = Colors.amber;
+                            }
+                          });
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 45,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: _maleBtnColor,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(Icons.male),
+                              const SizedBox(width: 6),
+                              Text("Male")
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          print("female");
 
+                          setState(() {
+                            if (maleBtnClick = !maleBtnClick) {
+                              _maleBtnColor = Colors.amber;
+                              _femaleBtnColor = Colors.transparent;
+                            } else {
+                              _maleBtnColor = Colors.transparent;
+                              _femaleBtnColor = Colors.amber;
+                            }
+                          });
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 45,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: _femaleBtnColor,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(Icons.female),
+                              const SizedBox(width: 6),
+                              Text("Female")
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 7),
+                  ],
+                ),
+              ),
 
+              const SizedBox(height: 14),
+
+              /// MARITAL STATUS BUTTON
+              Container(
+                alignment: Alignment.center,
+                height: 60,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: const Color(0xFFF6F2F2),
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1,
+                    )),
+                child: Row(
+                  children: [
+                    const SizedBox(width: 7),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          print("married");
+
+                          setState(() {
+                            if (marriedBtnClick = !marriedBtnClick) {
+                              _marriedBtnColor = Colors.transparent;
+                              _unmarriedBtnColor = Colors.amber;
+                            } else {
+                              _marriedBtnColor = Colors.amber;
+                              _unmarriedBtnColor = Colors.transparent;
+                            }
+                          });
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 45,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: _marriedBtnColor,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(Icons.group),
+                              const SizedBox(width: 10),
+                              Text("Married")
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          print("unmarried");
+
+                          setState(() {
+                            if (marriedBtnClick = !marriedBtnClick) {
+                              _marriedBtnColor = Colors.transparent;
+                              _unmarriedBtnColor = Colors.amber;
+                            } else {
+                              _marriedBtnColor = Colors.amber;
+                              _unmarriedBtnColor = Colors.transparent;
+                            }
+                          });
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 45,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: _unmarriedBtnColor,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(Icons.person),
+                              const SizedBox(width: 6),
+                              Text("Single")
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 7),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 14),
 
               // Container(
               //    decoration: bgContainer(),
@@ -212,7 +445,7 @@ class _SignupState extends State<Signup> {
               //     ],
               //   ),
               // ),
-             // const SizedBox(height:10),
+              // const SizedBox(height:10),
               // ToggleSwitch(
               //   minWidth: 190.0,
               //   minHeight: 60,
@@ -229,48 +462,62 @@ class _SignupState extends State<Signup> {
               //     print('switched to: $index');
               //   },
               // ),
-              const SizedBox(height:10),
 
-
-              TextField(
-                onChanged: (value){
-                  _reqBody["password"] = value;
-                },
-                style: GoogleFonts.montserrat(),
-                obscureText: true,
-                enableSuggestions: false,
-                autocorrect: false,
-                decoration: InputDecoration(
-
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0)
+              TextFormField(
+                  onChanged: (value) {
+                    _reqBody["password"] = value;
+                  },
+                  style: GoogleFonts.montserrat(),
+                  obscureText: true,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0)),
+                    hintText: 'Create Password',
+                    prefixIcon: const Icon(Icons.lock),
                   ),
-                  hintText: 'Password',
-                  prefixIcon: const Icon(Icons.lock),
-                ),
-              ),
-              const SizedBox(height:10),
+                  keyboardType: TextInputType.number,
+                  maxLength: 6,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (value!.length < 6) {
+                      return "Required\*";
+                    } else {
+                      return null;
+                    }
+                  }),
+              const SizedBox(height: 14),
 
-              TextField(
-              style: GoogleFonts.montserrat(),
-              obscureText: true,
-              enableSuggestions: false,
-              autocorrect: false,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0)),
-                hintText: 'Confirm Password',
-      prefixIcon: const Icon(Icons.lock),
-    ),
-    ),
-              const SizedBox(height:10),
+              TextFormField(
+                  style: GoogleFonts.montserrat(),
+                  obscureText: true,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0)),
+                    hintText: 'Confirm Password',
+                    prefixIcon: const Icon(Icons.lock),
+                  ),
+                  keyboardType: TextInputType.number,
+                  maxLength: 6,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (value) {
+                    if (value!.length < 6) {
+                      return "Required\*";
+                    } else {
+                      return null;
+                    }
+                  }),
+              const SizedBox(height: 14),
+
               DropdownButtonFormField(
                 isExpanded: true,
                 itemHeight: null,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0)
-                  ),
+                      borderRadius: BorderRadius.circular(30.0)),
                   hintText: 'Organisation associated with',
                   prefixIcon: const Icon(Icons.group),
                 ),
@@ -280,7 +527,6 @@ class _SignupState extends State<Signup> {
                   _reqBody["organization"] = newValue;
                   setState(() {
                     dropDownValue = newValue.toString();
-
                   });
                 },
                 items: _orgList.map<DropdownMenuItem<String>>((String value) {
@@ -289,14 +535,16 @@ class _SignupState extends State<Signup> {
                     child: Text(
                       value,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.montserrat(fontSize: 14, ),
+                      style: GoogleFonts.montserrat(
+                        fontSize: 14,
+                      ),
                     ),
                   );
                 }).toList(),
               ),
-              const SizedBox(height:10),
-              TextField(
-                onChanged: (value){
+              const SizedBox(height: 14),
+              TextFormField(
+                onChanged: (value) {
                   _reqBody["address"] = value;
                 },
                 style: GoogleFonts.montserrat(),
@@ -306,51 +554,65 @@ class _SignupState extends State<Signup> {
                   ),
                   hintText: 'Add Address',
                   suffixIcon: IconButton(
-                    icon: SvgPicture.asset("assets/images/addIcon.svg",color: Colors.black45,height: 22,width: 22,),
-                    onPressed: () {  },
+                    icon: SvgPicture.asset(
+                      "assets/images/addIcon.svg",
+                      color: Colors.black45,
+                      height: 22,
+                      width: 22,
+                    ),
+                    onPressed: () {},
                   ),
                   prefixIcon: IconButton(
-                    icon: SvgPicture.asset("assets/images/address_home.svg",height: 22,width: 22,),
-                    onPressed: () {  },
+                    icon: SvgPicture.asset(
+                      "assets/images/address_home.svg",
+                      height: 22,
+                      width: 22,
+                    ),
+                    onPressed: () {},
+                  ),
                 ),
-              ),),
-              const SizedBox(height: 40,),
+              ),
+              const SizedBox(
+                height: 40,
+              ),
               Padding(
-                padding: const EdgeInsets.only(bottom:40),
-                child: Container(
-                  width: double.infinity,
-                  height: 60,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
-                      primary: const Color(0XFF0E132F),
-                      shape: const StadiumBorder(),
-                    ),
-                    child: Text(
-                      "Submit",
-                      style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
-                    onPressed: () async {
-                      var response = await signup(_reqBody);
-                      if(response.isSuccess){
-                        Get.to(const SignIn());
-                      }else{
-                        Get.snackbar(
-                            "Error",
-                            response.message,
-                            colorText: Colors.white,
-                            backgroundColor: Colors.black,
-                            icon: const Icon(Icons.error_outline, color: Colors.white,));
-                      }
-                    },
-
-
-                    ))),
-
-
-            ]
-      ),
-    ),
+                  padding: const EdgeInsets.only(bottom: 40),
+                  child: SizedBox(
+                      width: double.infinity,
+                      height: 60,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 40.0, vertical: 20.0),
+                          backgroundColor: const Color(0XFF0E132F),
+                          shape: const StadiumBorder(),
+                        ),
+                        child: Text(
+                          "Submit",
+                          style: GoogleFonts.montserrat(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        onPressed: () async {
+                          var response = await signup(_reqBody);
+                          if (_formKey.currentState!.validate() &&
+                              response.isSuccess) {
+                            Get.to(const SignIn());
+                          } else {
+                            Get.snackbar("Error", response.message,
+                                colorText: Colors.white,
+                                backgroundColor: Colors.black,
+                                icon: const Icon(
+                                  Icons.error_outline,
+                                  color: Colors.white,
+                                ));
+                          }
+                        },
+                      ))),
+            ]),
+          ),
+        ),
       ),
     );
   }

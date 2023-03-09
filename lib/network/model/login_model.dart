@@ -35,27 +35,27 @@ class LoginModel {
     this.lastModifiedDate,
   });
 
-  String id;
-  String name;
-  String fatherOrHusbandName;
-  String userType;
-  String mobileNumber;
-  String dateOfBirth;
-  String maritalStatus;
-  String image;
-  String email;
-  String gender;
-  String address;
-  String state;
-  String district;
-  String city;
-  String pincode;
-  dynamic fcmToken;
-  String authToken;
-  String password;
-  bool isActive;
-  bool isMobileVerified;
-  bool isEmailVerified;
+  String? id;
+  String? name;
+  String? fatherOrHusbandName;
+  String? userType;
+  String? mobileNumber;
+  String? dateOfBirth;
+  String? maritalStatus;
+  String? image;
+  String? email;
+  String? gender;
+  String? address;
+  String? state;
+  String? district;
+  String? city;
+  String? pincode;
+  String? fcmToken;
+  String? authToken;
+  String? password;
+  bool? isActive;
+  bool? isMobileVerified;
+  bool? isEmailVerified;
   DateTime createdDate;
   dynamic lastModifiedDate;
 
