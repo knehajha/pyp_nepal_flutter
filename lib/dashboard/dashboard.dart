@@ -1,13 +1,18 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/attendance/attendance.dart';
+import 'package:pyp_nepal/auth/login.dart';
 import 'package:pyp_nepal/donation/donation.dart';
 import 'package:pyp_nepal/myclasses/myClasses.dart';
+import 'package:pyp_nepal/util/app_preference.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
 
 import '../nearby_classses/nbClasses.dart';
+import '../network/model/login_model.dart';
 import 'menuItem.dart';
 
 class Dashboard extends StatefulWidget {
@@ -18,6 +23,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  User? user;
   final List<GridItem> _menuList = [
    GridItem("Notification", "assets/images/notification.png"),
     GridItem("Attendance", "assets/images/attendance.png"),
@@ -57,6 +63,13 @@ class _DashboardState extends State<Dashboard> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    user = getProfile();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffF7F8F6),
@@ -89,9 +102,9 @@ class _DashboardState extends State<Dashboard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 10,),
-                          Text("Neha Jha", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 18, fontWeight: FontWeight.w700),),
-                          Text("Mahila Simiti Nepal", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 14, fontWeight: FontWeight.w400),),
-                          Text("Sadhak", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 12, fontWeight: FontWeight.w400),)
+                          Text("${user?.name}", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 18, fontWeight: FontWeight.w700), overflow: TextOverflow.ellipsis,),
+                          Text("Mahila Simiti Nepal", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 14, fontWeight: FontWeight.w400), overflow: TextOverflow.ellipsis,),
+                          Text("Sadhak", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 12, fontWeight: FontWeight.w400), overflow: TextOverflow.ellipsis,)
                         ],
                       )
                     ],
@@ -145,7 +158,7 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   const SizedBox(height: 35),
                   Row(
-                    children: const [
+                    children:  const [
                       SizedBox(width: 25),
                       Image(
                         image: AssetImage("assets/images/whatsapp.png"),
@@ -165,8 +178,43 @@ class _DashboardState extends State<Dashboard> {
                         height: 40,
                         width: 40,
                       ),
+                      SizedBox(height: 20,),
+
                     ],
-                  )
+                  ),
+                const SizedBox(height: 40,),
+                  Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Row(
+                            children:  [
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.logout,size: 30,color: Colors.orange,
+                                ),
+                                onPressed: () {
+                                 // logout();
+                                 // Get.offAll(Login);
+                                    },),
+                              Padding(
+                                padding: const EdgeInsets.only(right:30),
+                                child: Text(
+                                  'Log out',
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+
+                                ),
+                              ),
+
+
+                             ] ),
+                        ),
+
+                          ],
+                        ),
                 ],
               ),
             ),
@@ -219,7 +267,7 @@ class _DashboardState extends State<Dashboard> {
 
                 Padding(
                   padding: const EdgeInsets.only(top: 10,bottom: 10,left: 16,right:12),
-                  child: Container(width: 1,color: Color(0xffCCBFBFBF),),
+                  child: Container(width: 1,color: const Color(0xffCCBFBFBF),),
                 ),
                 const Image(
                   image: AssetImage("assets/images/progressbar.png"),

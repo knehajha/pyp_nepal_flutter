@@ -23,9 +23,11 @@ Future<ApiResponse> signup(Map<String, dynamic> data) async {
 }
 
 
-Future<ApiResponse> login(String username,password) async {
+Future<ApiResponse> login(String userName,password) async {
+ var body= jsonEncode({"userName":userName,"password": password});
  final url = Uri.parse('${baseUrl}auth/login');
- final response = await http.post(url,body: {"username":username,"password": password});
+ final response = await http.post(url,headers: {"Content-Type": "application/json"},body:body);
+
  var isSuccess = response.statusCode == 200;
  print("login=>>>> ${response.body}");
  var message = isSuccess ? "" : errorModelFromJson(response.body).message;
@@ -33,12 +35,13 @@ Future<ApiResponse> login(String username,password) async {
  return ApiResponse(isSuccess, message, result);
 }
 
-// Future<ApiResponse> forgotPass(String username) async {
-//  final url = Uri.parse('${baseUrl});
-//  final response = await http.post(url);
-//  var isSuccess = response.statusCode == 200;
-//  print("forgotPass=>>>> ${response.body}");
-//  var message = isSuccess ? "" : errorModelFromJson(response.body).message;
-//  var result = loginModelFromJson(response.body);
-//  return ApiResponse(isSuccess, message, result);
-// }
+Future<ApiResponse> forgotPass(String userName) async {
+ final url = Uri.parse('${baseUrl}auth/forgotPass?userName=$userName');
+ final response = await http.post(url);
+ var isSuccess = response.statusCode == 200;
+ print("forgotPass=>>>> ${response.body}");
+ var message = isSuccess ? "" : errorModelFromJson(response.body).message;
+ var result = loginModelFromJson(response.body);
+ return ApiResponse(isSuccess, message, result);
+}
+

@@ -36,13 +36,14 @@ dependencies:
   flutter_toggle_tab: ^1.2.0
   get: ^4.6.5
   toggle_switch: ^2.0.1
-  font_awesome_flutter: ^10.4.0
   http: ^0.13.5
   flutter_svg: 1.1.6
-  touch_ripple_effect: 2.2.4
   flutter_switch: ^0.3.2
   google_fonts: ^3.0.1
   intl: ^0.17.0
+  country_state_city_picker: ^1.2.8
+  csc_picker: ^0.2.7
+  get_storage: ^2.1.1
   google_maps_place_picker_mb: ^3.0.1
   flutter:
     sdk: flutter

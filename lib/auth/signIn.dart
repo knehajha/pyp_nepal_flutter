@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pyp_nepal/Yoga%20Trainer/trainerHome.dart';
 import 'package:pyp_nepal/auth/forgotpass.dart';
 import 'package:pyp_nepal/dashboard/dashboard.dart';
 import 'package:pyp_nepal/network/Api_client.dart';
-
+import 'package:pyp_nepal/network/model/login_model.dart';
+import 'package:pyp_nepal/util/app_preference.dart';
+import 'package:pyp_nepal/util/uiUtil.dart';
 import '../util/widgetUtil.dart';
 
 class SignIn extends StatefulWidget {
@@ -22,7 +27,7 @@ class _SignInState extends State<SignIn> {
   bool passwordVisible=false;
 
 
-  String username ="";
+  String userName ="";
   String password ="";
 
   @override
@@ -48,7 +53,9 @@ class _SignInState extends State<SignIn> {
     ),
       const SizedBox(height: 12,),
       TextField(
-
+        onChanged: (value){
+         userName = value;
+        },
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           labelText: 'Email/Phone number',
@@ -61,6 +68,10 @@ class _SignInState extends State<SignIn> {
       ),
       const SizedBox(height: 12,),
       TextField(
+
+        onChanged: (value){
+         password = value;
+        },
         obscureText: true,
         enableSuggestions: false,
         autocorrect: false,
@@ -132,17 +143,29 @@ class _SignInState extends State<SignIn> {
             style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 16, fontWeight: FontWeight.w400),
           ),
            onPressed: () async {
-             var response = await login(username,password);
-             if (response.isSuccess) {
-               Get.to(const Dashboard());
-             } else {
-               Get.snackbar(
-                   "Error",
-                   response.message,
-                   colorText: Colors.white,
-                   backgroundColor: Colors.black,
-                   icon: const Icon(Icons.error_outline, color: Colors.white,));
-             }
+
+            if(userName.isEmpty){
+              showToast("Please enter user name");
+            }else if(password.isEmpty){
+              showToast("Please enter password");
+            }else {
+              var response = await login(userName, password);
+              if (response.isSuccess) {
+                saveUser(response.result);
+               // if(LoginModel.fromJson()) {
+               //   Get.offAll(const Dashboard());
+               //
+               // }else if(){
+
+                 Get.offAll(const TrainerHome());
+               }
+
+               else {
+                showToast(response.message);
+              }
+            }
+
+
            },
     ),
 

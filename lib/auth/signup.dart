@@ -6,7 +6,6 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,6 +16,7 @@ import 'package:pyp_nepal/network/Api_client.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import '../util/widgetUtil.dart';
+import 'address.dart';
 
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
@@ -38,7 +38,7 @@ class _SignupState extends State<Signup> {
     'None'
   ];
 
-  String? gender;
+
 
 
 
@@ -307,7 +307,9 @@ class _SignupState extends State<Signup> {
                   hintText: 'Add Address',
                   suffixIcon: IconButton(
                     icon: SvgPicture.asset("assets/images/addIcon.svg",color: Colors.black45,height: 22,width: 22,),
-                    onPressed: () {  },
+                    onPressed: () {
+                      Get.to(const Address());
+                    },
                   ),
                   prefixIcon: IconButton(
                     icon: SvgPicture.asset("assets/images/address_home.svg",height: 22,width: 22,),

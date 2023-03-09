@@ -10,6 +10,26 @@ String loginModelToJson(LoginModel data) => json.encode(data.toJson());
 
 class LoginModel {
   LoginModel({
+    required this.user,
+    required this.token,
+  });
+
+  User user;
+  String token;
+
+  factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
+    user: User.fromJson(json["user"]),
+    token: json["token"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "user": user.toJson(),
+    "token": token,
+  };
+}
+
+class User {
+  User({
     required this.id,
     required this.name,
     required this.fatherOrHusbandName,
@@ -26,8 +46,8 @@ class LoginModel {
     required this.city,
     required this.pincode,
     this.fcmToken,
-    required this.authToken,
     required this.password,
+    this.organigation,
     required this.isActive,
     required this.isMobileVerified,
     required this.isEmailVerified,
@@ -51,15 +71,15 @@ class LoginModel {
   String city;
   String pincode;
   dynamic fcmToken;
-  String authToken;
   String password;
+  dynamic organigation;
   bool isActive;
   bool isMobileVerified;
   bool isEmailVerified;
-  DateTime createdDate;
+  String createdDate;
   dynamic lastModifiedDate;
 
-  factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
+  factory User.fromJson(Map<String, dynamic> json) => User(
     id: json["_id"],
     name: json["name"],
     fatherOrHusbandName: json["fatherOrHusbandName"],
@@ -76,12 +96,12 @@ class LoginModel {
     city: json["city"],
     pincode: json["pincode"],
     fcmToken: json["fcmToken"],
-    authToken: json["authToken"],
     password: json["password"],
+    organigation: json["organigation"],
     isActive: json["isActive"],
     isMobileVerified: json["isMobileVerified"],
     isEmailVerified: json["isEmailVerified"],
-    createdDate: DateTime.parse(json["createdDate"]),
+    createdDate: json["createdDate"],
     lastModifiedDate: json["lastModifiedDate"],
   );
 
@@ -102,12 +122,12 @@ class LoginModel {
     "city": city,
     "pincode": pincode,
     "fcmToken": fcmToken,
-    "authToken": authToken,
     "password": password,
+    "organigation": organigation,
     "isActive": isActive,
     "isMobileVerified": isMobileVerified,
     "isEmailVerified": isEmailVerified,
-    "createdDate": createdDate.toIso8601String(),
+    "createdDate": createdDate,
     "lastModifiedDate": lastModifiedDate,
   };
 }

@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pyp_nepal/auth/address.dart';
 import 'package:pyp_nepal/auth/signIn.dart';
 import 'package:pyp_nepal/dashboard/dashboard.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
-
 import '../Yoga Trainer/trainerHome.dart';
 import 'signup.dart';
 
@@ -38,7 +38,7 @@ class _LoginState extends State<Login> {
                 style: GoogleFonts.montserrat(),
                 textAlign: TextAlign.left,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
           Container(
             width: double.infinity,
@@ -47,7 +47,7 @@ class _LoginState extends State<Login> {
                    padding: const EdgeInsets.symmetric(
                        horizontal: 40.0, vertical: 20.0),
                    primary: Colors.black,
-                   shape: StadiumBorder(),
+                   shape: const StadiumBorder(),
                  ),
 
                  child: Text(
@@ -59,7 +59,7 @@ class _LoginState extends State<Login> {
                ),
 
           ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
           Container(
             width: double.infinity,
             height: 55,
@@ -85,7 +85,7 @@ class _LoginState extends State<Login> {
                   const Icon(Icons.arrow_forward_ios, size: 13,),
                   InkWell(
                     onTap: (){
-                      Get.to(const HomePage());
+
                     },
                       child: const Text("Guest",style: TextStyle(color: Colors.deepOrange),
                       )),

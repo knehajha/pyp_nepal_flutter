@@ -7,6 +7,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/registeredSadhak.dart';
+import 'package:pyp_nepal/dashboard/dashboard.dart';
+import 'package:pyp_nepal/util/app_preference.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
@@ -63,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
       //  Get.off(const HomePage())
       //  Get.off(const MyClassesPunchIn())
       //  Get.off(const YttpApplications())
-       Get.off(const Login())
+       Get.off(isLogin() ? const Dashboard() : const Login())
     );
 
     return Scaffold(

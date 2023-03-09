@@ -20,7 +20,7 @@ class _ForgotPassState extends State<ForgotPass> {
   final userIdController = TextEditingController();
 
 
-  String username ="";
+  String userName ="";
 
   @override
   Widget build(BuildContext context) {
@@ -74,20 +74,20 @@ class _ForgotPassState extends State<ForgotPass> {
                         "SUBMIT",
                         style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 16, fontWeight: FontWeight.w400),
                       ),
-    onPressed: (){},
-    // onPressed: () async {
-    //   var response = await forgotPass(username);
-    //   if (response.isSuccess) {
-    //     Get.to(const ResetPass());
-    //   } else {
-    //     Get.snackbar(
-    //         "Error",
-    //         response.message,
-    //         colorText: Colors.white,
-    //         backgroundColor: Colors.black,
-    //         icon: const Icon(Icons.error_outline, color: Colors.white,));
-    //   }
-    ),
+
+    onPressed: () async {
+      var response = await forgotPass(userName);
+      if (response.isSuccess) {
+        Get.to(const ResetPass());
+      } else {
+        Get.snackbar(
+            "Error",
+            response.message,
+            colorText: Colors.white,
+            backgroundColor: Colors.black,
+            icon: const Icon(Icons.error_outline, color: Colors.white,));
+      }
+    }),
                   ),
 
 

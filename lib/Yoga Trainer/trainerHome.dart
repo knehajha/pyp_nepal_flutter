@@ -3,6 +3,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/DonationDetails.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/myClassesSadhak.dart';
@@ -14,8 +16,10 @@ import 'package:pyp_nepal/Yoga%20Trainer/teacherTrainingConduct.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/yttpApplications.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
 
+import '../auth/login.dart';
 import '../dashboard/menuItem.dart';
 import '../util/CustomPaint.dart';
+import '../util/app_preference.dart';
 import '../util/myColour.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -78,7 +82,13 @@ class _TrainerHome extends State<StatefulWidget> {
     ColorConstants.kFiveSecondaryColor, ColorConstants.kSixSecondaryColor,ColorConstants.kSevenSecondaryColor,ColorConstants.kEigthSecondaryColor];
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var user = getProfile();
     return Scaffold(
         appBar: AppBar(
 
@@ -107,10 +117,19 @@ class _TrainerHome extends State<StatefulWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Welcome", style: GoogleFonts.poppins(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w500),),
-                    Text("Shree Ram", style: GoogleFonts.poppins(color:Colors.white, fontSize: 18, fontWeight: FontWeight.w700),),
+                    Text("${user?.name}", style: GoogleFonts.poppins(color:Colors.white, fontSize: 18, fontWeight: FontWeight.w700),),
                     Text("Patanjali Yog Samiti", style: GoogleFonts.poppins(color:Colors.white, fontSize: 12, fontWeight: FontWeight.w300),),
                   ],
                 ),
+                const SizedBox(width: 40,),
+                IconButton(
+                  icon: const Icon(
+                    Icons.logout,size: 30,color: Colors.orange,
+                  ),
+                  onPressed: () {
+                    logout();
+                    Get.offAll(Login);
+                  },),
               ],
             ),
           )
