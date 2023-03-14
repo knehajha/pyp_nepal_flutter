@@ -162,6 +162,7 @@ class _SignInState extends State<SignIn> {
                 switch(m.user.userType){
                   case "1" :
                     Get.offAll(const Dashboard());
+
                     break;
                   case "2" :
                     Get.offAll(const TrainerHome());

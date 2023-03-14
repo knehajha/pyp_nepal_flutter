@@ -7,7 +7,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/trainerHome.dart';
 import 'package:pyp_nepal/auth/signIn.dart';
@@ -18,6 +17,7 @@ import 'package:pyp_nepal/util/uiUtil.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import '../util/widgetUtil.dart';
+import 'address.dart';
 
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
@@ -202,7 +202,7 @@ class _SignupState extends State<Signup> {
                 ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: MultiValidator([
-                  RequiredValidator(errorText: "Required\*"),
+                  RequiredValidator(errorText: "Please Enter valid DOB\*"),
                 ]),
               ),
               const SizedBox(height: 14),
@@ -222,7 +222,7 @@ class _SignupState extends State<Signup> {
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: MultiValidator([
                   RequiredValidator(errorText: "Required\*"),
-                  EmailValidator(errorText: "please enter valid email")
+                  EmailValidator(errorText: "Please enter valid email")
                 ]),
               ),
               const SizedBox(height: 14),
@@ -561,7 +561,9 @@ class _SignupState extends State<Signup> {
                       height: 22,
                       width: 22,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(const Address());
+                    },
                   ),
                   prefixIcon: IconButton(
                     icon: SvgPicture.asset(

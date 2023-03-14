@@ -186,33 +186,27 @@ class _DashboardState extends State<Dashboard> {
                 const SizedBox(height: 40,),
                   Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Row(
-                            children:  [
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.logout,size: 30,color: Colors.orange,
-                                ),
-                                onPressed: () {
-                                  logoutAlert(context);
-                                    },),
-                              Padding(
-                                padding: const EdgeInsets.only(right:30),
-                                child: Text(
-                                  'Log out',
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-
-                                ),
+                       Padding(
+                         padding: const EdgeInsets.only(left: 20),
+                         child: Align(
+                            alignment: Alignment.topLeft,
+                            child:
+                            TextButton.icon(
+                              onPressed: () {
+                                logoutAlert(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.white, // Background color
                               ),
 
-
-                             ] ),
-                        ),
-
+                              icon: Icon( Icons.logout,size: 26.0,color: Colors.orange,),
+                              label: Text('Logout', style: GoogleFonts.montserrat(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),),
+                          ),
+                          ),
+                       ),
                           ],
                         ),
                 ],

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'Api_response.dart';
 import 'package:http/http.dart' as http;
 
+import 'model/create_class.dart';
 import 'model/error_model.dart';
 import 'model/login_model.dart';
 import 'model/registration_model.dart';
@@ -44,4 +45,18 @@ Future<ApiResponse> forgotPass(String userName) async {
  var result = loginModelFromJson(response.body);
  return ApiResponse(isSuccess, message, result);
 }
+
+
+
+Future<ApiResponse> createClass(Map<String, dynamic> data) async {
+ final url = Uri.parse('${baseUrl}yogClass');
+ final response = await http.post(url,headers: {"Content-Type": "application/json"});
+ var isSuccess = response.statusCode == 200;
+ print("createClass=>>>> ${response.body}");
+ var message = isSuccess ? "" : errorModelFromJson(response.body).message;
+ var result = createClassModelFromJson(response.body);
+ return ApiResponse(isSuccess, message, result);
+
+}
+
 

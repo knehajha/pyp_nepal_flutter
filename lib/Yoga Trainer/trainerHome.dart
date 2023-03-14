@@ -23,6 +23,8 @@ import '../util/app_preference.dart';
 import '../util/myColour.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../util/progress_dialog.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -132,8 +134,18 @@ class _TrainerHome extends State<StatefulWidget> {
                   },),
               ],
             ),
-          )
-
+          ),
+            actions: <Widget>[
+        // Using Stack to show Notification Badge
+        Padding(
+          padding: const EdgeInsets.only(right: 10),
+          child: IconButton(
+          icon: const Icon(Icons.logout),
+          onPressed: () {
+            logoutAlert(context);
+          }),
+        ),
+    ],
 
         ),
       /*  appBar: AppBar(

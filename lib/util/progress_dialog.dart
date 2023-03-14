@@ -53,7 +53,7 @@ logoutAlert(BuildContext context){
     AlertDialog alert = AlertDialog(
 
       title: Text("Logout?"),
-      content: Text("'Do you want to exit this application?"),
+      content: Text("Do you want to exit this application?"),
       actions: [
         cancelButton,
         continueButton,
