@@ -99,14 +99,18 @@ class _DashboardState extends State<Dashboard> {
                     children: [
                       const Image(image: AssetImage("assets/images/ramdev.png"),height: 100,width: 100,),
                       const SizedBox(width: 16,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 10,),
-                          Text("${user?.name}", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 18, fontWeight: FontWeight.w700), overflow: TextOverflow.ellipsis,),
-                          Text("Mahila Simiti Nepal", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 14, fontWeight: FontWeight.w400), overflow: TextOverflow.ellipsis,),
-                          Text("Sadhak", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 12, fontWeight: FontWeight.w400), overflow: TextOverflow.ellipsis,)
-                        ],
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 10,),
+                            Text("${user?.name}", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 18, fontWeight: FontWeight.w700),overflow: TextOverflow.ellipsis,),
+                            SizedBox(height: 2,),
+                            Text("Mahila Simiti Nepal", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 14, fontWeight: FontWeight.w400), overflow: TextOverflow.ellipsis,),
+                            SizedBox(height: 2,),
+                            Text("Sadhak", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 12, fontWeight: FontWeight.w400), overflow: TextOverflow.ellipsis,)
+                          ],
+                        ),
                       )
                     ],
                   )),
@@ -219,7 +223,7 @@ class _DashboardState extends State<Dashboard> {
         padding: const EdgeInsets.all(8.0),
         child: Column(children: [
           CarouselSlider(
-            items: getBannerBody(),git
+            items: getBannerBody(),
             options: CarouselOptions(
               height: 200.0,
               // enlargeCenterPage: true,

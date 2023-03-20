@@ -1,5 +1,7 @@
 
 
+import 'dart:collection';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,16 +16,21 @@ import 'package:pyp_nepal/Yoga%20Trainer/registeredSadhak.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/sadhakAttendingClass.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/teacherTrainingConduct.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/yttpApplications.dart';
+import 'package:pyp_nepal/dashboard/dashboard.dart';
+import 'package:pyp_nepal/network/Api_client.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
 
 import '../auth/login.dart';
 import '../dashboard/menuItem.dart';
+import '../network/Api_response.dart';
+import '../network/model/dashboardClassModel.dart';
 import '../util/CustomPaint.dart';
 import '../util/app_preference.dart';
 import '../util/myColour.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../util/progress_dialog.dart';
+import '../util/uiUtil.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -70,8 +77,13 @@ class _TrainerHome extends State<StatefulWidget> {
     return wlist;
   }
 
+
+
+
+
+
   final List<HomeItem> _homeList = [
-    HomeItem("15","My Classes", "assets/images/home1.svg", ColorConstants.kPrimaryColor),
+    HomeItem("11","My Classes", "assets/images/home1.svg", ColorConstants.kPrimaryColor),
     HomeItem("20","Registered\nSadhak", "assets/images/home2.svg", ColorConstants.kSecondaryColor),
     HomeItem("04","Trainers Under\nThem", "assets/images/home3.svg",ColorConstants.kThirdSecondaryColor),
     HomeItem("80%","Attendance\nGoal Reaching", "assets/images/home4.svg", ColorConstants.kFourSecondaryColor),
@@ -83,10 +95,26 @@ class _TrainerHome extends State<StatefulWidget> {
   final List<Color> _homeColor = [ColorConstants.kPrimaryColor, ColorConstants.kSecondaryColor,ColorConstants.kThirdSecondaryColor,ColorConstants.kFourSecondaryColor,
     ColorConstants.kFiveSecondaryColor, ColorConstants.kSixSecondaryColor,ColorConstants.kSevenSecondaryColor,ColorConstants.kEigthSecondaryColor];
 
+  Map<String, int> dataCount = HashMap();
+  ApiResponse? response = null;
+
+  _getDataCount() async {
+    response  = await dashboardClass();
+    if(response!.isSuccess){
+      setState(() {
+        dataCount = response!.result;
+      });
+    }else{
+      showToast(response!.message);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    _getDataCount();
   }
+
 
   @override
   Widget build(BuildContext context) {

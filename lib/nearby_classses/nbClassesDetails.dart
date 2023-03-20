@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pyp_nepal/network/Api_client.dart';
+
+import '../network/model/nearbyClassModel.dart';
+import '../util/progress_dialog.dart';
+import '../util/uiUtil.dart';
 
 class NBClassesDetail extends StatefulWidget {
-  const NBClassesDetail({Key? key}) : super(key: key);
+  const NBClassesDetail({Key? key, required this.classDetails}) : super(key: key);
+
+  final NearbyClassModel classDetails;
 
   @override
   State<NBClassesDetail> createState() => _NBClassesDetailState();
@@ -14,14 +21,16 @@ class _NBClassesDetailState extends State<NBClassesDetail> {
 
   static const CameraPosition _kInitialPosition = CameraPosition(target: LatLng(29.9023165, 77.9934347), zoom: 10.0, tilt: 0, bearing: 0);
   final Set<Marker> markers = Set();
+
+  String? get classId => "";
   Set<Marker> _getMarkers() {
     //markers to place on map
-    markers.add(const Marker( //add first marker
-      markerId: MarkerId("Patanjali, Haridwar"),
-      position: LatLng(27.563366, 85.633209), //position of marker
+    markers.add(Marker( //add first marker
+      markerId: MarkerId("${this.widget.classDetails.id}"),
+      position: LatLng(this.widget.classDetails.location[0], this.widget.classDetails.location[1]), //position of marker
       infoWindow: InfoWindow( //popup info
-        title: 'Nepal kashikot',
-        snippet: 'kashikanda',
+        title: '${this.widget.classDetails.address}',
+        snippet: '${this.widget.classDetails.name}',
       ),
       icon: BitmapDescriptor.defaultMarker, //Icon for Marker
     ));
@@ -206,8 +215,13 @@ class _NBClassesDetailState extends State<NBClassesDetail> {
                                       ),
 
                                       child: Text("YES", style:  GoogleFonts.montserrat(color:Colors.black,  fontSize: 16, fontWeight: FontWeight.w700), ),
-                                      onPressed: () {
-                                        Navigator.pop(context);
+                                      onPressed: () async{
+                                      //  showProgressDialog(context);
+                                        var response = await joinClass(classId!);
+                                        if (response.isSuccess) {
+                                    // String message = "Class requested successfully";
+                                    //       showToast(message);
+
                                         showDialog(
                                             context: context,
                                             builder: (BuildContext context) {
@@ -310,7 +324,7 @@ class _NBClassesDetailState extends State<NBClassesDetail> {
                                                         Radius.circular(16)),
                                                   ));
                                             });
-                                      }),
+                                      }}),
                                 ],
                               )
                             ],

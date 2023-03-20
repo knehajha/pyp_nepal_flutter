@@ -3,7 +3,10 @@ import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pyp_nepal/auth/AddressModel.dart';
 
 import '../util/widgetUtil.dart';
 
@@ -18,6 +21,7 @@ class _AddressState extends State<Address> {
 
 
   String stateValue = "";
+  AddressModel am = new AddressModel();
 
   final List<String> _stateList =
     [ "Andhra Pradesh", "Arunachal Pradesh", "Gujarat", "Haryana", "Himachal Pradesh",
@@ -94,6 +98,7 @@ class _AddressState extends State<Address> {
 
                   setState(() {
                    stateValue = newValue.toString();
+                   am.state = stateValue;
 
                   });
                 },
@@ -127,6 +132,8 @@ class _AddressState extends State<Address> {
                 dropdownColor: Colors.white,
                 value: cityValue.isEmpty ? _cityList[0] : cityValue,
                 onChanged: (newValue) {
+
+                  am.city = newValue.toString();
 
                   setState(() {
                     cityValue = newValue.toString();
@@ -163,6 +170,7 @@ class _AddressState extends State<Address> {
                 dropdownColor: Colors.white,
                 value: districtValue.isEmpty ? _districtList[0] : districtValue,
                 onChanged: (newValue) {
+                 am.district= newValue.toString();
 
                   setState(() {
                     districtValue = newValue.toString();
@@ -185,6 +193,9 @@ class _AddressState extends State<Address> {
 
            SizedBox(height: 12,),
               TextField(
+                onChanged: (value){
+                  am.address = value;
+                },
                 style: GoogleFonts.montserrat(),
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -201,6 +212,9 @@ class _AddressState extends State<Address> {
               SizedBox(height: 12,),
 
               TextField(
+                onChanged: (value){
+                  am.pinCode = value;
+                },
                 style: GoogleFonts.montserrat(),
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -228,7 +242,10 @@ class _AddressState extends State<Address> {
                         fontSize: 18,
                         fontWeight: FontWeight.w600),
                   ),
-                  onPressed: () {}
+                  onPressed: () {
+                    print(am.toString());
+                    Get.back(result: am);
+                  }
 
                       ),
             ],

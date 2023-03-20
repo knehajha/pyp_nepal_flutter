@@ -8,15 +8,18 @@ import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/trainerHome.dart';
 import 'package:pyp_nepal/auth/signIn.dart';
 import 'package:pyp_nepal/dashboard/dashboard.dart';
 import 'package:pyp_nepal/network/Api_client.dart';
 import 'package:pyp_nepal/network/model/registration_model.dart';
+import 'package:pyp_nepal/util/progress_dialog.dart';
 import 'package:pyp_nepal/util/uiUtil.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import '../util/widgetUtil.dart';
+import 'AddressModel.dart';
 import 'address.dart';
 
 class Signup extends StatefulWidget {
@@ -40,6 +43,26 @@ class _SignupState extends State<Signup> {
   final confirmPassController = TextEditingController();
   final orgDropDownController = TextEditingController();
   final addressController = TextEditingController();
+
+
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null) {
+      String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
+      print(formattedDate);
+      setState(() {
+        dobController.text = formattedDate;
+      });
+    }
+  }
+
+
+
 
   bool maleBtnClick = true;
   bool femaleBtnClick = true;
@@ -189,6 +212,7 @@ class _SignupState extends State<Signup> {
               const SizedBox(height: 14),
 
               TextFormField(
+                controller: dobController,
                 onChanged: (value) {
                   _reqBody["dateOfBirth"] = value;
                 },
@@ -198,7 +222,11 @@ class _SignupState extends State<Signup> {
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   hintText: 'Date of birth',
-                  prefixIcon: const Icon(Icons.calendar_month_outlined),
+                  prefixIcon: IconButton(
+
+                  icon: SvgPicture.asset("assets/images/calendar-4.svg",height: 19,width: 19,),
+                  onPressed:() => _selectDate(context),
+                  ),
                 ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: MultiValidator([
@@ -545,6 +573,7 @@ class _SignupState extends State<Signup> {
               ),
               const SizedBox(height: 14),
               TextFormField(
+                controller: addressController,
                 onChanged: (value) {
                   _reqBody["address"] = value;
                 },
@@ -561,8 +590,16 @@ class _SignupState extends State<Signup> {
                       height: 22,
                       width: 22,
                     ),
-                    onPressed: () {
-                      Get.to(const Address());
+                    onPressed: () async {
+                      AddressModel am = await Get.to(const Address());
+                      _reqBody["address"] = am.address;
+                      _reqBody["city"] = am.city;
+                      _reqBody["state"] = am.state;
+                      _reqBody["district"] = am.district;
+                      _reqBody["pincode"] = am.pinCode;
+                      setState(() {
+                        addressController.text = am.toString();
+                      });
                     },
                   ),
                   prefixIcon: IconButton(
@@ -599,7 +636,10 @@ class _SignupState extends State<Signup> {
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
+                         showProgressDialog(context);
+                            _reqBody["userType"] = "1";
                             var response = await signup(_reqBody);
+                        //loader finish
                             if(response.isSuccess){
                               String message = (response.result as RegisterModel).message ?? "Registration Successful!";
                               showToast(message);

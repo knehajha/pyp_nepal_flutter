@@ -32,6 +32,7 @@ class _SignInState extends State<SignIn> {
   String userName ="";
   String password ="";
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,8 +87,7 @@ class _SignInState extends State<SignIn> {
           hintText: 'Password',
           prefixIcon: const Icon(Icons.lock),
             suffixIcon: IconButton(
-              icon: Icon(passwordVisible
-                  ? Icons.visibility
+              icon: Icon(passwordVisible ? Icons.visibility
                   : Icons.visibility_off), onPressed: () {
               setState(() {
                 passwordVisible = !passwordVisible;
