@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/nearby_classses/nbClassMap.dart';
 import 'package:pyp_nepal/nearby_classses/nbClassesDetails.dart';
 import 'package:pyp_nepal/network/Api_client.dart';
+import 'package:pyp_nepal/util/map_util.dart';
 import 'package:pyp_nepal/util/uiUtil.dart';
 
 import '../network/Api_response.dart';
@@ -53,12 +54,15 @@ class _NBClassesState extends State<NBClasses> {
     return true;
   }
 
+  double _lat=0, _lng=0;
   Future<void> _getCurrentPosition() async {
     final hasPermission = await _handleLocationPermission();
     if (!hasPermission) return;
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
           setState(() {
+            _lat = position.latitude;
+            _lng = position.longitude;
             print("my location>>${position.latitude},${position.longitude}");
             _getNearByClasses("${position.latitude}", "${position.longitude}");
           });
@@ -79,6 +83,7 @@ class _NBClassesState extends State<NBClasses> {
     }else{
       showToast(response.message);
     }
+
   }
 
   @override
@@ -104,9 +109,20 @@ class _NBClassesState extends State<NBClasses> {
             // Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const NearbyClassMap()));
           }, icon: _getIcon(),)
         ]),
-        body: isMap ? ListView.builder(
+        body: isMap ? nbc.isEmpty ? Center(
+          child:  CircularProgressIndicator(
+            backgroundColor: Colors.redAccent,
+            valueColor: AlwaysStoppedAnimation(Colors.green),
+            strokeWidth: 3,
+          ),
+        ) : ListView.builder(
             itemCount: nbc.length,
             itemBuilder: (BuildContext context, int index) {
+              if(nbc[index].distance == 0){
+                double d = calculateDistance(_lat, _lng, nbc[index].lat, nbc[index].lng);
+                nbc[index].distance = d;
+              }
+
               return  Padding(
                 padding: const EdgeInsets.only(left:10, right: 10,),
                 child: InkWell(
@@ -125,7 +141,7 @@ class _NBClassesState extends State<NBClasses> {
                         Column(
                           children: [
                             const Image(image: AssetImage("assets/images/ramdev.png"),height: 100,width: 100,),
-                            Text("${nbc[index].trainerName}", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 16, fontWeight: FontWeight.w500),)
+                            SizedBox(width: 100, child: Center(child: Text("${nbc[index].trainerName}", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 16, fontWeight: FontWeight.w500),overflow: TextOverflow.visible,)))
                           ],
                         ),
                         SizedBox(width: 20,),
@@ -136,9 +152,9 @@ class _NBClassesState extends State<NBClasses> {
                             children: [
                               SizedBox(height: 20,),
 
-                              Text("${nbc[index].name}", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 20, fontWeight: FontWeight.w500),),
+                              Text("${nbc[index].name}", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 20, fontWeight: FontWeight.w600),),
                               const SizedBox(height: 10,),
-                              Text("Patanjali Yog Samiti, Nepal", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 15, fontWeight: FontWeight.w300),),
+                              Text("${nbc[index].address}", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 15, fontWeight: FontWeight.w400),),
                               const SizedBox(height: 10,),
                               Row(
                                 children: [
@@ -154,7 +170,7 @@ class _NBClassesState extends State<NBClasses> {
                               const SizedBox(height: 10,),
                               Row(
                                 children: [
-                                  Text("Client Rating", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 12, fontWeight: FontWeight.w500),),
+                                  Text("Rating", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 12, fontWeight: FontWeight.w500),),
                                   const SizedBox(width: 3,),
                                   RatingBar.builder(
                                   initialRating: 3,
@@ -182,17 +198,16 @@ class _NBClassesState extends State<NBClasses> {
                               SizedBox(height: 10,),
                               Row(
                                 children: [
-                                  Image.asset("assets/images/telephone-2.png",width:18,height: 18,),
-                                  const SizedBox(width: 11,),
-
-                                  Image.asset("assets/images/Icon simple-whatsapp.png",width:19,height: 19,),
+                                  Image.asset("assets/images/telephone-2.png",width:28,height: 28,),
+                                  const SizedBox(width: 24,),
+                                  Image.asset("assets/images/Icon simple-whatsapp.png",width:28,height: 28,),
                                  //const SizedBox(width: 50,),
                                  Spacer(),
                                   Row(
                                     children: [
                                       Text("Distance :", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w500),),
                                       const SizedBox(width: 2,),
-                                      Text("2km", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w500),)],),
+                                      Text(nbc.isEmpty ? "0 KM" : "${nbc[index].distance} KM", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w500),)],),
                                       SizedBox(width: 20,),
 
                                     ],

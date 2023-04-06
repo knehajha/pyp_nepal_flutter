@@ -15,6 +15,7 @@ import 'package:pyp_nepal/Yoga%20Trainer/punchInDetails.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/registeredSadhak.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/sadhakAttendingClass.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/teacherTrainingConduct.dart';
+import 'package:pyp_nepal/Yoga%20Trainer/trainerUnderthem.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/yttpApplications.dart';
 import 'package:pyp_nepal/dashboard/dashboard.dart';
 import 'package:pyp_nepal/network/Api_client.dart';
@@ -23,7 +24,9 @@ import 'package:pyp_nepal/util/widgetUtil.dart';
 import '../auth/login.dart';
 import '../dashboard/menuItem.dart';
 import '../network/Api_response.dart';
+import '../network/model/FetchRequestedClassModel.dart';
 import '../network/model/dashboardClassModel.dart';
+import '../network/model/fetchClass.dart';
 import '../util/CustomPaint.dart';
 import '../util/app_preference.dart';
 import '../util/myColour.dart';
@@ -33,9 +36,30 @@ import '../util/progress_dialog.dart';
 import '../util/uiUtil.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+   HomePage({Key? key}) : super(key: key);
 
-  @override
+
+
+
+
+   void _getMyClasses() async {
+     ApiResponse response =  await fetchClass();
+     if(response.isSuccess){
+       myClassesIds.clear();
+       List<FetchClassModel> result = response.result;
+       result.forEach((element) {
+         myClassesIds.add(element.id);
+       });
+     }
+   }
+
+   @override
+   void initState() {
+    initState();
+     _getMyClasses();
+   }
+
+   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
       theme: ThemeData(
@@ -95,14 +119,13 @@ class _TrainerHome extends State<StatefulWidget> {
   final List<Color> _homeColor = [ColorConstants.kPrimaryColor, ColorConstants.kSecondaryColor,ColorConstants.kThirdSecondaryColor,ColorConstants.kFourSecondaryColor,
     ColorConstants.kFiveSecondaryColor, ColorConstants.kSixSecondaryColor,ColorConstants.kSevenSecondaryColor,ColorConstants.kEigthSecondaryColor];
 
-  Map<String, int> dataCount = HashMap();
-  ApiResponse? response = null;
+  DashboardClassModel? dashboardModel = null;
 
   _getDataCount() async {
-    response  = await dashboardClass();
+    ApiResponse response  = await dashboardClass();
     if(response!.isSuccess){
       setState(() {
-        dataCount = response!.result;
+        dashboardModel = response.result;
       });
     }else{
       showToast(response!.message);
@@ -115,6 +138,37 @@ class _TrainerHome extends State<StatefulWidget> {
     _getDataCount();
   }
 
+  String _getResult(int position) {
+    String value = "0";
+    if (dashboardModel != null)
+      switch (position) {
+        case 0:
+          value = "${dashboardModel?.totakClasses}";
+          break;
+        case 1:
+          value = "${dashboardModel?.totalSadhak}";
+          break;
+        case 2:
+          value = "${dashboardModel?.totalTrainers}";
+          break;
+        case 3:
+          value = "${dashboardModel?.attendance}";
+          break;
+        case 4:
+          value = "${dashboardModel?.yttpApplications}";
+          break;
+        case 5:
+          value = "${dashboardModel?.yttCondected}";
+          break;
+        case 6:
+          value = "${dashboardModel?.totalScore}";
+          break;
+        case 7:
+          value = "${dashboardModel?.totalDonation}";
+          break;
+      }
+    return value;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -268,29 +322,26 @@ class _TrainerHome extends State<StatefulWidget> {
                             Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) =>  const MyClassSadhak()));
                             break;
                           case 1:
-                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const RegisteredSadhak("Registered Sadhak")));
+                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => RegisteredSadhak("")));
                             break;
                           case 2:
-                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) =>  RegisteredSadhak("Trainers Under Them")));
+                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) =>  TrainerUnder()));
                             break;
                           case 3:
                             Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const PunchInDetails()));
                             break;
                           case 4:
-                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const YttpApplications()));
+                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) =>  YttpApplications()));
                             break;
                           case 5:
                             Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const TeacherTrainingConduct()));
                             break;
                           case 6:
-                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) =>  RegisteredSadhak("Total Score")));
+                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => RegisteredSadhak("")));
                             break;
                           case 7:
                             Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const DonationHistory()));
                             break;
-
-
-
                         }
 
                     },
@@ -325,7 +376,7 @@ class _TrainerHome extends State<StatefulWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const SizedBox(height: 15),
-                                  Text(_homeList[index].count, style: GoogleFonts.poppins(color:Colors.black, fontSize: 20, fontWeight: FontWeight.w800),),
+                                  Text(_getResult(index), style: GoogleFonts.poppins(color:Colors.black, fontSize: 20, fontWeight: FontWeight.w800),),
                                   const SizedBox(height: 5),
                                   Text(_homeList[index].name, style: GoogleFonts.poppins(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w500),),
                                 ],

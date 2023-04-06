@@ -1,15 +1,31 @@
 
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
+
+
 import 'package:google_fonts/google_fonts.dart';
 
 import '../util/myColour.dart';
 
-class YttpApplications extends StatelessWidget {
-  const YttpApplications({Key? key}) : super(key: key);
+
+
+
+
+class YttpApplications extends StatefulWidget {
+   YttpApplications({Key? key}) : super(key: key);
+
+
+
+   @override
+   State<YttpApplications> createState() => _YttpApplicationsState ();
+}
+
+class _YttpApplicationsState extends  State<YttpApplications>{
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +43,8 @@ class YttpApplications extends StatelessWidget {
         // ),
       ),
 
-      body: Column(
+      body:
+      Column(
         children: [
        //   const SizedBox(height: 25,),
           const Padding(
@@ -50,8 +67,8 @@ class YttpApplications extends StatelessWidget {
           Expanded(
 
               child: ListView.builder(
-                  itemCount: 4,
-                  itemBuilder: (context, index) =>
+                  itemCount: 20,
+                  itemBuilder: ( BuildContext context,  int index) =>
                       Card(
                         shape: RoundedRectangleBorder(
                           side: const BorderSide(color: Colors.white, width: 1),
@@ -73,9 +90,9 @@ class YttpApplications extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Yoga Training", style: GoogleFonts.poppins(color:Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                                  Text("Yoga Training Program", style: GoogleFonts.poppins(color:Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
                                   overflow: TextOverflow.ellipsis,),
-                                  Text("Patanjali Yog Samiti, Nepal", style: GoogleFonts.poppins(color:ColorConstants.textColor, fontSize: 12, fontWeight: FontWeight.w400),),
+                                  Text("Patanajli Yog Samiti, Nepal", style: GoogleFonts.poppins(color:ColorConstants.textColor, fontSize: 12, fontWeight: FontWeight.w400),),
                                  const SizedBox(height: 2,),
                                   Row(
                                     children: [
@@ -83,49 +100,47 @@ class YttpApplications extends StatelessWidget {
                                       SvgPicture.asset("assets/images/ic_mobile.svg",width:12,height: 12,
                                         color: Colors.orange,),
                                       const SizedBox(width: 8,),
-                                      Text("+91-8295160904", style: GoogleFonts.poppins(color:ColorConstants.textColor, fontSize: 14, fontWeight: FontWeight.w600),),
-
+                                      Text("+91-9876567676", style: GoogleFonts.poppins(color:ColorConstants.textColor, fontSize: 14, fontWeight: FontWeight.w600),),
                                     ],
                                   )
                                 ],
                               ),
                             ),
 
-
                             const Spacer(),
-
                             ElevatedButton(
 
                               style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0),
-                                primary: Colors.red,
-                                shape: const StadiumBorder(),
-                              ),
-                              onPressed: () {  },
-                              child: Text(
-                                "REJECTED",
-                                style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 8, fontWeight: FontWeight.w700),
-                              ),
-                            ),
-                            const SizedBox(width: 10,),
-                            ElevatedButton(
-
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0),
+                                padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 0),
                                 primary: Colors.green,
                                 shape: const StadiumBorder(),
                               ),
-                              onPressed: () {  },
+                              onPressed: () {},
+
                               child: Text(
-                                "APPROVED",
-                                style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 8, fontWeight: FontWeight.w700),
+                                "ACCEPT",
+                                style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 9, fontWeight: FontWeight.w700),
+                              ),
+                            ),
+                            const SizedBox(width: 10,),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 0),
+                                primary: Colors.red,
+                                shape: const StadiumBorder(),
+                              ),
+                              onPressed: () {},
+                              child: Text(
+                                "REJECT",
+                                style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 9, fontWeight: FontWeight.w700),
                               ),
                             ),
 
 
-                            const SizedBox(width: 10,),
                           ],
+
                         ),
+
                       )
 
               )
@@ -135,4 +150,6 @@ class YttpApplications extends StatelessWidget {
       ),
     );
   }
+
+
 }

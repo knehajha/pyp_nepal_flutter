@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "740089887207",
+    "project_id": "pyp-nepal-b6aa2",
+    "storage_bucket": "pyp-nepal-b6aa2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:740089887207:android:a75e6b3b942cd7af22e542",
+        "android_client_info": {
+          "package_name": "com.bharuwa.pyp_nepal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "740089887207-dnubj2q7rjk6utiq7927c2emcp2bs30m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bharuwa.pyp_nepal",
+            "certificate_hash": "acb5b4a0b7b0db9954d5ef812ae02be07eeff916"
+          }
+        },
+        {
+          "client_id": "740089887207-dugs8lh38pf0mlfmhj8p29b4ttg50v6q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCin1MsuR-2Y0xcucVAWXvuA_YdptukHr8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "740089887207-dugs8lh38pf0mlfmhj8p29b4ttg50v6q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

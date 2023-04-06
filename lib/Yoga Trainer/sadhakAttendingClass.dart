@@ -2,14 +2,19 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../util/myColour.dart';
 
-class SadhakAttendingList extends StatelessWidget {
-  const SadhakAttendingList({Key? key}) : super(key: key);
+class SadhakAttendance extends StatefulWidget {
+  const SadhakAttendance({Key? key}) : super(key: key);
 
+  @override
+  State<SadhakAttendance> createState() => _SadhakAttendanceState();
+}
+
+class _SadhakAttendanceState extends State<SadhakAttendance> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -36,8 +41,6 @@ class SadhakAttendingList extends StatelessWidget {
       ),
       body: Column(
         children: [
-
-
 
           Expanded(
             child: ListView.builder(
@@ -81,7 +84,7 @@ class SadhakAttendingList extends StatelessWidget {
                                   const SizedBox(width: 8,),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text("Attendance",style: GoogleFonts.publicSans(color:ColorConstants.textColor, fontSize: 11, fontWeight: FontWeight.w300),),
                                       Text("25%",style: GoogleFonts.publicSans(color:Colors.black, fontSize: 15, fontWeight: FontWeight.w800),),
@@ -105,3 +108,5 @@ class SadhakAttendingList extends StatelessWidget {
     );
   }
 }
+
+

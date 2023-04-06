@@ -211,7 +211,6 @@ class _NewClassState extends State<NewClass>{
 
                         icon: SvgPicture.asset("assets/images/clock-2.svg",height: 20,width: 20,),
                         onPressed: (){
-                          displayTimeDialog(0);
                         }
                     ),
                     border: OutlineInputBorder(
@@ -342,7 +341,7 @@ class _NewClassState extends State<NewClass>{
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             showProgressDialog(context);
-                            _reqBody["trainerId"] = "1234";
+                            _reqBody["trainerId"] = "23456";
                             var response = await createClass(_reqBody);
                             Navigator.of(context).pop();
                             if (response.isSuccess) {
@@ -350,7 +349,7 @@ class _NewClassState extends State<NewClass>{
                               showToast(message);
                               Get.to(const TrainerHome());
                             } else {
-                              Get.snackbar("Error", response.message,
+                              Get.snackbar("Success", response.message,
                                   colorText: Colors.white,
                                   backgroundColor: Colors.black,
                                   icon: const Icon(

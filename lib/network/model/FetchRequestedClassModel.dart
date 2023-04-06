@@ -1,16 +1,15 @@
-
 // To parse this JSON data, do
 //
-//     final pendingClassModel = pendingClassModelFromJson(jsonString);
+//     final fetchRequestedClassModel = fetchRequestedClassModelFromJson(jsonString);
 
 import 'dart:convert';
 
-List<PendingClassModel> pendingClassModelFromJson(String str) => List<PendingClassModel>.from(json.decode(str).map((x) => PendingClassModel.fromJson(x)));
+List<FetchRequestedClassModel> fetchRequestedClassModelFromJson(String str) => List<FetchRequestedClassModel>.from(json.decode(str).map((x) => FetchRequestedClassModel.fromJson(x)));
 
-String pendingClassModelToJson(List<PendingClassModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String fetchRequestedClassModelToJson(List<FetchRequestedClassModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class PendingClassModel {
-  PendingClassModel({
+class FetchRequestedClassModel {
+  FetchRequestedClassModel({
     required this.user,
     required this.reqId,
     required this.req,
@@ -20,7 +19,7 @@ class PendingClassModel {
   String reqId;
   Req req;
 
-  factory PendingClassModel.fromJson(Map<String, dynamic> json) => PendingClassModel(
+  factory FetchRequestedClassModel.fromJson(Map<String, dynamic> json) => FetchRequestedClassModel(
     user: User.fromJson(json["user"]),
     reqId: json["reqId"],
     req: Req.fromJson(json["req"]),
@@ -66,9 +65,9 @@ class Req {
   String startTime;
   List<double> location;
   String endTime;
-  double rating;
+  int rating;
   String createdAt;
-  double distance;
+  int distance;
 
   factory Req.fromJson(Map<String, dynamic> json) => Req(
     id: json["_id"],
@@ -212,6 +211,3 @@ class User {
     "lastModifiedDate": lastModifiedDate,
   };
 }
-
-
-

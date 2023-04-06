@@ -45,7 +45,7 @@ class ApiMethods {
         // pref.setString("token", jsonObj.authToken ?? "");
 
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const Dashboard()));
+            MaterialPageRoute(builder: (context) =>  Dashboard()));
       } else {
         showDialogSingleButton(context, "Message", data["message"], "ok");
       }

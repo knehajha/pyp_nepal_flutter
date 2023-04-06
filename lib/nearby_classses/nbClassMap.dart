@@ -25,8 +25,8 @@ class _NBClassMapState extends State<NBClassMap> {
         markerId: MarkerId(nM.id),
         position: LatLng(nM.location[0], nM.location[1]), //position of marker
         infoWindow: InfoWindow( //popup info
-          title: '${nM.address}',
-          snippet: '${nM.name}',
+          title: '${nM.name}',
+          snippet: '${nM.address}',
         ),
         icon: BitmapDescriptor.defaultMarker, //Icon for Marker
       ));

@@ -21,6 +21,7 @@ import '../Yoga Trainer/trainerHome.dart';
 import '../Yoga Trainer/yttpApplications.dart';
 import '../auth/login.dart';
 import '../myclasses/myClassesPunchIn.dart';
+import '../network/model/login_model.dart';
 
 class Splash extends StatelessWidget {
   const Splash ({Key? key}) : super(key: key);
@@ -28,6 +29,8 @@ class Splash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      defaultTransition: Transition.circularReveal,
+      transitionDuration: const Duration(milliseconds: 500),
       theme: ThemeData(
           primarySwatch: Colors.orange,
           appBarTheme: AppBarTheme(titleTextStyle: GoogleFonts.montserrat(color: Colors.white, fontSize: 16, ), iconTheme: const IconThemeData(color: Colors.white,))),
@@ -59,14 +62,32 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  _gotToScreen(){
+    User? profile = getProfile();
+    if(profile == null){
+      Get.off(const Login());
+    }else if(profile.userType == "1"){
+      Get.off(const Dashboard());
+    }else if(profile.userType == "2"){
+      Get.off(const TrainerHome());
+    }else{
+      Get.off(const Login());
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Timer( const Duration(seconds: 2), () =>
+        _gotToScreen()
+    );
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
-    Timer( const Duration(seconds: 3), () =>
-      //  Get.off(const HomePage())
-      //  Get.off(const MyClassesPunchIn())
-      //  Get.off(const YttpApplications())
-       Get.off(isLogin() ? const Dashboard() : const Login())
-    );
 
     return Scaffold(
         body: Container(

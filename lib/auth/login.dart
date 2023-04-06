@@ -1,12 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pyp_nepal/auth/address.dart';
 import 'package:pyp_nepal/auth/signIn.dart';
 import 'package:pyp_nepal/dashboard/dashboard.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
-import '../Yoga Trainer/trainerHome.dart';
+
 import 'signup.dart';
 
 class Login extends StatefulWidget {
@@ -17,6 +15,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,8 +54,7 @@ class _LoginState extends State<Login> {
                    "Login",
                    style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 16, fontWeight: FontWeight.w500),
                  ),
-                onPressed: () => Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => const SignIn())),
+                onPressed: () =>  Get.to(const SignIn()),
                ),
 
           ),
@@ -71,8 +70,7 @@ class _LoginState extends State<Login> {
 
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30)))),
-              onPressed: () => Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => const Signup())),
+              onPressed: () =>  Get.to(const Signup()),
               child: Text('Sign Up',style:  GoogleFonts.montserrat(color:Colors.black,  fontSize: 16, fontWeight: FontWeight.w500),),
             ),
           ),
@@ -83,12 +81,13 @@ class _LoginState extends State<Login> {
                 children: [
                   Text('Login as a', style: GoogleFonts.montserrat(fontWeight: FontWeight.w500),),
                   const Icon(Icons.arrow_forward_ios, size: 13,),
+                  SizedBox(width: 5,),
                   InkWell(
                     onTap: (){
+                      Get.to(const Dashboard());
 
                     },
-                      child: const Text("Guest",style: TextStyle(color: Colors.deepOrange),
-                      )),
+                      child: const Text("Guest",style: TextStyle(color: Colors.deepOrange),  )),
 
                 ],
               )

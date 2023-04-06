@@ -1,13 +1,19 @@
 
 
 
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pyp_nepal/network/model/punchInModel.dart';
 
+import '../network/Api_client.dart';
+import '../network/model/classDetailModel.dart';
 import '../util/myColour.dart';
+import '../util/uiUtil.dart';
 
 class PunchInDetails extends StatefulWidget {
   const PunchInDetails({Key? key}) : super(key: key);
@@ -16,6 +22,7 @@ class PunchInDetails extends StatefulWidget {
   State<StatefulWidget> createState() => _PunchInDtails();
 
 }
+
 
 class _PunchInDtails extends  State<StatefulWidget>{
   String punchType = "IN";
@@ -190,21 +197,15 @@ class _PunchInDtails extends  State<StatefulWidget>{
                                       shape: const StadiumBorder(
                                       ),
                                     ),
-                                    onPressed: () {
-                                      setState(() {
-                                        punchType = punchType == "IN" ? "OUT" : "IN";
-                                      });
-                                    },
+                                    onPressed: ()  {},
                                     child: punchType == "IN" ?  Text("PUNCH IN",
-                                      style: GoogleFonts.publicSans(color: Colors.black, fontWeight: FontWeight.w800),) :  Text("PUNCH OUT",style: GoogleFonts.publicSans(color: Colors.black, fontWeight: FontWeight.w800),),
-
-
-                                  ),
+                                          style: GoogleFonts.publicSans(color: Colors.black, fontWeight: FontWeight.w800),) :  Text("PUNCH OUT",style: GoogleFonts.publicSans(color: Colors.black, fontWeight: FontWeight.w800
+                                  )),
                                 ),
-                              ),
+                                  ),
                               // const SizedBox(height: 15,)
 
-                            ],
+  )],
                           ),
                         ),
                       ),

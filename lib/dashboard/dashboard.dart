@@ -1,23 +1,26 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/attendance/attendance.dart';
 import 'package:pyp_nepal/auth/login.dart';
 import 'package:pyp_nepal/donation/donation.dart';
 import 'package:pyp_nepal/myclasses/myClasses.dart';
+import 'package:pyp_nepal/network/Api_client.dart';
 import 'package:pyp_nepal/util/app_preference.dart';
 import 'package:pyp_nepal/util/progress_dialog.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
 
 import '../nearby_classses/nbClasses.dart';
+import '../network/Api_response.dart';
+import '../network/model/fetchClass.dart';
 import '../network/model/login_model.dart';
+import '../util/uiUtil.dart';
 import 'menuItem.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
+
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -25,23 +28,24 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   User? user;
+
   final List<GridItem> _menuList = [
    GridItem("Notification", "assets/images/notification.png"),
     GridItem("Attendance", "assets/images/attendance.png"),
     GridItem("My Classes", "assets/images/my_classes.png"),
     GridItem("Donation", "assets/images/donation.png"),
     GridItem("Activities ", "assets/images/activities.png"),
-    GridItem("Setting", "assets/images/setting.png"),
+    GridItem("Settings", "assets/images/setting.png"),
     GridItem("Addresses", "assets/images/address.png"),
   ];
 
   final List<GridItem> _gridviewList = [
-    GridItem("All classes", "assets/images/all_classes.png"),
-    GridItem("My Class", "assets/images/activities.png"),
+    GridItem("Nearby Classes", "assets/images/all_classes.png"),
+    GridItem("My Classes", "assets/images/my_classes.png"),
     GridItem("Attendance", "assets/images/attendance.png"),
     GridItem("Donation", "assets/images/donation.png"),
-    GridItem("Activities ", "assets/images/all_classes.png"),
-    GridItem("Setting", "assets/images/all_classes.png"),
+    GridItem("Activities ", "assets/images/activities.png"),
+    GridItem("Settings", "assets/images/setting.png"),
   ];
 
   List<Widget> getBannerBody() {
@@ -63,11 +67,66 @@ class _DashboardState extends State<Dashboard> {
     return wlist;
   }
 
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     user = getProfile();
+    _getMyClasses();
+  }
+
+  FetchClassModel? activeClass = null;
+  List<FetchClassModel> myClasses = [];
+  void _getMyClasses() async {
+    String? classId = getActivePunchClass();
+    ApiResponse response =  await fetchClass();
+    if(response.isSuccess){
+      myClassesIds.clear();
+      List<FetchClassModel> result = response.result;
+      myClasses = result;
+      result.forEach((element) {
+        myClassesIds.add(element.id);
+        if(classId == element.id){
+          activeClass = element;
+        }
+      });
+
+      setState(() {
+
+      });
+    }
+  }
+
+  _refreshPage(){
+    if(myClasses.isNotEmpty){
+      String? classId = getActivePunchClass();
+      myClasses.forEach((element) {
+        myClassesIds.add(element.id);
+        if(classId == element.id){
+          activeClass = element;
+        }
+      });
+
+      setState(() {
+
+      });
+    }
+  }
+
+  void _punchOut() async {
+    showProgressDialog(context);
+    var response = await punchOut(activeClass!.id);
+    Navigator.of(context).pop();
+    if(response.isSuccess){
+      showToast("Punched out successfully");
+      updatePunch("");
+      setState(() {
+        activeClass = null;
+      });
+    }else{
+      showToast(response.message);
+    }
   }
 
   @override
@@ -97,7 +156,7 @@ class _DashboardState extends State<Dashboard> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Image(image: AssetImage("assets/images/ramdev.png"),height: 100,width: 100,),
+                      ClipOval(child: getProfilePictureView(user == null ? "" : user!.image)),
                       const SizedBox(width: 16,),
                       Flexible(
                         child: Column(
@@ -275,9 +334,7 @@ class _DashboardState extends State<Dashboard> {
               ],
             ),
           ),
-
           Container(height: 1,color: Color(0xffccbfbfbf),),
-
           const SizedBox(height: 20,),
           Expanded(
 
@@ -286,33 +343,42 @@ class _DashboardState extends State<Dashboard> {
 
               itemBuilder: (context, index) =>
                   InkWell(
-                    onTap: (){
+                    onTap: () async {
                       switch(index){
                         case 0:// All classes
-
-                            Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const NBClasses()));
-
+                          Get.to(const NBClasses());
                           break;
                         case 1:
-                          Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const MyClasses()));
-
+                          User? profile = getProfile();
+                          if(profile == null){
+                            Get.offAll(const Login());
+                          }else{
+                            await Get.to(const MyClasses());
+                            _refreshPage();
+                            print("back from my classes");
+                          }
                           break;
                         case 2:
-
-                          Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const Attendance()));
+                          User? profile = getProfile();
+                          if(profile == null){
+                            Get.offAll(const Login());
+                          }else{
+                            Get.to(Attendance(myClasses: myClasses,));
+                          }
                           break;
                         case 3:
-
-                          Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const Donation()));
+                          User? profile = getProfile();
+                          if(profile == null){
+                            Get.offAll(const Login());
+                          }else{
+                            Get.to(const Donation());
+                          }
                           break;
-
-
-
                       }
                     },
                     child: Card(
-                color: Colors.white,
-                elevation: 10,
+                      color: Colors.white,
+                      elevation: 10,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                 ),
@@ -332,17 +398,184 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
                   ),
+
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
-
 
               ),
             ),
           ),
+          Visibility(
+            visible: activeClass != null,
+              child: activeClass == null ? Container() : Card(
+                color: Colors.white,
+                elevation: 10,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            const Image(
+                              image: AssetImage("assets/images/ramdev.png"),
+                              height: 90,
+                              width: 90,
+                            ),
+                            Text(
+                              "${activeClass!.trainerName}",
+                              style: GoogleFonts.montserrat(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                "${activeClass!.name}",
+                                style: GoogleFonts.montserrat(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                activeClass!.address,
+                                style: GoogleFonts.montserrat(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/clock.png',
+                                    width: 13,
+                                    height: 13,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "${activeClass!.startTime}",
+                                    style: GoogleFonts.montserrat(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                  Text(
+                                    "-",
+                                    style: GoogleFonts.montserrat(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                  Text(
+                                    "${activeClass!.endTime}",
+                                    style: GoogleFonts.montserrat(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ],
+                              ),
 
-    ]
+
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              const Divider(
+                                thickness: 2,
+                                color: Color(0xfff4eada),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 20),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 130,
+                                      child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            splashFactory: NoSplash.splashFactory,
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20.0, vertical: 15.0),
+                                            primary: const Color(0xffF2623D),
+                                            shape: const StadiumBorder(),
+                                          ),
+                                          onPressed: () async{
+                                            _punchOut();
+                                          },
+
+                                          child: Text("PUNCH OUT", style: TextStyle(color: Colors.white),)
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 50,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Image.asset(
+                                          "assets/images/telephone-2.png",
+                                          width: 24,
+                                          height: 24,
+                                        ),
+                                        const SizedBox(
+                                          width: 18,
+                                        ),
+                                        Image.asset(
+                                          "assets/images/Icon simple-whatsapp.png",
+                                          width: 24,
+                                          height: 24,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+
+                  ],
+                ),
+              ),
+          ),
+      ]
+
       ),
-
     )
     );
   }

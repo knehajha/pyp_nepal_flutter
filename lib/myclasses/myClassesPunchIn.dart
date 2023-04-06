@@ -1,17 +1,168 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pyp_nepal/network/model/CurrentAtdModel.dart';
+import 'package:pyp_nepal/network/model/classDetailModel.dart';
+import 'package:pyp_nepal/network/model/fetchClass.dart';
+import 'package:pyp_nepal/util/app_preference.dart';
+
+import '../network/Api_client.dart';
+import '../network/Api_response.dart';
+import '../network/model/createClassModel.dart';
+import '../network/model/punchOutModel.dart';
+import '../util/date_util.dart';
+import '../util/map_util.dart';
+import '../util/progress_dialog.dart';
+import '../util/uiUtil.dart';
 
 class MyClassesPunchIn extends StatefulWidget {
-  const MyClassesPunchIn({Key? key}) : super(key: key);
+  const MyClassesPunchIn({Key? key, required this.classDetails,}) : super(key: key);
+
+  final FetchClassModel classDetails;
 
   @override
   State<MyClassesPunchIn> createState() => _MyClassesPunchInState();
 }
 
 class _MyClassesPunchInState extends State<MyClassesPunchIn> {
+  List<AttendanceModel> atds = [];
+
+  _getMyAtd() async {
+    ApiResponse response  = await currentAttendance(this.widget.classDetails.id);
+    if(response.isSuccess){
+      setState(() {
+        atds = response.result;
+      });
+    } else{
+      showToast(response.message);
+    }
+  }
+
+  // call that method in initState[auto run it when page first come in front]
+  @override
+  initState()   {
+    super.initState();
+    verifyPunchDetails();
+    //load and keep current location for punch in
+    _getCurrentPosition(false);
+    _getMyAtd();
+  }
+  Widget _getEmptyView(){
+    return Center(
+      child: atds.isEmpty ? CircularProgressIndicator() : Text("No result found!"),
+    );
+  }
+
+
   String punchType = "IN";
+  void verifyPunchDetails(){
+    String? classId = getActivePunchClass();
+    punchType = classId == this.widget.classDetails.id ? "OUT" : "IN";
+  }
+
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location services are disabled. Please enable the services')));
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permissions are denied')));
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+    return true;
+  }
+
+
+  double _lat = 0;
+  double _lng = 0;
+  // method will call when the class load with fetching current location and second when user will tap to punch button with true parameter
+  Future<void> _getCurrentPosition(bool isPunched) async {
+    final hasPermission = await _handleLocationPermission();
+    if (!hasPermission) return;
+    showProgressDialog(context);
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() {
+        _lat = position.latitude;
+        _lng = position.longitude;
+        print("my location>>${position.latitude},${position.longitude}");
+
+        //if isPunch true ie: fetch the location and update to server
+        if(isPunched){
+          _punchIn();
+        }
+      });
+
+
+      Navigator.of(context).pop();
+
+    }).catchError((e) {
+      debugPrint(e);
+      showToast(e.toString());
+    });
+  }
+
+
+  void _punchIn() async{
+    showProgressDialog(context);
+    Map<String, dynamic> body = HashMap();
+    body["classId"] = "${this.widget.classDetails.id}";
+    body["lat"] = _lat;
+    body["lng"] = _lng;
+    var response = await punchIn(body);
+    Navigator.of(context).pop();
+    if(response.isSuccess){
+      showToast("Punched in successfully");
+      updatePunch(this.widget.classDetails.id);
+      setState(() {
+        verifyPunchDetails();
+        _getMyAtd();
+      });
+    }else{
+      showToast(response.message);
+    }
+  }
+
+  void _punchOut() async {
+    showProgressDialog(context);
+    var response = await punchOut(this.widget.classDetails.id);
+    Navigator.of(context).pop();
+    if(response.isSuccess){
+      showToast("Punched out successfully");
+      updatePunch("");
+      setState(() {
+        verifyPunchDetails();
+        _getMyAtd();
+      });
+    }else{
+      showToast(response.message);
+    }
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +200,7 @@ class _MyClassesPunchInState extends State<MyClassesPunchIn> {
                             width: 90,
                           ),
                           Text(
-                            "Neha Jha",
+                            "${this.widget.classDetails.trainerName}",
                             style: GoogleFonts.montserrat(
                                 color: Colors.black,
                                 fontSize: 16,
@@ -69,17 +220,17 @@ class _MyClassesPunchInState extends State<MyClassesPunchIn> {
                               height: 20,
                             ),
                             Text(
-                              "Yoga Class",
+                                "${this.widget.classDetails.name}",
                               style: GoogleFonts.montserrat(
                                   color: Colors.black,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w500),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600),
                             ),
                             const SizedBox(
                               height: 10,
                             ),
                             Text(
-                              "Patanjali Yog Samiti, Nepal",
+                              this.widget.classDetails.address,
                               style: GoogleFonts.montserrat(
                                   color: Colors.black,
                                   fontSize: 15,
@@ -99,7 +250,21 @@ class _MyClassesPunchInState extends State<MyClassesPunchIn> {
                                   width: 10,
                                 ),
                                 Text(
-                                  "10AM -11AM",
+                                 "${this.widget.classDetails.startTime}",
+                                  style: GoogleFonts.montserrat(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                Text(
+                                  "-",
+                                  style: GoogleFonts.montserrat(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                Text(
+                                  "${this.widget.classDetails.endTime}",
                                   style: GoogleFonts.montserrat(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -113,7 +278,7 @@ class _MyClassesPunchInState extends State<MyClassesPunchIn> {
                             Row(
                               children: [
                                 Text(
-                                  "Client Rating",
+                                  "Rating",
                                   style: GoogleFonts.montserrat(
                                       color: Colors.black,
                                       fontSize: 12,
@@ -154,12 +319,17 @@ class _MyClassesPunchInState extends State<MyClassesPunchIn> {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                Text(
-                                  "Nepal",
-                                  style: GoogleFonts.montserrat(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500),
+                                Expanded(
+                                  child: Text(
+                                    softWrap: true,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.fade,
+                                    "${this.widget.classDetails.address}",
+                                    style: GoogleFonts.montserrat(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                                  ),
                                 ),
                               ],
                             ),
@@ -179,7 +349,7 @@ class _MyClassesPunchInState extends State<MyClassesPunchIn> {
                                   width: 2,
                                 ),
                                 Text(
-                                  "2km",
+                                  "${calculateDistance(_lat, _lng, this.widget.classDetails.lat, this.widget.classDetails.lng)} KM",
                                   style: GoogleFonts.montserrat(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -199,7 +369,7 @@ class _MyClassesPunchInState extends State<MyClassesPunchIn> {
                                 const SizedBox(
                                   width: 2,
                                 ),
-                                Text("24/01/2023",
+                                Text("${this.widget.classDetails.establishDate}",
                                     style: GoogleFonts.montserrat(
                                       color: Colors.black,
                                       fontSize: 14,
@@ -298,19 +468,25 @@ class _MyClassesPunchInState extends State<MyClassesPunchIn> {
                             splashFactory: NoSplash.splashFactory,
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 35.0, vertical: 15.0),
-                            primary: punchType == "IN"
-                                ? const Color(0xff6EB52B)
-                                : const Color(0xffF2623D),
+                            primary: punchType == "IN" ? const Color(0xff6EB52B) : const Color(0xffF2623D),
                             shape: const StadiumBorder(),
                           ),
-                          onPressed: () {
-                            setState(() {
-                              punchType = punchType == "IN" ? "OUT" : "IN";
-                            });
+                          onPressed: () async{
+                            String classId = getActivePunchClass() ?? "";
+                            if(classId.isNotEmpty && punchType == "IN"){
+                              showToast("Your are already punched in another class");//
+                            }else if(punchType == "IN" && _lat == 0 || _lng == 0){
+                              showToast("Fetching the location.....");
+                              //load current location and update punch to server
+                              _getCurrentPosition(true);
+                            }else if(punchType == "IN"){
+                              _punchIn();
+                            }else{
+                              _punchOut();
+                            }
                           },
-                          child: punchType == "IN"
-                              ? const Text("PUNCH IN")
-                              : const Text("PUNCH OUT"),
+
+                          child: Text(punchType == "IN" ? "PUNCH IN" : "PUNCH OUT")
                         ),
                       ),
                     ),
@@ -386,6 +562,7 @@ class _MyClassesPunchInState extends State<MyClassesPunchIn> {
           ),
           Flexible(
             child: ListView.builder(
+              itemCount: atds.length,
               itemBuilder: (
                 BuildContext context,
                 int index,
@@ -401,8 +578,7 @@ class _MyClassesPunchInState extends State<MyClassesPunchIn> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                              child: Text(
-                            "12/01/2023",
+                              child: Text(atds[index].punchDate,
                             style: GoogleFonts.montserrat(
                                 color: const Color(0xff464646),
                                 fontSize: 14,
@@ -410,8 +586,7 @@ class _MyClassesPunchInState extends State<MyClassesPunchIn> {
                             textAlign: TextAlign.center,
                           )),
                           Expanded(
-                              child: Text(
-                            "08:30 A.M.",
+                              child: Text(parseDate(atds[index].punchIn),
                             style: GoogleFonts.montserrat(
                                 color: const Color(0xff464646),
                                 fontSize: 14,
@@ -419,8 +594,7 @@ class _MyClassesPunchInState extends State<MyClassesPunchIn> {
                             textAlign: TextAlign.center,
                           )),
                           Expanded(
-                              child: Text(
-                            "6.06 P.M.",
+                              child: Text(parseDate(atds[index].punchOut),
                             style: GoogleFonts.montserrat(
                                 color: const Color(0xff464646),
                                 fontSize: 14,

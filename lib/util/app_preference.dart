@@ -9,28 +9,38 @@ import 'package:pyp_nepal/network/model/login_model.dart';
 const String keyStorage = "pyp_nepal_session";
 final session = GetStorage(keyStorage);
 
-void saveUser(LoginModel data){
+List<String> myClassesIds = [];
+
+ void saveUser(LoginModel data){
   // store user profile and their auth token
   String stringData = loginModelToJson(data);
   session.write("_user", stringData);
   session.write("_token", data.token);
 }
 
-User? getProfile(){
+ User? getProfile(){
   //Get user profile
-  String stringData = session.read("_user");
-  LoginModel loginModel = loginModelFromJson(stringData);
-  return loginModel?.user;
-}
+  String? stringData = session.read("_user");
+  LoginModel? loginModel = stringData != null ? loginModelFromJson(stringData) : null;
+  return loginModel == null  ? null : loginModel.user;
+ }
 
-String getAccessToken(){
+ String getAccessToken(){
   return session.read("_token");
-}
+ }
 
-bool isLogin(){
+ void updatePunch(String classId){
+  session.write("_punchClassId", classId);
+ }
+
+ String? getActivePunchClass(){
+  return session.read("_punchClassId");
+ }
+
+ bool isLogin(){
   return getAccessToken()?.isNotEmpty ?? false;
-}
+ }
 
-void logout(){
+ void logout(){
   session.erase(); // Delete all stored keys and data
 }

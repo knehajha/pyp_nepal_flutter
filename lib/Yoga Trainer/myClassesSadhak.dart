@@ -88,15 +88,13 @@ class _MyClassSadhakState extends State<MyClassSadhak> {
                                   children: [
                                     const SizedBox(width: 20,),
                                     Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        const SizedBox(height: 20,),
-                                        const Image(image: AssetImage("assets/images/ramdev.png"),height: 90,width: 90,),
-                                        Text(myClasses[index].trainerName, style: GoogleFonts.poppins(color:Colors.black, fontSize: 16, fontWeight: FontWeight.w500),)
+                                        const Image(image: AssetImage("assets/images/ramdev.png"),height: 100,width: 100,),
+                                        SizedBox(width: 100, child: Center(child: Text("${myClasses[index].trainerName}", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 16, fontWeight: FontWeight.w500),overflow: TextOverflow.visible,)))
                                       ],
                                     ),
-                                    const SizedBox(width: 20,),
+
+                                    const SizedBox(width: 24,),
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,7 +128,7 @@ class _MyClassSadhakState extends State<MyClassSadhak> {
                                           const SizedBox(height: 5,),
                                           Row(
                                             children: [
-                                              Text("Client Rating", style: GoogleFonts.poppins(color:const Color(0xff464646), fontSize: 12, fontWeight: FontWeight.w500),),
+                                              Text("Rating", style: GoogleFonts.poppins(color:const Color(0xff464646), fontSize: 12, fontWeight: FontWeight.w500),),
                                               const SizedBox(width: 4,),
                                               RatingBar.builder(
                                                 initialRating: 3,

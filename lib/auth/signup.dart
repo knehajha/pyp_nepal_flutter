@@ -1,23 +1,25 @@
 import 'dart:collection';
 import 'dart:core';
-
-import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:flutter/material.dart'; //same yhi tha morning me b
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:pyp_nepal/Yoga%20Trainer/trainerHome.dart';
 import 'package:pyp_nepal/auth/signIn.dart';
-import 'package:pyp_nepal/dashboard/dashboard.dart';
 import 'package:pyp_nepal/network/Api_client.dart';
+import 'package:pyp_nepal/network/Api_response.dart';
 import 'package:pyp_nepal/network/model/registration_model.dart';
+import 'package:pyp_nepal/network/model/uploadImageModel.dart';
 import 'package:pyp_nepal/util/progress_dialog.dart';
 import 'package:pyp_nepal/util/uiUtil.dart';
-import 'package:toggle_switch/toggle_switch.dart';
-
+import '../network/model/samitiTypeModel.dart';
+import '../network/model/samitiTypeModel.dart';
+import '../network/model/samitiTypeModel.dart';
 import '../util/widgetUtil.dart';
 import 'AddressModel.dart';
 import 'address.dart';
@@ -25,11 +27,15 @@ import 'address.dart';
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
 
+
+
+
   @override
   State<Signup> createState() => _SignupState();
 }
 
 class _SignupState extends State<Signup> {
+
   final _formKey = GlobalKey<FormState>();
 
   final nameController = TextEditingController();
@@ -43,8 +49,6 @@ class _SignupState extends State<Signup> {
   final confirmPassController = TextEditingController();
   final orgDropDownController = TextEditingController();
   final addressController = TextEditingController();
-
-
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -61,33 +65,131 @@ class _SignupState extends State<Signup> {
     }
   }
 
-
-
+  Future<void> _cropImage() async {
+    if (_imageFile != null) {
+      final croppedFile = await ImageCropper().cropImage(
+        sourcePath: _imageFile!.path,
+        compressFormat: ImageCompressFormat.jpg,
+        compressQuality: 60,
+        uiSettings: [
+          AndroidUiSettings(
+              toolbarTitle: 'PYP Crop Profile Pic',
+              toolbarColor: Colors.deepOrange,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          IOSUiSettings(
+            title: 'PYP Crop Profile Pic',
+          ),
+          WebUiSettings(
+            context: context,
+            presentStyle: CropperPresentStyle.dialog,
+            boundary: const CroppieBoundary(
+              width: 520,
+              height: 520,
+            ),
+            viewPort:
+                const CroppieViewPort(width: 480, height: 480, type: 'circle'),
+            enableExif: true,
+            enableZoom: true,
+            showZoomer: true,
+          ),
+        ],
+      );
+      if (croppedFile != null) {
+        setState(() {
+          _pickedFilePath = croppedFile.path;
+        });
+      }
+    }
+  }
 
   bool maleBtnClick = true;
   bool femaleBtnClick = true;
 
-  Color _maleBtnColor = Colors.amber;
+  Color _maleBtnColor = Colors.orange;
   Color _femaleBtnColor = Colors.transparent;
 
   bool marriedBtnClick = true;
   bool unmarriedBtnClick = true;
 
   Color _marriedBtnColor = Colors.transparent;
-  Color _unmarriedBtnColor = Colors.amber;
+  Color _unmarriedBtnColor = Colors.orange;
 
   String dropDownValue = "";
   Map<String, dynamic> _reqBody = HashMap();
 
-  final List<String> _orgList = [
-    "Organisation associated with",
-    'Patanjali Yog Committee, Nepal',
-    'Mahila Patanjali Yog Committee, Nepal',
-    "Yuva Nepal Samiti"
-        'None'
-  ];
 
   String? gender;
+
+  PickedFile? _imageFile;
+  String _pickedFilePath = "";
+  final ImagePicker picker = ImagePicker();
+
+  Future takePhoto(ImageSource source) async {
+    final pickedFile = await picker.getImage(source: source);
+    setState(() {
+      _imageFile = pickedFile!;
+      _pickedFilePath = pickedFile.path;
+      _cropImage();
+    });
+  }
+
+  Widget getProfilePicView() {
+    if (_imageFile == null) {
+      return CircleAvatar(
+        radius: 60,
+        backgroundImage: AssetImage("assets/images/proPic.png"),
+      );
+    } else {
+      return CircleAvatar(
+          radius: 60, backgroundImage: FileImage(File(_imageFile!.path)));
+    }
+  }
+
+  _submitForm() async {
+    _reqBody["userType"] = "1";
+    var response = await signup(_reqBody);
+    //loader finish
+    Navigator.of(context).pop();
+    if (response.isSuccess) {
+      String message = (response.result as RegisterModel).message ??
+          "Registration Successful!";
+      showToast(message);
+      Get.to(const SignIn());
+    } else {
+      Get.snackbar("Error", response.message,
+          colorText: Colors.white,
+          backgroundColor: Colors.black,
+          icon: const Icon(
+            Icons.error_outline,
+            color: Colors.white,
+          ));
+    }
+  }
+
+  List<SamtitTypeModel> samiti = [];
+  SamtitTypeModel? samitiModel = null;
+
+  _getAssociationTypes() async {
+    ApiResponse response  = await samitiType();
+    if(response.isSuccess){
+      setState(() {
+        samiti = response.result;
+        samitiModel = samiti.first;
+      });
+    } else{
+      showToast(response.message);
+    }
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getAssociationTypes();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,19 +217,101 @@ class _SignupState extends State<Signup> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Center(
-                child: Container(
-                  height: 100.0,
-                  width: 100.0,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff557c94b6),
-                    image: const DecorationImage(
-                      image: AssetImage("assets/images/photo_camera.png"),
-                      fit: BoxFit.none,
-                    ),
-                    border: Border.all(color: Colors.grey, width: 2.0),
-                    borderRadius: const BorderRadius.all(Radius.circular(80.0)),
-                  ),
-                ),
+                child: Stack(children: <Widget>[
+                  getProfilePicView(),
+                  Positioned(
+                      bottom: 0,
+                      right: 10,
+                      child: InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Container(
+                                    height: 100,
+                                    width: MediaQuery.of(context).size.width,
+                                    margin: const EdgeInsets.symmetric(
+                                      horizontal: 20,
+                                      vertical: 20,
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Text("Choose Profile Picture",
+                                            style: GoogleFonts.montserrat(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                            )),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              TextButton.icon(
+                                                icon: const Icon(
+                                                  Icons.camera,
+                                                  color: Colors.black,
+                                                ),
+                                                onPressed: () {
+                                                  takePhoto(ImageSource.camera);
+                                                },
+                                                label: Text("Camera",
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
+                                                    )),
+                                              ),
+                                              const SizedBox(
+                                                width: 30,
+                                              ),
+                                              TextButton.icon(
+                                                icon: const Icon(
+                                                  Icons.image,
+                                                  color: Colors.black,
+                                                ),
+                                                onPressed: () {
+                                                  takePhoto(
+                                                      ImageSource.gallery);
+                                                },
+                                                label: Text("Gallery",
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
+                                                    )),
+                                              ),
+                                              const SizedBox(
+                                                width: 30,
+                                              ),
+                                              TextButton.icon(
+                                                onPressed: () {
+                                                  Get.back();
+                                                },
+                                                icon: Icon(
+                                                  Icons.cancel,
+                                                  color: Colors.black,
+                                                ),
+                                                label: Text("Cancel",
+                                                    style:
+                                                        GoogleFonts.montserrat(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
+                                                    )),
+                                              ),
+                                            ]),
+                                      ],
+                                    ));
+                              });
+                        },
+                        child: const Image(
+                          image: AssetImage("assets/images/photo_camera.png"),
+                          height: 30,
+                          width: 30,
+                        ),
+                      ))
+                ]),
               ),
 
               const SizedBox(height: 20),
@@ -212,6 +396,11 @@ class _SignupState extends State<Signup> {
               const SizedBox(height: 14),
 
               TextFormField(
+                onTap: () {
+                  print("dob clicked");
+                  _selectDate(context);
+                },
+                readOnly: true,
                 controller: dobController,
                 onChanged: (value) {
                   _reqBody["dateOfBirth"] = value;
@@ -223,9 +412,12 @@ class _SignupState extends State<Signup> {
                   ),
                   hintText: 'Date of birth',
                   prefixIcon: IconButton(
-
-                  icon: SvgPicture.asset("assets/images/calendar-4.svg",height: 19,width: 19,),
-                  onPressed:() => _selectDate(context),
+                    icon: SvgPicture.asset(
+                      "assets/images/calendar-4.svg",
+                      height: 19,
+                      width: 19,
+                    ),
+                    onPressed: () {},
                   ),
                 ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -277,11 +469,11 @@ class _SignupState extends State<Signup> {
 
                           setState(() {
                             if (maleBtnClick = !maleBtnClick) {
-                              _maleBtnColor = Colors.amber;
+                              _maleBtnColor = Colors.orange;
                               _femaleBtnColor = Colors.transparent;
                             } else {
                               _maleBtnColor = Colors.transparent;
-                              _femaleBtnColor = Colors.amber;
+                              _femaleBtnColor = Colors.orange;
                             }
                           });
                         },
@@ -312,11 +504,11 @@ class _SignupState extends State<Signup> {
 
                           setState(() {
                             if (maleBtnClick = !maleBtnClick) {
-                              _maleBtnColor = Colors.amber;
+                              _maleBtnColor = Colors.orange;
                               _femaleBtnColor = Colors.transparent;
                             } else {
                               _maleBtnColor = Colors.transparent;
-                              _femaleBtnColor = Colors.amber;
+                              _femaleBtnColor = Colors.orange;
                             }
                           });
                         },
@@ -369,9 +561,9 @@ class _SignupState extends State<Signup> {
                           setState(() {
                             if (marriedBtnClick = !marriedBtnClick) {
                               _marriedBtnColor = Colors.transparent;
-                              _unmarriedBtnColor = Colors.amber;
+                              _unmarriedBtnColor = Colors.orange;
                             } else {
-                              _marriedBtnColor = Colors.amber;
+                              _marriedBtnColor = Colors.orange;
                               _unmarriedBtnColor = Colors.transparent;
                             }
                           });
@@ -404,9 +596,9 @@ class _SignupState extends State<Signup> {
                           setState(() {
                             if (marriedBtnClick = !marriedBtnClick) {
                               _marriedBtnColor = Colors.transparent;
-                              _unmarriedBtnColor = Colors.amber;
+                              _unmarriedBtnColor = Colors.orange;
                             } else {
-                              _marriedBtnColor = Colors.amber;
+                              _marriedBtnColor = Colors.orange;
                               _unmarriedBtnColor = Colors.transparent;
                             }
                           });
@@ -437,60 +629,6 @@ class _SignupState extends State<Signup> {
 
               const SizedBox(height: 14),
 
-              // Container(
-              //    decoration: bgContainer(),
-              //   child: Row(
-              //     children: [
-              //       RadioListTile(
-              //         title: const Text("Male"),
-              //         value: "male",
-              //         groupValue: gender,
-              //         onChanged: (value){
-              //           setState(() {
-              //             gender = value.toString();
-              //           });
-              //         },
-              //       ),
-              //       RadioListTile(
-              //         title: const Text("Female"),
-              //         value: "female",
-              //         groupValue: gender,
-              //         onChanged: (value){
-              //           setState(() {
-              //             gender = value.toString();
-              //           });
-              //         },
-              //       ),
-              //       RadioListTile(
-              //         title: const Text("Other"),
-              //         value: "other",
-              //         groupValue: gender,
-              //         onChanged: (value){
-              //           setState(() {
-              //             gender = value.toString();
-              //           });
-              //         },
-              //       )
-              //     ],
-              //   ),
-              // ),
-              // const SizedBox(height:10),
-              // ToggleSwitch(
-              //   minWidth: 190.0,
-              //   minHeight: 60,
-              //   initialLabelIndex: 1,
-              //   cornerRadius: 30.0,
-              //   activeFgColor: Colors.white,
-              //   inactiveBgColor: Colors.grey,
-              //   inactiveFgColor: Colors.white,
-              //   totalSwitches: 2,
-              //   labels: const ['Married', 'Single'],
-              //   icons: const [FontAwesomeIcons.venusMars, FontAwesomeIcons.genderless],
-              //   activeBgColors: const [[Colors.deepOrange],[Colors.deepOrange]],
-              //   onToggle: (index) {
-              //     print('switched to: $index');
-              //   },
-              // ),
 
               TextFormField(
                   onChanged: (value) {
@@ -540,8 +678,7 @@ class _SignupState extends State<Signup> {
                     }
                   }),
               const SizedBox(height: 14),
-
-              DropdownButtonFormField(
+                  samitiModel == null ? SizedBox() :  DropdownButtonFormField(
                 isExpanded: true,
                 itemHeight: null,
                 decoration: InputDecoration(
@@ -551,18 +688,18 @@ class _SignupState extends State<Signup> {
                   prefixIcon: const Icon(Icons.group),
                 ),
                 dropdownColor: Colors.white,
-                value: dropDownValue.isEmpty ? _orgList[0] : dropDownValue,
+                value: samitiModel == null ? samiti[0] : samitiModel,
                 onChanged: (newValue) {
-                  _reqBody["organization"] = newValue;
                   setState(() {
-                    dropDownValue = newValue.toString();
+                    samitiModel = (newValue as SamtitTypeModel);
+                    _reqBody["organization"] = samitiModel!.code;
                   });
                 },
-                items: _orgList.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
+                items: samiti.map<DropdownMenuItem<SamtitTypeModel>>((SamtitTypeModel value) {
+                  return DropdownMenuItem<SamtitTypeModel>(
                     value: value,
                     child: Text(
-                      value,
+                      value.name,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.montserrat(
                         fontSize: 14,
@@ -573,6 +710,18 @@ class _SignupState extends State<Signup> {
               ),
               const SizedBox(height: 14),
               TextFormField(
+                onTap: () async {
+                  AddressModel am = await Get.to(const Address());
+                  _reqBody["address"] = am.address;
+                  _reqBody["city"] = am.city;
+                  _reqBody["state"] = am.state;
+                  _reqBody["district"] = am.district;
+                  _reqBody["pincode"] = am.pinCode;
+                  setState(() {
+                    addressController.text = am.toString();
+                  });
+                },
+                readOnly: true,
                 controller: addressController,
                 onChanged: (value) {
                   _reqBody["address"] = value;
@@ -590,17 +739,7 @@ class _SignupState extends State<Signup> {
                       height: 22,
                       width: 22,
                     ),
-                    onPressed: () async {
-                      AddressModel am = await Get.to(const Address());
-                      _reqBody["address"] = am.address;
-                      _reqBody["city"] = am.city;
-                      _reqBody["state"] = am.state;
-                      _reqBody["district"] = am.district;
-                      _reqBody["pincode"] = am.pinCode;
-                      setState(() {
-                        addressController.text = am.toString();
-                      });
-                    },
+                    onPressed: () {},
                   ),
                   prefixIcon: IconButton(
                     icon: SvgPicture.asset(
@@ -636,24 +775,18 @@ class _SignupState extends State<Signup> {
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                         showProgressDialog(context);
-                            _reqBody["userType"] = "1";
-                            var response = await signup(_reqBody);
-                        //loader finish
-                            if(response.isSuccess){
-                              String message = (response.result as RegisterModel).message ?? "Registration Successful!";
-                              showToast(message);
-                              Get.to(const SignIn());
-                            }else{
-                              Get.snackbar("Error", response.message,
-                                  colorText: Colors.white,
-                                  backgroundColor: Colors.black,
-                                  icon: const Icon(
-                                    Icons.error_outline,
-                                    color: Colors.white,
-                                  ));
+                            showProgressDialog(context);
+
+                            if (_pickedFilePath.isNotEmpty) {
+                              ApiResponse res =
+                                  await uploadImage(_pickedFilePath);
+                              if (res.isSuccess) {
+                                _reqBody["image"] =
+                                    (res.result as UploadImageModel).name;
+                              }
                             }
 
+                            _submitForm();
                           }
                         },
                       ))),

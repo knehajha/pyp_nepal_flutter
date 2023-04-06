@@ -1,9 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:pyp_nepal/network/model/fetchClass.dart';
+import 'package:pyp_nepal/util/progress_dialog.dart';
+
+import '../network/Api_client.dart';
+import '../network/Api_response.dart';
+import '../network/model/monthAtdModel.dart';
+import '../util/date_util.dart';
+import '../util/uiUtil.dart';
 
 class Attendance extends StatefulWidget {
-  const Attendance({Key? key}) : super(key: key);
+  const Attendance({Key? key, required this.myClasses}) : super(key: key);
+
+  final List<FetchClassModel> myClasses;
 
   @override
   State<Attendance> createState() => _AttendanceState();
@@ -11,16 +22,61 @@ class Attendance extends StatefulWidget {
 
 class _AttendanceState extends State<Attendance> {
 
-  String dropDownValue = "";
+  FetchClassModel? selectedClass = null;
 
-  final List<String> _DropdownList = [
-    "Yoga Class",
-    'Patanjali Yog Committee, Nepal',
-    'Mahila Patanjali Yog Committee, Nepal',
-    "Yuva Nepal Samiti",
-    'None'
-  ];
+   // final _dateController;
+  String selectedDate = "";
+  String promptDate = "";
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null) {
+      String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
+      promptDate = DateFormat('MMMM-yyyy').format(picked);
+      print(formattedDate);
+      setState(() {
+        selectedDate = formattedDate;
+        _getMyAtd();
+      });
+    }
+  }
 
+
+
+  List<MonthAtdModel> mAtds = [];
+
+  _getMyAtd() async {
+    if(selectedClass != null && selectedDate.isNotEmpty){
+      String classId = selectedClass!.id;
+      ApiResponse response  = await monthlyAttendance(classId, selectedDate);
+      if(response.isSuccess){
+        setState(() {
+          mAtds = response.result;
+        });
+      } else{
+        showToast(response.message);
+      }
+    }
+
+  }
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    selectedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
+    promptDate = DateFormat('MMMM-yyyy').format(DateTime.now());
+    selectedClass = this.widget.myClasses[0];
+
+    setState(() {
+      _getMyAtd();
+    });
+
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,16 +87,18 @@ class _AttendanceState extends State<Attendance> {
               padding: const EdgeInsets.only(right: 20),
               child: Row(
                 children: [
-                  Text(
-        'January, 2023',
-        style: GoogleFonts.montserrat(
+                  Text(promptDate, style: GoogleFonts.montserrat(
                   color: Colors.white,
                   fontSize: 14,
                   fontWeight: FontWeight.w400),
                   ),
                   const SizedBox(width: 10,),
-                  Image.asset("assets/images/attendance.png",width:22,height: 22,color: Colors.white,),
-                ],
+                  GestureDetector( onTap: (){
+                    _selectDate(context);
+                  },
+                      child: Image.asset("assets/images/attendance.png",width:22,height: 22,color: Colors.white,)),
+
+                 ],
               ),
             ),
 
@@ -67,17 +125,18 @@ class _AttendanceState extends State<Attendance> {
                  ),
               ),
               dropdownColor: Colors.white,
-              value: dropDownValue.isEmpty ? _DropdownList[0] : dropDownValue,
+              value: selectedClass == null ? this.widget.myClasses[0] : selectedClass,
               onChanged: (newValue) {
                 setState(() {
-                  dropDownValue = newValue.toString();
+                  selectedClass = (newValue as FetchClassModel);
+                  _getMyAtd();
                 });
               },
-              items: _DropdownList.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
+              items: this.widget.myClasses.map<DropdownMenuItem<FetchClassModel>>((FetchClassModel value) {
+                return DropdownMenuItem<FetchClassModel>(
                   value: value,
                   child: Text(
-                    value,
+                    value.name,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.montserrat(fontSize: 16, ),
                   ),
@@ -128,7 +187,6 @@ class _AttendanceState extends State<Attendance> {
               padding: const EdgeInsets.symmetric(horizontal: 0),
               child: Row(
                 children: [
-
                   Expanded(
 
                       child: Text("Date", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w700),
@@ -146,12 +204,16 @@ class _AttendanceState extends State<Attendance> {
             ),
           ),
 
+
           Flexible(
-            child: ListView.builder(
+            child: mAtds.isEmpty ? Padding(
+              padding: const EdgeInsets.only(top:28.0),
+              child: Text("Attendance record not found"),
+            ) : ListView.builder(
+              itemCount: mAtds.length,
               itemBuilder: (BuildContext context, int index,) {
                 return Container(
                   color: (index % 2 == 0) ?const Color(0xffFFFFFF) : const Color(0xffF5F5F5),
-
                   child: ListTile(
                     subtitle:
                     Padding(
@@ -159,11 +221,11 @@ class _AttendanceState extends State<Attendance> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Expanded(child: Text("12/01/2023", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w400),
+                          Expanded(child: Text("${mAtds[index].punchDate}", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w400),
                             textAlign: TextAlign.center,)),
-                          Expanded(child: Text("08:30 A.M.", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w400),
+                          Expanded(child: Text("${parseDate(mAtds[index].punchIn)}", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w400),
                             textAlign: TextAlign.center,)),
-                          Expanded(child: Text("6.06 P.M.", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w400),
+                          Expanded(child: Text("${parseDate(mAtds[index].punchOut)}", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w400),
                             textAlign: TextAlign.center,)),
                           Expanded(child: Text("Self", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w400),
                             textAlign: TextAlign.center,)),

@@ -24,7 +24,7 @@ class _AddressState extends State<Address> {
   AddressModel am = new AddressModel();
 
   final List<String> _stateList =
-    [ "Andhra Pradesh", "Arunachal Pradesh", "Gujarat", "Haryana", "Himachal Pradesh",
+    [ " Pradesh", "Arunachal Pradesh", "Gujarat", "Haryana", "Himachal Pradesh",
       "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra",
        "Telangana", "Tripura", "Uttarakhand", "Uttar Pradesh",
        "Delhi"];
