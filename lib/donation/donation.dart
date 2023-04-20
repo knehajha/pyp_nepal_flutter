@@ -82,17 +82,23 @@ class _DonationState extends State<Donation> {
                 return Container(
                   color: (index % 2 == 0) ? const Color(0xffFFFFFF) : const Color(0xffF5F5F5),
 
-                  child: ListTile(
-                    subtitle:
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text("27/01/2023", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w500),),
-                        Text("Patanjali Yogpeeth", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w500),),
-                        Text("Neha", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w500),),
-                        Text("₹ 1000/-", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w500),),
-                      ],),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top:28.0),
+                    child: ListTile(
+                      subtitle:
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 1),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(child: Text("27/01/2023", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w500),textAlign: TextAlign.center,)),
+                           Expanded (child:Text("Patanjali Yogpeeth", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w500),textAlign: TextAlign.center,)),
+                Expanded(child:Text("Neha", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w500),textAlign: TextAlign.center,)),
+               Expanded (child: Text("₹ 1000/-", style: GoogleFonts.montserrat(color:const Color(0xff464646), fontSize: 14, fontWeight: FontWeight.w500),textAlign: TextAlign.center,)),
+                          ],),
+                      ),
 
+                    ),
                   ),
                 );
               },

@@ -778,11 +778,9 @@ class _SignupState extends State<Signup> {
                             showProgressDialog(context);
 
                             if (_pickedFilePath.isNotEmpty) {
-                              ApiResponse res =
-                                  await uploadImage(_pickedFilePath);
+                              ApiResponse res =  await uploadImage(_pickedFilePath);
                               if (res.isSuccess) {
-                                _reqBody["image"] =
-                                    (res.result as UploadImageModel).name;
+                                _reqBody["image"] = (res.result as UploadImageModel).name;
                               }
                             }
 

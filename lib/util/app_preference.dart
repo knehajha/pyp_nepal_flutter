@@ -18,6 +18,17 @@ List<String> myClassesIds = [];
   session.write("_token", data.token);
 }
 
+void updateUser(User data){
+ String? stringData = session.read("_user");
+ LoginModel? loginModel = stringData != null ? loginModelFromJson(stringData) : null;
+ if(loginModel != null){
+  loginModel.user = data;
+  String stringData = loginModelToJson(loginModel);
+  session.write("_user", stringData);
+ }
+
+}
+
  User? getProfile(){
   //Get user profile
   String? stringData = session.read("_user");
@@ -44,3 +55,28 @@ List<String> myClassesIds = [];
  void logout(){
   session.erase(); // Delete all stored keys and data
 }
+
+var samiti = [
+ {
+  "code": "1",
+  "name": "Patanjali Yog Samiti, Nepal"
+ },
+ {
+  "code": "2",
+  "name": "Mahila Patanjali Yog Samiti, Nepal"
+ },
+ {
+  "code": "3",
+  "name": "Yuva Nepal Samiti"
+ },
+ {
+  "code": "4",
+  "name": "None"
+ }
+];
+
+String getOrganization(code){
+ Map<String, String>? m = samiti.firstWhereOrNull((e) => code == e["code"]);
+ return "${m?["name"]??""}";
+}
+

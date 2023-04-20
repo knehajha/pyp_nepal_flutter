@@ -12,6 +12,7 @@ import 'package:pyp_nepal/util/app_preference.dart';
 
 import '../network/Api_client.dart';
 import '../network/Api_response.dart';
+import '../network/model/atdScoreModel.dart';
 import '../network/model/createClassModel.dart';
 import '../network/model/punchOutModel.dart';
 import '../util/date_util.dart';
@@ -30,6 +31,7 @@ class MyClassesPunchIn extends StatefulWidget {
 
 class _MyClassesPunchInState extends State<MyClassesPunchIn> {
   List<AttendanceModel> atds = [];
+  AtdScoreModel? classAtt ;
 
   _getMyAtd() async {
     ApiResponse response  = await currentAttendance(this.widget.classDetails.id);
@@ -42,6 +44,20 @@ class _MyClassesPunchInState extends State<MyClassesPunchIn> {
     }
   }
 
+  _getClassAtdScore() async {
+    ApiResponse response = await getAtdScore(this.widget.classDetails.id);
+    if(response.isSuccess){
+      setState(() {
+        classAtt = response.result;
+      });
+    }else{
+      showToast(response.message);
+    }
+  }
+
+
+
+
   // call that method in initState[auto run it when page first come in front]
   @override
   initState()   {
@@ -49,6 +65,7 @@ class _MyClassesPunchInState extends State<MyClassesPunchIn> {
     verifyPunchDetails();
     //load and keep current location for punch in
     _getCurrentPosition(false);
+    _getClassAtdScore();
     _getMyAtd();
   }
   Widget _getEmptyView(){
@@ -358,26 +375,30 @@ class _MyClassesPunchInState extends State<MyClassesPunchIn> {
                                 const SizedBox(
                                   width: 14,
                                 ),
-                                Text(
-                                  "Joined :",
-                                  style: GoogleFonts.montserrat(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 2,
-                                ),
-                                Text("${this.widget.classDetails.establishDate}",
-                                    style: GoogleFonts.montserrat(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    overflow: TextOverflow.ellipsis),
                               ],
                             ),
+                            const SizedBox(height: 14,),
+                            Row(
+                              children: [
+                                Text(
+                                "Joined :",
+                                style: GoogleFonts.montserrat(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            const SizedBox(
+                              width: 2,
+                            ),
+                            Text("${this.widget.classDetails.establishDate}",
+                                style: GoogleFonts.montserrat(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                overflow: TextOverflow.ellipsis),]),
+
                             const SizedBox(
                               height: 5,
                             ),
@@ -417,7 +438,7 @@ class _MyClassesPunchInState extends State<MyClassesPunchIn> {
                                         padding:
                                             const EdgeInsets.only(right: 30),
                                         child: Text(
-                                          "25%",
+                                          '${classAtt?.result == null ? "0" : classAtt?.result.toInt()}%',
                                           style: GoogleFonts.montserrat(
                                               color: Colors.black,
                                               fontSize: 16,

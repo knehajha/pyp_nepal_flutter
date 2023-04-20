@@ -19,8 +19,8 @@ BoxDecoration bgContainer() {
 Image appLogo() {
   return const Image(
     image: AssetImage('assets/images/logo.png'),
-    height: 135,
-    width: 135,
+    height: 150,
+    width: 150,
   );
 }
 
@@ -69,6 +69,15 @@ Widget getProfilePictureView(String imageName){
     height: 100,
     fit: BoxFit.cover,
   ) : const Image(image: AssetImage("assets/images/ramdev.png"),height: 100,width: 100,);
+}
+
+Widget getProfilePictureViewTrainer(String imageName){
+  return imageName.isNotEmpty ? Image.network(
+    '${imageUrl}'+imageName,
+    width: 70.0,
+    height: 70,
+    fit: BoxFit.cover,
+  ) : const Image(image: AssetImage("assets/images/ramdev.png"),height: 70,width: 70,);
 }
 
 

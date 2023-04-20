@@ -47,7 +47,7 @@ class User {
     required this.pincode,
     this.fcmToken,
     required this.password,
-    this.organigation,
+    required this.organization,
     required this.isActive,
     required this.isMobileVerified,
     required this.isEmailVerified,
@@ -72,7 +72,7 @@ class User {
   String pincode;
   dynamic fcmToken;
   String password;
-  dynamic organigation;
+  String organization;
   bool isActive;
   bool isMobileVerified;
   bool isEmailVerified;
@@ -97,7 +97,7 @@ class User {
     pincode: json["pincode"],
     fcmToken: json["fcmToken"],
     password: json["password"],
-    organigation: json["organigation"],
+    organization: json["organization"],
     isActive: json["isActive"],
     isMobileVerified: json["isMobileVerified"],
     isEmailVerified: json["isEmailVerified"],
@@ -123,7 +123,7 @@ class User {
     "pincode": pincode,
     "fcmToken": fcmToken,
     "password": password,
-    "organigation": organigation,
+    "organization": organization,
     "isActive": isActive,
     "isMobileVerified": isMobileVerified,
     "isEmailVerified": isEmailVerified,

@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/nearby_classses/nbClassMap.dart';
 import 'package:pyp_nepal/nearby_classses/nbClassesDetails.dart';
 import 'package:pyp_nepal/network/Api_client.dart';
+import 'package:pyp_nepal/network/model/fetchClass.dart';
 import 'package:pyp_nepal/util/map_util.dart';
 import 'package:pyp_nepal/util/uiUtil.dart';
 
@@ -24,7 +25,6 @@ class _NBClassesState extends State<NBClasses> {
   var isMap = true;
 
   List<NearbyClassModel> nbc = [];
-
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -106,7 +106,6 @@ class _NBClassesState extends State<NBClasses> {
             setState(() {
               isMap = !isMap;
             });
-            // Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const NearbyClassMap()));
           }, icon: _getIcon(),)
         ]),
         body: isMap ? nbc.isEmpty ? Center(
@@ -200,7 +199,11 @@ class _NBClassesState extends State<NBClasses> {
                                 children: [
                                   Image.asset("assets/images/telephone-2.png",width:28,height: 28,),
                                   const SizedBox(width: 24,),
-                                  Image.asset("assets/images/Icon simple-whatsapp.png",width:28,height: 28,),
+                                  InkWell(
+                                    onTap: (){
+
+                                    },
+                                      child: Image.asset("assets/images/Icon simple-whatsapp.png",width:28,height: 28,)),
                                  //const SizedBox(width: 50,),
                                  Spacer(),
                                   Row(

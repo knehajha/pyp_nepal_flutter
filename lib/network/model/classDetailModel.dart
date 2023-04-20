@@ -41,9 +41,9 @@ class ClassDetailModel {
   String startTime;
   List<double> location;
   String endTime;
-  int rating;
+  double rating;
   String createdAt;
-  int distance;
+  double distance;
 
   factory ClassDetailModel.fromJson(Map<String, dynamic> json) => ClassDetailModel(
     id: json["_id"],

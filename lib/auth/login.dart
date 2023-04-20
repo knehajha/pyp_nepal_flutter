@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/auth/signIn.dart';
@@ -7,16 +7,16 @@ import 'package:pyp_nepal/util/widgetUtil.dart';
 
 import 'signup.dart';
 
-class Login extends StatefulWidget {
+ class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
   @override
   State<Login> createState() => _LoginState();
-}
+  }
 
-class _LoginState extends State<Login> {
+ class _LoginState extends State<Login> {
 
-
+ bool changedColor = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +28,12 @@ class _LoginState extends State<Login> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              Padding(
+                padding: const EdgeInsets.all(110.0),
+                child: Center(
+                  child: appLogo(),
+                ),
+              ),
               Text(
                 "Getting Started",
                 style: GoogleFonts.montserrat(fontSize: 22, fontWeight: FontWeight.bold),
@@ -40,25 +46,30 @@ class _LoginState extends State<Login> {
               ),
               const SizedBox(height: 20),
 
-          Container(
-            width: double.infinity,
-              child: ElevatedButton(
-                 style: ElevatedButton.styleFrom(
-                   padding: const EdgeInsets.symmetric(
-                       horizontal: 40.0, vertical: 20.0),
-                   primary: Colors.black,
-                   shape: const StadiumBorder(),
-                 ),
+              Container(
+                width: double.infinity,
+                height: 59,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40.0, vertical: 20.0),
+                    primary: Colors.black,
+                    shape: const StadiumBorder(),
+                  ),
+                  child: Text(
+                    "Login",
+                    style: GoogleFonts.montserrat(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  onPressed: () async {
+                    Get.to(const SignIn());
+                  },
+                ),
+              ),
 
-                 child: Text(
-                   "Login",
-                   style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 16, fontWeight: FontWeight.w500),
-                 ),
-                onPressed: () =>  Get.to(const SignIn()),
-               ),
-
-          ),
-              const SizedBox(height: 20),
+           const SizedBox(height: 20),
           Container(
             width: double.infinity,
             height: 55,
@@ -85,10 +96,8 @@ class _LoginState extends State<Login> {
                   InkWell(
                     onTap: (){
                       Get.to(const Dashboard());
-
                     },
                       child: const Text("Guest",style: TextStyle(color: Colors.deepOrange),  )),
-
                 ],
               )
             ],

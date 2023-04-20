@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:pyp_nepal/network/model/acceptClassModel.dart';
+import 'package:pyp_nepal/network/model/atdScoreModel.dart';
 import 'package:pyp_nepal/network/model/classDetailModel.dart';
 import 'package:pyp_nepal/network/model/joinClassModel.dart';
 import 'package:pyp_nepal/network/model/pendingClassModel.dart';
@@ -21,6 +22,7 @@ import 'model/nearbyClassModel.dart';
 import 'model/punchOutModel.dart';
 import 'model/registration_model.dart';
 import 'model/samitiTypeModel.dart';
+import 'model/update_profile_model.dart';
 import 'model/uploadImageModel.dart';
 import 'model/yogSadhakModel.dart';
 
@@ -296,6 +298,63 @@ Future<ApiResponse> samitiType() async {
  return ApiResponse(isSuccess, message , result);
  }
 
+
+
+Future<ApiResponse> updateProfile(User user) async {
+ var body = json.encode(user);
+ var token = getAccessToken();
+ String deviceId = await PlatformDeviceId.getDeviceId ?? "";
+ var headers = {"Authorization" :"Bearer $token", "Content-Type": "application/json","device-ID":deviceId};
+ final url = Uri.parse('${baseUrl}user');
+ final response =  await http.put(url, headers: headers, body: body);
+ var isSuccess = response.statusCode == 200;
+ var message = isSuccess ? "" :  errorModelFromJson(response.body).message;
+ var result = isSuccess? updateProfileFromJson(response.body): null;
+ return ApiResponse(isSuccess, message , result);
+}
+
+Future<ApiResponse> updateClass(FetchClassModel myClass) async {
+ String deviceId = await PlatformDeviceId.getDeviceId ?? "";
+ var body = json.encode(myClass);
+ var headers = {"Authorization" :"Bearer ${getAccessToken()}", "Content-Type": "application/json","device-ID":deviceId};
+ final url = Uri.parse('${baseUrl}yogClass');
+ final response =  await http.put(url, headers: headers, body: body);
+ var isSuccess = response.statusCode == 200;
+ print("updateClass=>>>> ${response.body}");
+ var message = isSuccess ? "" :  errorModelFromJson(response.body).message;
+ var result = isSuccess? classDetailModelFromJson(response.body): null;
+ return ApiResponse(isSuccess, message , result);
+
+}
+
+
+ Future<ApiResponse> getAtdScore([String classId = "", String date = ""]) async {
+ String deviceId = await PlatformDeviceId.getDeviceId ?? "";
+ var headers = {"Authorization" :"Bearer ${getAccessToken()}", "Content-Type": "application/json","device-ID":deviceId};
+ final url = Uri.parse('${baseUrl}attendance/attendanceScore?classId=$classId&date=$date');
+ print("request=> headers=${jsonEncode(headers)}, url=> ${url.toString()}");
+ final response =  await http.get(url, headers: headers);
+ var isSuccess = response.statusCode == 200;
+ print("getScore=>>>> ${response.body}");
+ var message = isSuccess ? "" :  errorModelFromJson(response.body).message;
+ var result = isSuccess? atdScoreModelFromJson(response.body): null;
+ return ApiResponse(isSuccess, message , result);
+
+}
+
+//good
+Future<ApiResponse> getAtdScoreByUserId(String userId,[ String classId = "", String date= ""]) async {
+ String deviceId = await PlatformDeviceId.getDeviceId ?? "";
+ var headers = {"Authorization" :"Bearer ${getAccessToken()}", "Content-Type": "application/json","device-ID":deviceId};
+ final url = Uri.parse('${baseUrl}attendance/attendanceScore');
+ final response =  await http.get(url, headers: headers);
+ var isSuccess = response.statusCode == 200;
+ print("getScoreUserId=>>>> ${response.body}");
+ var message = isSuccess ? "" :  errorModelFromJson(response.body).message;
+ var result = isSuccess? atdScoreModelFromJson(response.body): null;
+ return ApiResponse(isSuccess, message , result);
+
+}
 
 
 

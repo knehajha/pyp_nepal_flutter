@@ -4,13 +4,16 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/attendance/attendance.dart';
 import 'package:pyp_nepal/auth/login.dart';
+import 'package:pyp_nepal/auth/update_profile.dart';
 import 'package:pyp_nepal/donation/donation.dart';
 import 'package:pyp_nepal/myclasses/myClasses.dart';
 import 'package:pyp_nepal/network/Api_client.dart';
+import 'package:pyp_nepal/network/model/atdScoreModel.dart';
 import 'package:pyp_nepal/util/app_preference.dart';
 import 'package:pyp_nepal/util/progress_dialog.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
 
+import '../auth/sadhakProfile.dart';
 import '../nearby_classses/nbClasses.dart';
 import '../network/Api_response.dart';
 import '../network/model/fetchClass.dart';
@@ -27,6 +30,9 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+
+  AtdScoreModel? att ;
+
   User? user;
 
   final List<GridItem> _menuList = [
@@ -48,6 +54,8 @@ class _DashboardState extends State<Dashboard> {
     GridItem("Settings", "assets/images/setting.png"),
   ];
 
+
+
   List<Widget> getBannerBody() {
     List<Widget> wlist = [];
     List<String> urls = [
@@ -60,19 +68,17 @@ class _DashboardState extends State<Dashboard> {
         margin: const EdgeInsets.all(8.0),
         decoration: getBannerDecoration(url),
       );
-
       wlist.add(container);
     });
-
     return wlist;
   }
 
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     user = getProfile();
+    _getAtdScore();
     _getMyClasses();
   }
 
@@ -91,9 +97,7 @@ class _DashboardState extends State<Dashboard> {
           activeClass = element;
         }
       });
-
       setState(() {
-
       });
     }
   }
@@ -111,6 +115,17 @@ class _DashboardState extends State<Dashboard> {
       setState(() {
 
       });
+    }
+  }
+
+  _getAtdScore() async {
+    ApiResponse response = await getAtdScore();
+    if(response.isSuccess){
+      setState(() {
+        att = response.result;
+      });
+    }else{
+      showToast(response.message);
     }
   }
 
@@ -153,25 +168,30 @@ class _DashboardState extends State<Dashboard> {
               width: double.infinity,
               child: DrawerHeader(
                   decoration: const BoxDecoration(color: Colors.orange),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipOval(child: getProfilePictureView(user == null ? "" : user!.image)),
-                      const SizedBox(width: 16,),
-                      Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 10,),
-                            Text("${user?.name}", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 18, fontWeight: FontWeight.w700),overflow: TextOverflow.ellipsis,),
-                            SizedBox(height: 2,),
-                            Text("Mahila Simiti Nepal", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 14, fontWeight: FontWeight.w400), overflow: TextOverflow.ellipsis,),
-                            SizedBox(height: 2,),
-                            Text("Sadhak", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 12, fontWeight: FontWeight.w400), overflow: TextOverflow.ellipsis,)
-                          ],
-                        ),
-                      )
-                    ],
+                  child: InkWell(
+                    onTap:() {
+                      Get.to(SadhakProfile());
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ClipOval(child: getProfilePictureView(user == null ? "" : user!.image)),
+                        const SizedBox(width: 16,),
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 10,),
+                              Text("${user?.name}", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 18, fontWeight: FontWeight.w700),overflow: TextOverflow.ellipsis,),
+                              SizedBox(height: 2,),
+                              Text("${getOrganization(user?.organization)}", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 14, fontWeight: FontWeight.w400), overflow: TextOverflow.ellipsis,),
+                              SizedBox(height: 2,),
+                              Text("Sadhak", style: GoogleFonts.montserrat(color:Colors.white, fontSize: 12, fontWeight: FontWeight.w400), overflow: TextOverflow.ellipsis,)
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   )),
             ),
             Padding(
@@ -198,8 +218,33 @@ class _DashboardState extends State<Dashboard> {
                                 width: 24,
                               ),
                               title: Text(item.name, style: menuItemStyle()),
-                              onTap: () {
-                                Navigator.pop(context);
+                              onTap: () async {
+                                switch(index){
+                                  case 0:
+                                    Get.to(const Donation());
+                                    break;
+                                  case 1:
+                                    await Get.to( Attendance(myClasses: myClasses,));
+                                    break;
+                                  case 2:
+                                    await Get.to(const MyClasses());
+                                    _refreshPage();
+                                    print("back from my classes");
+                                    break;
+                                  case 3:
+                                    Get.to(const Donation());
+                                    break;
+                                  case 4:
+                                    Get.to(const Donation());
+                                    break;
+                                  case 5:
+                                    Get.to(const Donation());
+                                    break;
+                                  case 6:
+                                    Get.to(const Donation());
+                                    break;
+                                }
+                                // Navigator.pop(context);
                               },
                             );
                           }),
@@ -313,8 +358,9 @@ class _DashboardState extends State<Dashboard> {
                         fontWeight: FontWeight.w400),
                   ),
 
+
                   Text(
-                    '75%',
+                   '${att?.result == null ? "0" : att?.result.toInt()}%' ,
                     style: GoogleFonts.montserrat(
                         color: (const Color(0xffFF9F01)),
                         fontSize: 25,

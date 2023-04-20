@@ -1,7 +1,5 @@
 
-
 import 'dart:collection';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,29 +15,23 @@ import 'package:pyp_nepal/Yoga%20Trainer/sadhakAttendingClass.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/teacherTrainingConduct.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/trainerUnderthem.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/yttpApplications.dart';
-import 'package:pyp_nepal/dashboard/dashboard.dart';
 import 'package:pyp_nepal/network/Api_client.dart';
 import 'package:pyp_nepal/util/widgetUtil.dart';
-
 import '../auth/login.dart';
+import '../auth/sadhakProfile.dart';
 import '../dashboard/menuItem.dart';
 import '../network/Api_response.dart';
-import '../network/model/FetchRequestedClassModel.dart';
 import '../network/model/dashboardClassModel.dart';
 import '../network/model/fetchClass.dart';
-import '../util/CustomPaint.dart';
+import '../network/model/login_model.dart';
 import '../util/app_preference.dart';
 import '../util/myColour.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../util/progress_dialog.dart';
 import '../util/uiUtil.dart';
 
 class HomePage extends StatelessWidget {
    HomePage({Key? key}) : super(key: key);
-
-
-
 
 
    void _getMyClasses() async {
@@ -57,6 +49,7 @@ class HomePage extends StatelessWidget {
    void initState() {
     initState();
      _getMyClasses();
+
    }
 
    @override
@@ -74,13 +67,15 @@ class HomePage extends StatelessWidget {
 class TrainerHome extends StatefulWidget {
   const TrainerHome({Key? key}) : super(key: key);
 
-
   @override
   State<StatefulWidget> createState()  => _TrainerHome();
 
 }
 
 class _TrainerHome extends State<StatefulWidget> {
+
+  User? user;
+
 
   List<Widget> getBannerBody() {
     List<Widget> wlist = [];
@@ -101,11 +96,6 @@ class _TrainerHome extends State<StatefulWidget> {
     return wlist;
   }
 
-
-
-
-
-
   final List<HomeItem> _homeList = [
     HomeItem("11","My Classes", "assets/images/home1.svg", ColorConstants.kPrimaryColor),
     HomeItem("20","Registered\nSadhak", "assets/images/home2.svg", ColorConstants.kSecondaryColor),
@@ -115,13 +105,15 @@ class _TrainerHome extends State<StatefulWidget> {
     HomeItem("02","Teacher Training\nConducted", "assets/images/home6.svg", ColorConstants.kSixSecondaryColor),
     HomeItem("80%","Total\nScore", "assets/images/home7.svg", ColorConstants.kSevenSecondaryColor),
     HomeItem("₹ 35000","Donation\nCollected", "assets/images/home8.svg", ColorConstants.kEigthSecondaryColor),
+
   ];
+
   final List<Color> _homeColor = [ColorConstants.kPrimaryColor, ColorConstants.kSecondaryColor,ColorConstants.kThirdSecondaryColor,ColorConstants.kFourSecondaryColor,
     ColorConstants.kFiveSecondaryColor, ColorConstants.kSixSecondaryColor,ColorConstants.kSevenSecondaryColor,ColorConstants.kEigthSecondaryColor];
 
   DashboardClassModel? dashboardModel = null;
 
-  _getDataCount() async {
+    _getDataCount() async {
     ApiResponse response  = await dashboardClass();
     if(response!.isSuccess){
       setState(() {
@@ -132,11 +124,15 @@ class _TrainerHome extends State<StatefulWidget> {
     }
   }
 
+
   @override
   void initState() {
     super.initState();
     _getDataCount();
+    user = getProfile();
+
   }
+
 
   String _getResult(int position) {
     String value = "0";
@@ -162,59 +158,53 @@ class _TrainerHome extends State<StatefulWidget> {
           break;
         case 6:
           value = "${dashboardModel?.totalScore}";
-          break;
-        case 7:
-          value = "${dashboardModel?.totalDonation}";
-          break;
-      }
+
+       }
     return value;
   }
+
 
   @override
   Widget build(BuildContext context) {
     var user = getProfile();
     return Scaffold(
         appBar: AppBar(
-
-         /* title:  Text("Shree Ram",
-            style: GoogleFonts.publicSans(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700),
-          ),*/
           toolbarHeight: 90,
-
           title: Container(
-           // color: Colors.red,
-            child: Row(
+            child: InkWell(
+              onTap: (){
+                Get.to(SadhakProfile());
+              },
+              child: Row(
 
-             // mainAxisAlignment: MainAxisAlignment.start,
-              //crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(
-                    "assets/images/ramdev.png",
-                    fit: BoxFit.contain,
-                    height: 75,
+                children: [
+                  Padding(
+                    padding:const EdgeInsets.only(left: 10,top: 5),
+                      child: ClipOval(child: getProfilePictureViewTrainer(user == null ? "" : user!.image,))),
+
+                  const SizedBox(width: 10,),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Welcome", style: GoogleFonts.poppins(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w500),),
+                      Text("${user?.name}", style: GoogleFonts.poppins(color:Colors.white, fontSize: 18, fontWeight: FontWeight.w700),),
+                      Text("${getOrganization(user?.organization)}", style: GoogleFonts.poppins(color:Colors.white, fontSize: 12, fontWeight: FontWeight.w300),),
+
+
+                    ],
                   ),
-
-
-                const SizedBox(width: 10,),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Welcome", style: GoogleFonts.poppins(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w500),),
-                    Text("${user?.name}", style: GoogleFonts.poppins(color:Colors.white, fontSize: 18, fontWeight: FontWeight.w700),),
-                    Text("Patanjali Yog Samiti", style: GoogleFonts.poppins(color:Colors.white, fontSize: 12, fontWeight: FontWeight.w300),),
-                  ],
-                ),
-                const SizedBox(width: 40,),
-                IconButton(
-                  icon: const Icon(
-                    Icons.logout,size: 30,color: Colors.orange,
-                  ),
-                  onPressed: () {
-                    logout();
-                    Get.offAll(Login);
-                  },),
-              ],
+                  const SizedBox(width: 40,),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.logout,size: 30,color: Colors.orange,
+                    ),
+                    onPressed: () {
+                      logout();
+                      Get.offAll(Login);
+                    },),
+                ],
+              ),
             ),
           ),
             actions: <Widget>[
@@ -227,69 +217,18 @@ class _TrainerHome extends State<StatefulWidget> {
             logoutAlert(context);
           }),
         ),
-    ],
+       ],
+        ),
 
-        ),
-      /*  appBar: AppBar(
-        toolbarHeight: 120.10, //set your height
-        flexibleSpace: SafeArea(
-        child: Container(
-        color: Colors.blue, // set your color
-        child: Column(
-        children: [
-        Row(
-        children: [Text("Logo")],
-    ),
-    Text("data"), // set an icon or image
-    IconButton(
-    icon: Icon(Icons.search),
-    onPressed: () {}) // set your search bar setting
-    ],
-    ),
-    ),
-        ),
-        ),*/
         body: Container(
           color: Colors.white,
           child: Column(
             children: [
-             /* Container(
-                color: Colors.red,
-                height: 170,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(25,40,25,30),
-                  child: Row(
-                    children:  [
-                       const Image(image: AssetImage("assets/images/ramdev.png"),height: 80,width: 80,),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8,0,0,8),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Welcome", style: GoogleFonts.poppins(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w500),),
-                            Text("Shree Ram", style: GoogleFonts.poppins(color:Colors.white, fontSize: 18, fontWeight: FontWeight.w700),),
-                            Text("Patanjali Yog Samiti", style: GoogleFonts.poppins(color:Colors.white, fontSize: 12, fontWeight: FontWeight.w300),),
-                          ],
-                        ),
-                      ),
-                       const Spacer(),
-                       SvgPicture.asset("assets/images/noty.svg",height: 25,
-                       width: 25,
-                           )
-                    ],
-                  ),
-                )
-              ),*/
-
               CarouselSlider(
                 items: getBannerBody(),
                 options: CarouselOptions(
                   height: 200.0,
-                  // enlargeCenterPage: true,
                   autoPlay: true,
-                  // aspectRatio: 16 / 9,
-                  // autoPlayCurve: Curves.fastOutSlowIn,
                   enableInfiniteScroll: true,
                   autoPlayAnimationDuration: const Duration(milliseconds: 500),
                   viewportFraction: 1,
@@ -302,23 +241,21 @@ class _TrainerHome extends State<StatefulWidget> {
                     Text("Dashboard",style: GoogleFonts.poppins(color:Colors.black, fontSize: 20, fontWeight: FontWeight.w600),),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8, 4, 0, 0),
-                      child: Text("(Yog Trainer)",style: GoogleFonts.poppins(color:Colors.black54, fontSize: 14, fontWeight: FontWeight.w400),
+                      child: Text("(Yoga Trainer)",style: GoogleFonts.poppins(color:Colors.black54, fontSize: 14, fontWeight: FontWeight.w400),
                       ),
                     ),
                   ],
                 ),
               ),
-
               Expanded(
                  child: GridView.builder(
-
                    padding: const EdgeInsets.all(8.0),
               itemCount: _homeList.length,
               itemBuilder: (context, index) =>
                     InkWell(
                       onTap: () async {
                         switch(index){
-                          case 0:// All classes
+                          case 0:
                             Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) =>  const MyClassSadhak()));
                             break;
                           case 1:
@@ -343,16 +280,11 @@ class _TrainerHome extends State<StatefulWidget> {
                             Navigator.of(context).push(MaterialPageRoute( builder: (BuildContext context) => const DonationHistory()));
                             break;
                         }
-
                     },
                       child: Container(
                         height: 50,
                         padding: const EdgeInsets.all(2.0),
                         child: Card(
-
-                         /* semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,*/
-
                           color: _homeColor[index],
 
                           elevation: 4,
@@ -371,7 +303,6 @@ class _TrainerHome extends State<StatefulWidget> {
                                 ),
                               ),
                               Column(
-
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -386,20 +317,15 @@ class _TrainerHome extends State<StatefulWidget> {
                         ),
                       ),
                     ),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio: 1 / .6,),
-
-
-              ),
-            ),
-
-
-
-
-            ],
+                ),
+               ),
+             ],
           ),
         )
+
     );
   }
 }

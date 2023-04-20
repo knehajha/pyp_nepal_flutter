@@ -67,3 +67,32 @@ logoutAlert(BuildContext context){
       },
     );
 }
+deleteAlert(BuildContext context){
+  // set up the buttons
+  Widget cancelButton = TextButton(
+    child: Text("Cancel"),
+    onPressed:  () { Get.back();},
+  );
+  Widget continueButton = TextButton(
+    child: Text("Delete"),
+    onPressed:  () {
+    },
+  );
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+
+    title: Text("You are about to delete a class"),
+    content: Text("This will delete all the information related to the class, Are You sure ? "),
+    actions: [
+      cancelButton,
+      continueButton,
+    ],
+  );
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}

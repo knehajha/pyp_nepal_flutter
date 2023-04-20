@@ -10,6 +10,7 @@ import 'package:pyp_nepal/util/map_util.dart';
 import '../Yoga Trainer/trainerHome.dart';
 import '../network/Api_client.dart';
 import '../network/Api_response.dart';
+import '../network/model/atdScoreModel.dart';
 import '../network/model/fetchClass.dart';
 import '../util/uiUtil.dart';
 
@@ -22,8 +23,12 @@ class MyClasses extends StatefulWidget {
 
 class _MyClassesState extends State<MyClasses> {
 
+
+
   List<FetchClassModel> myClasses = [];
   ApiResponse? response = null;
+
+
 
   _getMyClasses() async {
     response  = await fetchClass();
@@ -33,7 +38,7 @@ class _MyClassesState extends State<MyClasses> {
       });
     } else{
       showToast(response!.message);
-    }
+     }
   }
 
   // call that method in initState[auto run it when page first come in front]
@@ -41,6 +46,7 @@ class _MyClassesState extends State<MyClasses> {
   initState()   {
     super.initState();
     _getMyClasses();
+
   }
   Widget _getEmptyView(){
     return Center(
