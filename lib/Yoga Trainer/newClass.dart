@@ -47,8 +47,9 @@ class _NewClassState extends State<NewClass>{
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now().add( Duration(days: 30)));
+
     if (picked != null) {
       String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
       print(formattedDate);
@@ -197,10 +198,11 @@ class _NewClassState extends State<NewClass>{
                   onChanged: (value) {
 
                   },
+                  controller: _startTimeController,
                   onTap: () {
                     displayTimeDialog(0);
                   },
-                  controller: _startTimeController,
+
                   style: GoogleFonts.poppins(),
                   readOnly: true,
                   obscureText: false,
@@ -222,24 +224,26 @@ class _NewClassState extends State<NewClass>{
                 ),
                 const SizedBox(height: 15),
                 TextFormField(
+
                   onChanged: (value) {
 
                   },
                   controller: _endTimeController,
                   onTap: () {
-                    displayTimeDialog(0);
+                    displayTimeDialog(1);
                   },
+
                   style: GoogleFonts.poppins(),
                   readOnly: true,
+                  obscureText: false,
                   enableSuggestions: false,
                   autocorrect: false,
                   decoration: InputDecoration(
                     prefixIcon: IconButton(
 
-                      icon: SvgPicture.asset("assets/images/clock-2.svg",height: 20,width: 20,),
-                      onPressed:  (){
-                        displayTimeDialog(1);
-                      }
+                        icon: SvgPicture.asset("assets/images/clock-2.svg",height: 20,width: 20,),
+                        onPressed: (){
+                        }
                     ),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0)
@@ -254,6 +258,32 @@ class _NewClassState extends State<NewClass>{
                   onChanged: (value) {
                     _reqBody["address"] = value;
                   },
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PlacePicker(
+                          apiKey: Platform.isAndroid
+                              ? "AIzaSyCUCQDd8Qzc0IvD2Kki-O3eVGJpmkMvASs"
+                              : "YOUR IOS API KEY",
+                          onPlacePicked: (result) {
+                            print("picked format Address=${result.formattedAddress}");
+                            print("picked Address lat-lon=${result.geometry?.location.lat}-${result.geometry?.location.lng}");
+                            _reqBody["lat"] = result.geometry?.location.lat;
+                            _reqBody["lng"] = result.geometry?.location.lng;
+                            _reqBody["address"] = result.formattedAddress;
+                            Navigator.of(context).pop();
+                            setState(() {
+                              _addressController.text=result.formattedAddress.toString();
+                            });
+                          },
+                          initialPosition: LatLng(29.907091,77.9986938),
+                          useCurrentLocation: true,
+                          resizeToAvoidBottomInset: false,
+                        ),
+                      ),
+                    );
+                  },
                   style: GoogleFonts.poppins(),
                   enableSuggestions: false,
                   autocorrect: false,
@@ -263,30 +293,7 @@ class _NewClassState extends State<NewClass>{
 
                       icon: SvgPicture.asset("assets/images/location.svg",height: 20,width: 20,),
                       onPressed: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PlacePicker(
-                                apiKey: Platform.isAndroid
-                                    ? "AIzaSyCUCQDd8Qzc0IvD2Kki-O3eVGJpmkMvASs"
-                                    : "YOUR IOS API KEY",
-                                onPlacePicked: (result) {
-                          print("picked format Address=${result.formattedAddress}");
-                          print("picked Address lat-lon=${result.geometry?.location.lat}-${result.geometry?.location.lng}");
-                          _reqBody["lat"] = result.geometry?.location.lat;
-                          _reqBody["lng"] = result.geometry?.location.lng;
-                          _reqBody["address"] = result.formattedAddress;
-                          Navigator.of(context).pop();
-                          setState(() {
-                            _addressController.text=result.formattedAddress.toString();
-                          });
-                          },
-                            initialPosition: LatLng(29.907091,77.9986938),
-                            useCurrentLocation: true,
-                            resizeToAvoidBottomInset: false,
-                          ),
-                        ),
-                        );
+
                       },
                     ),
 
@@ -299,24 +306,22 @@ class _NewClassState extends State<NewClass>{
                 ),
                 const SizedBox(height: 15),
                 TextFormField(
+
                   onChanged: (value) {
-                    _reqBody["Description"] = value;
+                    _reqBody["description"] = value;
                   },
                   controller: descriptionController,
-                 // style: const TextStyle(height: 7.0,),
                   style: GoogleFonts.poppins(),
-                  textAlignVertical: TextAlignVertical.top,
-                  textAlign: TextAlign.start,
                   enableSuggestions: false,
                   autocorrect: false,
-                  maxLines: 7,
                   decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.person,size: 23,),
+
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30.0)
                     ),
                     labelText: 'Description',
                     hintStyle: const TextStyle(color: Color(0xff000000)),
-
                   ),
                 ),
                 const SizedBox(height: 40),

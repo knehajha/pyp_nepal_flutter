@@ -8,10 +8,11 @@ LoginModel loginModelFromJson(String str) => LoginModel.fromJson(json.decode(str
 
 String loginModelToJson(LoginModel data) => json.encode(data.toJson());
 
-class LoginModel {
+ class LoginModel {
   LoginModel({
     required this.user,
     required this.token,
+
   });
 
   User user;

@@ -14,6 +14,7 @@ import 'package:pyp_nepal/network/model/login_model.dart';
 import 'package:pyp_nepal/util/uiUtil.dart';
 import '../network/model/samitiTypeModel.dart';
 import '../network/model/update_profile_model.dart';
+import '../network/model/uploadImageModel.dart';
 import '../util/app_preference.dart';
 import '../util/widgetUtil.dart';
 import 'AddressModel.dart';
@@ -38,15 +39,13 @@ class _ProfileState extends State<Profile> {
   final addressController = TextEditingController();
   final _dateController = TextEditingController();
 
+
   String _gender = "";
   String _maritalStatus = "";
-
   Color _maleBtnColor = Colors.orange;
   Color _femaleBtnColor = Colors.transparent;
-
   Color _marriedBtnColor = Colors.transparent;
   Color _unmarriedBtnColor = Colors.orange;
-
   String dropDownValue = "";
 
 
@@ -369,7 +368,7 @@ class _ProfileState extends State<Profile> {
                 TextFormField(
                     controller: emailController,
                   onChanged: (value) {
-                    _user?.email = value;
+                    _user!.email = value;
                   },
                   autofocus: false,
                   decoration: textFieldDecoration("Email", Icons.email),
@@ -396,6 +395,7 @@ class _ProfileState extends State<Profile> {
                         color: Colors.grey,
                         width: 1,
                       )),
+
                   child: Row(
                     children: [
                       const SizedBox(width: 7),
@@ -641,6 +641,12 @@ class _ProfileState extends State<Profile> {
                                 fontWeight: FontWeight.w600),
                           ),
                           onPressed: () async {
+                            if (_pickedFilePath.isNotEmpty) {
+                              ApiResponse res =  await uploadImage(_pickedFilePath);
+                              if (res.isSuccess) {
+                                _reqBody["image"] = (res.result as UploadImageModel).name;
+                              }
+                            }
                             _user?.organization = _user?.organization?? "1";
                             if(_user != null){
                               ApiResponse res = await updateProfile(_user!);
@@ -652,6 +658,8 @@ class _ProfileState extends State<Profile> {
                                 showToast(res.message);
                               }
                             }
+
+
                             setState(() {
                             });
                           }

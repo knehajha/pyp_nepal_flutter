@@ -149,7 +149,7 @@ class RegisteredSadhak extends StatefulWidget {
           ListView.builder(
               shrinkWrap: true,
               padding: const EdgeInsets.fromLTRB(8.0,8,8,8),
-              itemCount: frc.length,
+              itemCount: 24,
               itemBuilder: (context, index) =>
                   Card(
                     elevation: 4,
@@ -159,7 +159,7 @@ class RegisteredSadhak extends StatefulWidget {
                           children:  [
                             const Padding(
                               padding: EdgeInsets.fromLTRB(8,10,0,8),
-                              child: Image(image: AssetImage("assets/images/ramdev.png"),height: 90,width: 90,),
+                              child: Image(image: AssetImage("assets/images/ramdev.png"),height: 50,width: 50,),
                             ),
 
                             Padding(
@@ -169,7 +169,7 @@ class RegisteredSadhak extends StatefulWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const SizedBox(height: 8,),
-                                  Text(frc[index].req.name, style: GoogleFonts.poppins(color:Colors.black, fontSize: 16, fontWeight: FontWeight.w600),),
+                                  Text("Neha Jha", style: GoogleFonts.poppins(color:Colors.black, fontSize: 16, fontWeight: FontWeight.w600),),
                                   const SizedBox(height: 8,),
                                   SizedBox(
                                     width: 160,
@@ -285,16 +285,8 @@ class RegisteredSadhak extends StatefulWidget {
                                 var response = await acceptClass(frc[index].reqId);
                                 Navigator.of(context).pop();
                                 if (response.isSuccess){
-                                  Get.snackbar("Request accepted Successfully", response.message,
-                                      colorText: Colors.black,
-                                      backgroundColor: Colors.white,
-                                      icon: const Icon(
-                                        Icons.library_add_check,
-                                        color: Colors.black38,
-                                      ));
-                                  _getRequestedClasses();
-                                }
-
+                                  String message = "Request accepted Successfully!";
+                                  showToast(message);}
                                 else {
                                   Get.snackbar("Error", response.message,
                                       colorText: Colors.white,
@@ -353,7 +345,7 @@ class RegisteredSadhak extends StatefulWidget {
           ListView.builder(
               shrinkWrap: true,
               padding:  EdgeInsets.fromLTRB(8.0,8,8,8),
-              itemCount: ys.length,
+              itemCount: 24,
               itemBuilder: (context, index) =>
                   Card(
                     elevation: 4,

@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:pyp_nepal/network/model/fetchClass.dart';
 import 'package:pyp_nepal/util/progress_dialog.dart';
-
 import '../network/Api_client.dart';
 import '../network/Api_response.dart';
 import '../network/model/atdScoreModel.dart';
@@ -80,7 +78,7 @@ class _AttendanceState extends State<Attendance> {
     }
 
   }
-  
+
   @override
   void initState() {
     // TODO: implement initState

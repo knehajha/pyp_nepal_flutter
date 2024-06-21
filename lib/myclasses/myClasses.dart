@@ -5,30 +5,22 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/myclasses/myClassesPunchIn.dart';
-import 'package:pyp_nepal/util/map_util.dart';
-
-import '../Yoga Trainer/trainerHome.dart';
 import '../network/Api_client.dart';
 import '../network/Api_response.dart';
-import '../network/model/atdScoreModel.dart';
 import '../network/model/fetchClass.dart';
 import '../util/uiUtil.dart';
 
-class MyClasses extends StatefulWidget {
+ class MyClasses extends StatefulWidget {
   const MyClasses({Key? key}) : super(key: key);
 
   @override
   State<MyClasses> createState() => _MyClassesState();
-}
+ }
 
-class _MyClassesState extends State<MyClasses> {
-
-
+ class _MyClassesState extends State<MyClasses> {
 
   List<FetchClassModel> myClasses = [];
   ApiResponse? response = null;
-
-
 
   _getMyClasses() async {
     response  = await fetchClass();
@@ -54,7 +46,7 @@ class _MyClassesState extends State<MyClasses> {
     );
   }
 
-
+ bool _isvisible = false;
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -111,28 +103,28 @@ class _MyClassesState extends State<MyClasses> {
                               Text(myClasses[index].endTime, style: GoogleFonts.poppins(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w700),),
                             ],
                           ),
-                          const SizedBox(height: 14,),
-                          Row(
-                            children: [
-                              Text("Rating", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 12, fontWeight: FontWeight.w500),),
-                              const SizedBox(width: 4,),
-                              RatingBar.builder(
-                                initialRating: 3,
-                                minRating: 1,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemCount: 5,
-                                itemSize: 18.0,
-                                itemBuilder: (context, _) => const Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                ),
-                                onRatingUpdate: (rating) {
-                                  print(rating);
-                                },
-                              )
-                            ],
-                          ),
+                          // const SizedBox(height: 14,),
+                          // Row(
+                          //   children: [
+                          //     Text("Rating", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 12, fontWeight: FontWeight.w500),),
+                          //     const SizedBox(width: 4,),
+                          //     RatingBar.builder(
+                          //       initialRating: 3,
+                          //       minRating: 1,
+                          //       direction: Axis.horizontal,
+                          //       allowHalfRating: true,
+                          //       itemCount: 5,
+                          //       itemSize: 18.0,
+                          //       itemBuilder: (context, _) => const Icon(
+                          //         Icons.star,
+                          //         color: Colors.amber,
+                          //       ),
+                          //       onRatingUpdate: (rating) {
+                          //         print(rating);
+                          //       },
+                          //     )
+                          //   ],
+                          // ),
                           const SizedBox(height: 14,),
                           Row(
                             children: [
@@ -150,7 +142,7 @@ class _MyClassesState extends State<MyClasses> {
                               const SizedBox(width: 10,),
                               Text("Joined :", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w700),),
                               const SizedBox(width: 2,),
-                              Text("${myClasses[index].establishDate}", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w500),),
+                              Text(myClasses[index].establishDate.toString(), style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w500),),
                             ],),
 
                           const SizedBox(height: 10,),
@@ -188,7 +180,6 @@ class _MyClassesState extends State<MyClasses> {
                               ],
                             ),
                           )
-
                         ],
                       ),
                     ),
@@ -199,10 +190,6 @@ class _MyClassesState extends State<MyClasses> {
                 ),);
           }),
 
-
-
-
-
-    );
+       );
+     }
   }
-}

@@ -138,27 +138,27 @@ class _NBClassesDetailState extends State<NBClassesDetail> {
                               ],
                             ),
                             const SizedBox(height: 14,),
-                            Row(
-                              children: [
-                                Text("Rating", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 12, fontWeight: FontWeight.w500),),
-                                const SizedBox(width: 4,),
-                                RatingBar.builder(
-                                  initialRating: 3,
-                                  minRating: 1,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemSize: 18.0,
-                                  itemBuilder: (context, _) => const Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                                  onRatingUpdate: (rating) {
-                                    print(rating);
-                                  },
-                                )
-                              ],
-                            ),
+                            // Row(
+                            //   children: [
+                            //     Text("Rating", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 12, fontWeight: FontWeight.w500),),
+                            //     const SizedBox(width: 4,),
+                            //     RatingBar.builder(
+                            //       initialRating: 3,
+                            //       minRating: 1,
+                            //       direction: Axis.horizontal,
+                            //       allowHalfRating: true,
+                            //       itemCount: 5,
+                            //       itemSize: 18.0,
+                            //       itemBuilder: (context, _) => const Icon(
+                            //         Icons.star,
+                            //         color: Colors.amber,
+                            //       ),
+                            //       onRatingUpdate: (rating) {
+                            //         print(rating);
+                            //       },
+                            //     )
+                            //   ],
+                            // ),
                             const SizedBox(height: 14,),
                             Row(
                               children: [Text("Venue :", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w700),),

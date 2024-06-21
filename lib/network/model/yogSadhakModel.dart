@@ -23,14 +23,12 @@ class YogSadhakModel {
     required this.district,
     required this.city,
     required this.pincode,
-    this.fcmToken,
+    required this.fcmToken,
     required this.password,
-    this.organization,
+    required this.organization,
     required this.isActive,
     required this.isMobileVerified,
     required this.isEmailVerified,
-    required this.createdDate,
-    this.lastModifiedDate,
   });
 
   String id;
@@ -48,14 +46,12 @@ class YogSadhakModel {
   String district;
   String city;
   String pincode;
-  dynamic fcmToken;
+  String fcmToken;
   String password;
-  dynamic organization;
+  String organization;
   bool isActive;
   bool isMobileVerified;
   bool isEmailVerified;
-  String createdDate;
-  dynamic lastModifiedDate;
 
   factory YogSadhakModel.fromJson(Map<String, dynamic> json) => YogSadhakModel(
     id: json["_id"],
@@ -78,9 +74,7 @@ class YogSadhakModel {
     organization: json["organization"],
     isActive: json["isActive"],
     isMobileVerified: json["isMobileVerified"],
-    isEmailVerified: json["isEmailVerified"],
-    createdDate: json["createdDate"],
-    lastModifiedDate: json["lastModifiedDate"],
+    isEmailVerified: json["isEmailVerified"]
   );
 
   Map<String, dynamic> toJson() => {
@@ -104,8 +98,6 @@ class YogSadhakModel {
     "organization": organization,
     "isActive": isActive,
     "isMobileVerified": isMobileVerified,
-    "isEmailVerified": isEmailVerified,
-    "createdDate": createdDate,
-    "lastModifiedDate": lastModifiedDate,
+    "isEmailVerified": isEmailVerified
   };
 }

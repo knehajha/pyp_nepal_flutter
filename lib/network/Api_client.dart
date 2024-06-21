@@ -11,6 +11,7 @@ import 'Api_response.dart';
 import 'package:http/http.dart' as http;
 import 'model/CurrentAtdModel.dart';
 import 'model/class_status_model.dart';
+import 'model/forgotPass_model.dart';
 import 'model/monthAtdModel.dart';
 import 'model/punchInModel.dart';
 import 'model/createClassModel.dart';
@@ -33,17 +34,16 @@ const imageUrl = "http://182.18.142.132:8080/pyp-img/";
 
 
 Future<ApiResponse> signup(Map<String, dynamic> data) async {
- String deviceId = await PlatformDeviceId.getDeviceId ?? "";
- var body = json.encode(data);
- final url = Uri.parse('${baseUrl}auth/register');
-  final response =  await http.post(url, headers: {"Content-Type": "application/json", "device-ID":deviceId}, body: body);
+  String deviceId = await PlatformDeviceId.getDeviceId ?? "";
+  var body = json.encode(data);
+  final url = Uri.parse('${baseUrl}auth/register');
+  final response = await http.post(url, headers: {"Content-Type": "application/json", "device-ID": deviceId}, body: body);
   var isSuccess = response.statusCode == 200;
   print("signup=>>>> ${response.body}");
-  var message = isSuccess ? "" :  errorModelFromJson(response.body).message;
+  var message = isSuccess ? "" : errorModelFromJson(response.body).message;
   var result = isSuccess ? registerModelFromJson(response.body) : null;
-   return ApiResponse(isSuccess, message , result);
+  return ApiResponse(isSuccess, message, result);
 }
-
 
 Future<ApiResponse> login(userName, password, fcmToken) async {
  String deviceId = await PlatformDeviceId.getDeviceId ?? "";
@@ -65,7 +65,7 @@ Future<ApiResponse> forgotPass(String userName) async {
  var isSuccess = response.statusCode == 200;
  print("forgotPass=>>>> ${response.body}");
  var message = isSuccess ? "" : errorModelFromJson(response.body).message;
- var result = isSuccess ? loginModelFromJson(response.body) : null;
+ var result = isSuccess ? forgotPassModelFromJson(response.body) : null;
  return ApiResponse(isSuccess, message, result);
 }
 
@@ -136,7 +136,7 @@ Future<ApiResponse> classDetail(String classId) async {
  var result =  isSuccess? classDetailModelFromJson(response.body) : null;
  return ApiResponse(isSuccess,message,result);
 
-}
+ }
 
 
 Future<ApiResponse> joinClass(String classId) async {
@@ -315,7 +315,7 @@ Future<ApiResponse> updateProfile(User user) async {
 
 Future<ApiResponse> updateClass(FetchClassModel myClass) async {
  String deviceId = await PlatformDeviceId.getDeviceId ?? "";
- var body = json.encode(myClass);
+ String body = json.encode(myClass);
  var headers = {"Authorization" :"Bearer ${getAccessToken()}", "Content-Type": "application/json","device-ID":deviceId};
  final url = Uri.parse('${baseUrl}yogClass');
  final response =  await http.put(url, headers: headers, body: body);

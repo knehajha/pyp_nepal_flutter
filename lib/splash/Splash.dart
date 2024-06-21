@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:pyp_nepal/Yoga%20Trainer/registeredSadhak.dart';
 import 'package:pyp_nepal/dashboard/dashboard.dart';
 import 'package:pyp_nepal/util/app_preference.dart';
@@ -62,6 +64,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+
+
   _gotToScreen(){
     User? profile = getProfile();
     if(profile == null){
@@ -75,12 +79,18 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+
+
+
+
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Timer( const Duration(seconds: 2), () =>
         _gotToScreen()
+
+
     );
   }
 

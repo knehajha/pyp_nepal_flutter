@@ -1,4 +1,6 @@
-class ApiResponse {
+
+
+ class ApiResponse {
 
   bool isSuccess;
   String message;
@@ -6,4 +8,4 @@ class ApiResponse {
   ApiResponse(this.isSuccess, this.message, this.result);
 
 
-}
+  }

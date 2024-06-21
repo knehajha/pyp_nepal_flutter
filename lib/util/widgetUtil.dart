@@ -35,7 +35,7 @@ InputDecoration textFieldDecoration(String hint, IconData icon){
 }
 
 TextStyle menuItemStyle(){
-  return  GoogleFonts.montserrat(fontSize: 14,fontWeight: FontWeight.w500, color: Colors.black);
+  return  GoogleFonts.montserrat(fontSize: 16,fontWeight: FontWeight.w500, color: Colors.black);
 }
 
 Decoration getBannerDecoration(String url){

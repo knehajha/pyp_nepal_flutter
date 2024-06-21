@@ -45,7 +45,6 @@ class _UpdateClassState extends State<UpdateClass> {
   final endTimeController = TextEditingController();
   final locationController = TextEditingController();
   final descriptionController = TextEditingController();
-  final createPassController = TextEditingController();
 
 
   Future<void> _selectDate(BuildContext context) async {
@@ -96,13 +95,23 @@ class _UpdateClassState extends State<UpdateClass> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    _classUpdate();
     super.initState();
-    classNameController.text = this.widget.fm.name;
-
   }
 
 
+  _classUpdate(){
+    classNameController.text = this.widget.fm.name;
+    trainerNameController.text = this.widget.fm.trainerName;
+    dateController.text = this.widget.fm.establishDate!;
+    startTimeController.text = this.widget.fm.startTime;
+    endTimeController.text = this.widget.fm.endTime;
+    locationController.text = this.widget.fm.address;
+    descriptionController.text = this.widget.fm.description;
+    setState(() {
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -234,7 +243,7 @@ class _UpdateClassState extends State<UpdateClass> {
                     this.widget.fm.endTime = value;
                         },
                   onTap: () {
-                    displayTimeDialog(0);
+                    displayTimeDialog(1);
                   },
                   style: GoogleFonts.poppins(),
                   readOnly: true,
@@ -306,7 +315,7 @@ class _UpdateClassState extends State<UpdateClass> {
                 const SizedBox(height: 15),
                 TextFormField(
                   onChanged: (value) {
-                    this.widget.fm.description;
+                    this.widget.fm.description = value;
                   },
                   controller: descriptionController,
                   style: GoogleFonts.poppins(),
@@ -348,13 +357,13 @@ class _UpdateClassState extends State<UpdateClass> {
                              setState(() async {
 
                            ApiResponse res = await updateClass(this.widget.fm);
-                            if(res.isSuccess){
-                         showToast("Class updated successfully!");
-                         Get.back();
-                            }else {
-                          showToast(res.message);
-                              }
-                             });
+                           if (res.isSuccess) {
+                                      showToast("Class updated successfully!");
+                                      Get.back();
+                                    } else {
+                                      showToast(res.message);
+                                    }
+                                  });
                             }
 
                         ),

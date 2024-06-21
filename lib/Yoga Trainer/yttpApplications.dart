@@ -80,7 +80,7 @@ class _YttpApplicationsState extends  State<YttpApplications>{
 
                           children:  [
                             const Padding(
-                              padding: EdgeInsets.fromLTRB(8,10,0,8),
+                              padding: EdgeInsets.fromLTRB(8,10,0,9),
                               child: Image(image: AssetImage("assets/images/ramdev.png"),height: 80,width: 80,),
                             ),
 
@@ -107,11 +107,11 @@ class _YttpApplicationsState extends  State<YttpApplications>{
                               ),
                             ),
 
-                            const Spacer(),
+                            //const Spacer(),
                             ElevatedButton(
 
                               style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 0),
+                                padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 0),
                                 primary: Colors.green,
                                 shape: const StadiumBorder(),
                               ),
@@ -122,10 +122,10 @@ class _YttpApplicationsState extends  State<YttpApplications>{
                                 style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 9, fontWeight: FontWeight.w700),
                               ),
                             ),
-                            const SizedBox(width: 10,),
+                            const SizedBox(width: 5,),
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 0),
+                                padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 0),
                                 primary: Colors.red,
                                 shape: const StadiumBorder(),
                               ),
@@ -135,7 +135,7 @@ class _YttpApplicationsState extends  State<YttpApplications>{
                                 style:  GoogleFonts.montserrat(color:Colors.white,  fontSize: 9, fontWeight: FontWeight.w700),
                               ),
                             ),
-
+                            const SizedBox(width: 3,),
 
                           ],
 

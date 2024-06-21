@@ -96,6 +96,9 @@ class _NBClassesState extends State<NBClasses> {
     return isMap ? Image.asset('assets/images/appBarAddres.png',width: 30,height: 30,) : Icon(Icons.list_sharp, size: 30, color: Colors.white,);
   }
 
+
+bool _visible = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,27 +169,27 @@ class _NBClassesState extends State<NBClasses> {
 
                                 ],
                               ),
-                              const SizedBox(height: 10,),
-                              Row(
-                                children: [
-                                  Text("Rating", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 12, fontWeight: FontWeight.w500),),
-                                  const SizedBox(width: 3,),
-                                  RatingBar.builder(
-                                  initialRating: 3,
-                                  minRating: 1,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5, itemSize: 18.0,
-                                  itemBuilder: (context, _) => const Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                      ),
-                      onRatingUpdate: (rating) {
-                          print(rating);
-                      },
-                    ),
-                                ],
-                              ),
+                    //           const SizedBox(height: 10,),
+                    //           Row(
+                    //             children: [
+                    //               Text("Rating", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 12, fontWeight: FontWeight.w500),),
+                    //               const SizedBox(width: 3,),
+                    //               RatingBar.builder(
+                    //               initialRating: 3,
+                    //               minRating: 1,
+                    //               direction: Axis.horizontal,
+                    //               allowHalfRating: true,
+                    //               itemCount: 5, itemSize: 18.0,
+                    //               itemBuilder: (context, _) => const Icon(
+                    //               Icons.star,
+                    //               color: Colors.amber,
+                    //   ),
+                    //   onRatingUpdate: (rating) {
+                    //       print(rating);
+                    //   },
+                    // ),
+                    //             ],
+                    //           ),
 
                               SizedBox(height: 5,),
                               const Divider(
@@ -197,15 +200,15 @@ class _NBClassesState extends State<NBClasses> {
                               SizedBox(height: 10,),
                               Row(
                                 children: [
-                                  Image.asset("assets/images/telephone-2.png",width:28,height: 28,),
-                                  const SizedBox(width: 24,),
-                                  InkWell(
-                                    onTap: (){
-
-                                    },
-                                      child: Image.asset("assets/images/Icon simple-whatsapp.png",width:28,height: 28,)),
-                                 //const SizedBox(width: 50,),
-                                 Spacer(),
+                                 //  Image.asset("assets/images/telephone-2.png",width:28,height: 28,),
+                                 //  const SizedBox(width: 24,),
+                                 //  InkWell(
+                                 //    onTap: (){
+                                 //
+                                 //    },
+                                 //      child: Image.asset("assets/images/Icon simple-whatsapp.png",width:28,height: 28,)),
+                                 // //const SizedBox(width: 50,),
+                                 // Spacer(),
                                   Row(
                                     children: [
                                       Text("Distance :", style: GoogleFonts.montserrat(color:Colors.black, fontSize: 14, fontWeight: FontWeight.w500),),

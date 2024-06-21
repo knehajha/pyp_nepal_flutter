@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pyp_nepal/attendance/attendance.dart';
@@ -205,52 +206,55 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(top: 16.0, left: 10),
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: const ScrollPhysics(),
-                          itemCount: _menuList.length,
-                          itemBuilder: (context, index) {
-                            GridItem item = _menuList[index];
-                            return ListTile(
-                              leading: Image(
-                                image: AssetImage(_menuList[index].imagePath),
-                                height: 24,
-                                width: 24,
-                              ),
-                              title: Text(item.name, style: menuItemStyle()),
-                              onTap: () async {
-                                switch(index){
-                                  case 0:
-                                    Get.to(const Donation());
-                                    break;
-                                  case 1:
-                                    await Get.to( Attendance(myClasses: myClasses,));
-                                    break;
-                                  case 2:
-                                    await Get.to(const MyClasses());
-                                    _refreshPage();
-                                    print("back from my classes");
-                                    break;
-                                  case 3:
-                                    Get.to(const Donation());
-                                    break;
-                                  case 4:
-                                    Get.to(const Donation());
-                                    break;
-                                  case 5:
-                                    Get.to(const Donation());
-                                    break;
-                                  case 6:
-                                    Get.to(const Donation());
-                                    break;
-                                }
-                                // Navigator.pop(context);
-                              },
-                            );
-                          }),
+                      child: AnimationLimiter(
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const ScrollPhysics(),
+                            itemCount: _menuList.length,
+                            itemBuilder: (context, index) {
+                              GridItem item = _menuList[index];
+                              return AnimationConfiguration.staggeredList(position: index, duration: const Duration(milliseconds: 375),
+                                  child: SlideAnimation(horizontalOffset:150 , child: FadeInAnimation(child: ListTile(
+                                leading: Image(
+                                  image: AssetImage(_menuList[index].imagePath),
+                                  height: 24,
+                                  width: 24,
+                                ),
+                                title: Text(item.name, style: menuItemStyle()),
+                                onTap: () async {
+                                  switch(index){
+                                    case 0:
+                                      Get.to(const Donation());
+                                      break;
+                                    case 1:
+                                      await Get.to( Attendance(myClasses: myClasses,));
+                                      break;
+                                    case 2:
+                                      await Get.to(const MyClasses());
+                                      _refreshPage();
+                                      print("back from my classes");
+                                      break;
+                                    case 3:
+                                      Get.to(const Donation());
+                                      break;
+                                    case 4:
+                                      Get.to(const Donation());
+                                      break;
+                                    case 5:
+                                      Get.to(const Donation());
+                                      break;
+                                    case 6:
+                                      Get.to(const Donation());
+                                      break;
+                                  }
+                                  // Navigator.pop(context);
+                                },
+                              ),)) );
+                            }),
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 50),
                   Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
@@ -265,7 +269,7 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 35),
+                  const SizedBox(height: 25),
                   Row(
                     children:  const [
                       SizedBox(width: 25),
@@ -315,6 +319,30 @@ class _DashboardState extends State<Dashboard> {
                           ),
                           ),
                        ),
+
+
+                        SizedBox(height: 70,),
+                        Padding(padding:EdgeInsets.only(left: 30) ,
+                          child: Row(
+                            children: [
+                              Text(
+                                "Version: ",
+                                style: GoogleFonts.montserrat(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                              SizedBox(width: 5,),
+                              Text(
+                                "1.0 ",
+                                style: GoogleFonts.montserrat(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                            ],
+                          ),
+                        )
                           ],
                         ),
                 ],
@@ -384,73 +412,113 @@ class _DashboardState extends State<Dashboard> {
           const SizedBox(height: 20,),
           Expanded(
 
-            child: GridView.builder(
-              itemCount: _gridviewList.length,
-
-              itemBuilder: (context, index) =>
-                  InkWell(
-                    onTap: () async {
-                      switch(index){
-                        case 0:// All classes
-                          Get.to(const NBClasses());
-                          break;
-                        case 1:
-                          User? profile = getProfile();
-                          if(profile == null){
-                            Get.offAll(const Login());
-                          }else{
-                            await Get.to(const MyClasses());
-                            _refreshPage();
-                            print("back from my classes");
-                          }
-                          break;
-                        case 2:
-                          User? profile = getProfile();
-                          if(profile == null){
-                            Get.offAll(const Login());
-                          }else{
-                            Get.to(Attendance(myClasses: myClasses,));
-                          }
-                          break;
-                        case 3:
-                          User? profile = getProfile();
-                          if(profile == null){
-                            Get.offAll(const Login());
-                          }else{
-                            Get.to(const Donation());
-                          }
-                          break;
-                      }
-                    },
-                    child: Card(
-                      color: Colors.white,
-                      elevation: 10,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image(
-                        image: AssetImage(
-                          _gridviewList[index].imagePath,
-                        ),
-                        height: 35,
-                        width: 35,
-                      ),
-                      const SizedBox(height: 10),
-                      Text(_gridviewList[index].name, style: menuItemStyle())
-                    ],
-                ),
-              ),
+            child:
+            AnimationLimiter(
+              child: GridView.count(crossAxisCount: 3,
+              children:List.generate( _gridviewList.length, (index){
+                return AnimationConfiguration.staggeredGrid(position: index, columnCount: 3, child: ScaleAnimation(
+                  duration: Duration(milliseconds: 600),
+                  child: FadeInAnimation(
+                    child:  InkWell(
+                      onTap: () async{
+         switch(index){
+         case 0://all classes
+          Get.to(const NBClasses());
+        break;
+          case 1:
+         User? profile = getProfile();
+         if(profile == null){
+          Get.offAll(const Login());
+           }else{
+             await Get.to(const MyClasses());
+               _refreshPage();
+             print("back from my classes");
+          }
+         break;
+         case 2:
+          User? profile = getProfile();
+         if(profile == null){
+             Get.offAll(const Login());
+             }else{
+             Get.to(Attendance(myClasses: myClasses,));
+          }
+          break;
+       case 3:
+         User? profile = getProfile();
+        if(profile == null){
+              Get.offAll(const Login());
+          }else{
+         Get.to(const Donation());
+           }
+            break;
+       }
+                      },
+                      child: Card(
+                  color: Colors.white,
+                  elevation: 10,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                   ),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image(
+                          image: AssetImage(
+                            _gridviewList[index].imagePath,
+                          ),
+                          height: 35,
+                          width: 35,
+                        ),
+                        const SizedBox(height: 10),
+                        Text(_gridviewList[index].name, style: menuItemStyle())
+                      ],
+                  ),
+                ),
+                    ),),));
+              }
 
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-
+                    // InkWell(
+                    //   onTap: () async {
+                    //     switch(index){
+                    //       case 0://all classes
+                    //         Get.to(const NBClasses());
+                    //         break;
+                    //       case 1:
+                    //         User? profile = getProfile();
+                    //         if(profile == null){
+                    //           Get.offAll(const Login());
+                    //         }else{
+                    //           await Get.to(const MyClasses());
+                    //           _refreshPage();
+                    //           print("back from my classes");
+                    //         }
+                    //         break;
+                    //       case 2:
+                    //         User? profile = getProfile();
+                    //         if(profile == null){
+                    //           Get.offAll(const Login());
+                    //         }else{
+                    //           Get.to(Attendance(myClasses: myClasses,));
+                    //         }
+                    //         break;
+                    //       case 3:
+                    //         User? profile = getProfile();
+                    //         if(profile == null){
+                    //           Get.offAll(const Login());
+                    //         }else{
+                    //           Get.to(const Donation());
+                    //         }
+                    //         break;
+                    //     }
+                    //   },
+                    //   child:
+                    // ),
+                    //
+                ),
               ),
             ),
           ),
+
           Visibility(
             visible: activeClass != null,
               child: activeClass == null ? Container() : Card(
@@ -459,8 +527,22 @@ class _DashboardState extends State<Dashboard> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
+
                 child: Column(
                   children: [
+
+                    Padding(padding: EdgeInsets.only(left: 15,top: 5),
+                      child: Align(alignment: Alignment.topLeft,
+                        child: Text(
+                          "Active Class",
+                          style: GoogleFonts.montserrat(
+                            color: Colors.black,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w400,),
+
+                        ),
+                      ),
+                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -471,6 +553,7 @@ class _DashboardState extends State<Dashboard> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+
                             const SizedBox(
                               height: 20,
                             ),
@@ -485,6 +568,7 @@ class _DashboardState extends State<Dashboard> {
                                   color: Colors.black,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500),
+                              overflow:  TextOverflow.visible,
                             )
                           ],
                         ),
@@ -619,10 +703,15 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
           ),
+
+
       ]
 
       ),
-    )
+    ),
+
+
+
     );
   }
 }

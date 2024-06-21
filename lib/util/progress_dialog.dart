@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:pyp_nepal/auth/signIn.dart';
 
 import '../auth/login.dart';
 import 'app_preference.dart';
@@ -46,14 +47,14 @@ logoutAlert(BuildContext context){
       child: Text("Yes"),
       onPressed:  () {
         logout();
-        Get.offAll(Login());
+        Get.offAll(SignIn());
       },
     );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
 
       title: Text("Logout?"),
-      content: Text("Do you want to exit this application?"),
+      content: Text("Are you sure you want to logout ?"),
       actions: [
         cancelButton,
         continueButton,

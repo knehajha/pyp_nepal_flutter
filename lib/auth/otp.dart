@@ -180,10 +180,7 @@ class _OtpState extends State<Otp> {
                   .push(MaterialPageRoute(builder: (context) => const ResetPass()));
             },
           ),
-
         ),
-
-
       ]
         ),
     ),

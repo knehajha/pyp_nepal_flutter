@@ -160,7 +160,7 @@ class _SadhakProfileState extends State<SadhakProfile> {
                    SvgPicture.asset("assets/images/phone.svg",height: 19,width: 19,color: Colors.orange,),
                    SizedBox(width: 30,),
                    Text(
-                       "${user?.mobileNumber}",
+                       "${user!.mobileNumber}",
                        style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w400,)),
 
                  ],
@@ -179,7 +179,7 @@ class _SadhakProfileState extends State<SadhakProfile> {
                    SvgPicture.asset("assets/images/dob.svg",height: 19,width: 19,color: Colors.orange,),
                    SizedBox(width: 30,),
                    Text(
-                       "${user?.dateOfBirth}",
+                       "${user!.dateOfBirth}",
                        style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w400,)),
 
                  ],
@@ -198,7 +198,7 @@ class _SadhakProfileState extends State<SadhakProfile> {
                    SvgPicture.asset("assets/images/email.svg",height: 13,width: 13,color: Colors.orange,),
                    SizedBox(width: 30,),
                    Text(
-                       "${user?.email}",
+                       "${user!.email}",
                        style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w400,)),
 
                  ],
@@ -217,7 +217,7 @@ class _SadhakProfileState extends State<SadhakProfile> {
                    SvgPicture.asset("assets/images/maritalStatus.svg",height: 19,width: 19,color: Colors.orange,),
                    SizedBox(width: 30,),
                    Text(
-                       "${user?.gender}",
+                       "${user!.gender}",
                        style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w400,)),
 
                  ],
@@ -236,7 +236,7 @@ class _SadhakProfileState extends State<SadhakProfile> {
                    SvgPicture.asset("assets/images/maritalStatus.svg",height: 19,width: 19,color: Colors.orange,),
                    SizedBox(width: 30,),
                    Text(
-                       "${user?.maritalStatus}",
+                       "${user!.maritalStatus}",
                        style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w400,)),
 
                  ],
@@ -254,7 +254,7 @@ class _SadhakProfileState extends State<SadhakProfile> {
                  children: [
                    SvgPicture.asset("assets/images/org.svg",height: 19,width: 19,color: Colors.orange,),
                    SizedBox(width: 30,),
-                   Text("${getOrganization(user?.organization)}",
+                   Text("${getOrganization(user!.organization)}",
                        style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w400,)),
                  ],
                ),
@@ -272,7 +272,7 @@ class _SadhakProfileState extends State<SadhakProfile> {
                    SvgPicture.asset("assets/images/address.svg",height: 19,width: 19,color: Colors.orange,),
                    SizedBox(width: 30,),
                    Text(
-                       "${user?.address}",
+                       "${user!.address}",
                        style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w400,)),
 
                  ],
